@@ -2,10 +2,16 @@ CREATE DATABASE IF NOT EXISTS GOOD_OLD_TIMES_DB;
 
 USE GOOD_OLD_TIMES_DB;
 
-CALL PROC_DROP_FOREIGN_KEY('etiqueta', 'FK_Tag_Usuario');
-CALL PROC_DROP_FOREIGN_KEY('nota', 'FK_Nota_Usuario');
-CALL PROC_DROP_FOREIGN_KEY('nota_tag', 'FK_NT_Nota');
-CALL PROC_DROP_FOREIGN_KEY('nota_tag', 'FK_NT_Etiqueta');
+CALL PROC_DROP_FOREIGN_KEY('COMMENTS', 'FK_COMMENT_USER');
+CALL PROC_DROP_FOREIGN_KEY('NEWS_REPORTS', 'FK_REPORT_USER');
+CALL PROC_DROP_FOREIGN_KEY('MEDIA', 'FK_MEDIA_REPORT');
+CALL PROC_DROP_FOREIGN_KEY('COMMENTS', 'FK_COMMENT_REPORT');
+CALL PROC_DROP_FOREIGN_KEY('NEWS_SECTIONS', 'FK_N_S_REPORT');
+CALL PROC_DROP_FOREIGN_KEY('NEWS_SECTIONS', 'FK_N_S_SECTION');
+CALL PROC_DROP_FOREIGN_KEY('NEWS_TAGS', 'FK_N_T_REPORT');
+CALL PROC_DROP_FOREIGN_KEY('NEWS_TAGS', 'FK_N_T_TAG');
+CALL PROC_DROP_FOREIGN_KEY('REACTIONS', 'FK_REACTION_USER');
+CALL PROC_DROP_FOREIGN_KEY('REACTIONS', 'FK_REACTION_REPORT');
   
 DROP TABLE IF EXISTS USERS;
 CREATE TABLE `GOOD_OLD_TIMES_DB`.`USERS` (
@@ -18,10 +24,10 @@ CREATE TABLE `GOOD_OLD_TIMES_DB`.`USERS` (
   `EMAIL` VARCHAR(100) NOT NULL COMMENT 'Nombres del usuario',
   `PHONE_NUMBER` VARCHAR(12) COMMENT 'Numero telefonico de contacto',
   `BIRTHDAY` DATE NULL COMMENT 'Fecha de nacimiento del usuario',
-  `CREATION_DATE` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Fecha de creacion de la entrada',
+  `CREATION_DATE` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Fecha de creacion del usuario',
   `CREATED_BY` INT NOT NULL COMMENT 'Usuario que creo la entrada',
-  `LAST_UPDATE_DATE` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Fecha de modificación de la entrada',
-  `LAST_UPDATED_BY` INT NOT NULL COMMENT 'Usuario que modifico la entrada',
+  `LAST_UPDATE_DATE` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Última fecha de modificación del usuario',
+  `LAST_UPDATED_BY` INT NOT NULL COMMENT 'Último usuario que modifico la entrada',
   `PROFILE_PICTURE` MEDIUMBLOB NULL COMMENT 'Imagen de perfil',
   `USER_TYPE` CHAR(2) NOT NULL COMMENT 'Tipo de usuario [AD - Administrador RE - Reportero  UR - Usuario registrado]',
   `USER_STATUS` CHAR(1) NOT NULL DEFAULT 'A' COMMENT 'Estado actual del usuario [A - Activo  I - Inactivo  B - Bloqueado]',
@@ -32,8 +38,8 @@ CREATE TABLE `GOOD_OLD_TIMES_DB`.`USERS` (
   `SECTION_NAME` VARCHAR(40) NOT NULL COMMENT 'Llave primaria de la tabla, nombre de la sección',
   `COLOR` CHAR(7) NOT NULL COMMENT 'Color en hexadecimal con el que se resalta la sección',
   `ORDER` TINYINT UNIQUE NOT NULL COMMENT 'Orden en el que se encontrara la sección en relacion a las otras',
-  `LAST_UPDATE_DATE` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Fecha de modificación de la entrada',
-  `LAST_UPDATED_BY` INT NOT NULL COMMENT 'Usuario que modifico la entrada',
+  `LAST_UPDATE_DATE` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Última fecha de modificación de la sección',
+  `LAST_UPDATED_BY` INT NOT NULL COMMENT 'Último usuario que modifico la sección',
   `SECTION_STATUS` CHAR(1) NOT NULL DEFAULT 'A' COMMENT 'Estado actual de la seccion [A - Activa  I - Inactiva]',
   PRIMARY KEY (`SECTION_NAME`));
   
@@ -43,55 +49,153 @@ CREATE TABLE `GOOD_OLD_TIMES_DB`.`USERS` (
   `ID_NEWS` INT NOT NULL AUTO_INCREMENT COMMENT 'Llave primaria de la tabla de noticias',
   `LOCATION_STREET` VARCHAR(100) COMMENT 'Calle en la que ocurrio la nota',
   `LOCATION_NEIGHB` VARCHAR(70) COMMENT 'Colonia en la que ocurrio la nota',
-  `LOCATION_CITY` VARCHAR(80) COMMENT 'Ciudad en la que ocurrio la nota',
-  `LOCATION_COUNTRY` VARCHAR(50) COMMENT 'Pais en la que ocurrio la nota',
+  `LOCATION_CITY` VARCHAR(80) NOT NULL COMMENT 'Ciudad en la que ocurrio la nota',
+  `LOCATION_COUNTRY` VARCHAR(50) NOT NULL COMMENT 'Pais en la que ocurrio la nota',
   `EVENT_DATE` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Fecha en la que ocurrio el suceso',
   `PUBLICATION_DATE` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Fecha en la que publico la nota en el portal',
+  `REPORT_HEADER` VARCHAR(80) NOT NULL COMMENT 'Encabezado de la nota',
+  `REPORT_DESCRIPTION` VARCHAR(100) COMMENT 'Descripción breve de la nota',
+  `REPORT_CONTENT` VARCHAR(1000) NOT NULL COMMENT 'Contenido de la nota',
+  `THUMBNAIL` MEDIUMBLOB NOT NULL COMMENT 'Miniatura con la que la nota se muestra',
+  `CREATION_DATE` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Fecha de creacion de la nota',
+  `CREATED_BY` INT NOT NULL COMMENT 'Usuario que creo la nota',
+  `LAST_UPDATE_DATE` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Última fecha de modificación de la nota',
+  `LAST_UPDATED_BY` INT NOT NULL COMMENT 'Ultimo usuario que modifico la nota',
+  `REPORT_STATUS` CHAR(2) NOT NULL DEFAULT 'RR' COMMENT 'Estado actual de la noticia [P-Publicada  E-Eliminada  RA-En revision por administrador  RR-En revision por reportero]',
+  PRIMARY KEY (`ID_NEWS`));
   
-  `LAST_UPDATE_DATE` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Fecha de modificación de la entrada',
-  `LAST_UPDATED_BY` INT NOT NULL COMMENT 'Usuario que modifico la entrada',
-  `estatus` CHAR(2) NOT NULL DEFAULT 'SU',
-  `usuario` INT NOT NULL,
-  PRIMARY KEY (`nombre`, `usuario`));
+  DROP TABLE IF EXISTS COMMENTS;
+  CREATE TABLE `GOOD_OLD_TIMES_DB`.`COMMENTS` (
+  `ID_COMMENT` INT NOT NULL AUTO_INCREMENT COMMENT 'Llave primaria de la tabla de comentarios',
+  `CONTENT` VARCHAR(1000) NOT NULL COMMENT 'Contenido del comentario',
+  `CREATION_DATE` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Fecha de creacion del comentario',
+  `CREATED_BY` INT NOT NULL COMMENT 'Usuario que creo el comentario',
+  `LAST_UPDATE_DATE` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Última fecha de modificación de la nota',
+  `LAST_UPDATED_BY` INT NOT NULL COMMENT 'Ultimo usuario que modifico el comentario',
+  `COMMENT_STATUS` CHAR(2) NOT NULL DEFAULT 'P' COMMENT 'Estado actual del comentario [P-Publico  E-Eliminado]',
+  `SECTION` VARCHAR(40) NOT NULL COMMENT 'id de la sección a la que pertence la nota',
+  `REPORT` INT NOT NULL COMMENT 'Id de la noticia a la que pertence el comentario',
+  PRIMARY KEY (`ID_COMMENT`));
+  
+   DROP TABLE IF EXISTS MEDIA;
+  CREATE TABLE `GOOD_OLD_TIMES_DB`.`MEDIA` (
+  `ID_MEDIA` INT NOT NULL AUTO_INCREMENT COMMENT 'Llave primaria de la tabla de multimedia',
+  `DESCRIPTION` VARCHAR(200) NOT NULL COMMENT 'Breve descripcion del contenido del archivo',
+  `CONTENT` MEDIUMBLOB NOT NULL COMMENT 'Archivo con los datos de la imagen/video',
+  `ROUTE` VARCHAR(1000) NOT NULL COMMENT 'Ruta del archivo',
+  `UPLOAD_DATE` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Fecha de subida del material',
+  `COMMENT_STATUS` CHAR(2) NOT NULL DEFAULT 'P' COMMENT 'Estado actual del material [P-Publico  E-Eliminado]',
+  `REPORT` INT NOT NULL COMMENT 'Id de la noticia a la que pertence el material',
+  PRIMARY KEY (`ID_MEDIA`));
+  
+  DROP TABLE IF EXISTS TAGS;
+  CREATE TABLE `GOOD_OLD_TIMES_DB`.`TAGS` (
+  `TAG_NAME` VARCHAR(50) NOT NULL COMMENT 'Llave primaria de la tabla etiqueta/ Nombre de la etiqueta',
+  `TAG_STATUS` CHAR(2) NOT NULL DEFAULT 'EU' COMMENT 'Estado actual de la etiqueta [EU-En uso  SU-Sin usar]',
+  PRIMARY KEY (`TAG_NAME`));
   
   
-  DROP TABLE IF EXISTS nota_Tag;
-  CREATE TABLE `ScdChnc`.`nota_Tag` (
-  `id_Nota_Tag` INT NOT NULL AUTO_INCREMENT,
-  `etiqueta` INT NOT NULL,
-  `nota` INT NOT NULL,
-  PRIMARY KEY (`id_Nota_Tag`));
+  DROP TABLE IF EXISTS NEWS_SECTIONS;
+  CREATE TABLE `GOOD_OLD_TIMES_DB`.`NEWS_SECTIONS` (
+  `ID_NEWS_SECTIONS` INT NOT NULL AUTO_INCREMENT COMMENT 'Llave primaria de la tabla asociativa de la relación Noticia PERTENCE A Sección',
+  `REPORT` INT NOT NULL COMMENT 'Identificador de la noticia involucrada en la relación', 
+  `SECTION` VARCHAR(40) NOT NULL COMMENT 'Identificador de la sección involucrada en la relación',
+  PRIMARY KEY (`ID_NEWS_SECTIONS`));
+  
+  DROP TABLE IF EXISTS NEWS_TAGS;
+  CREATE TABLE `GOOD_OLD_TIMES_DB`.`NEWS_TAGS` (
+  `ID_NEWS_TAGS` INT NOT NULL AUTO_INCREMENT COMMENT 'Llave primaria de la tabla asociativa de la relación Noticia TIENE Etiqueta',
+  `TAG` VARCHAR(50) NOT NULL COMMENT 'Identificador de la etiqueta involucrada en la relación',
+  `REPORT` INT NOT NULL COMMENT 'Identificador de la noticia involucrada en la relación',
+  PRIMARY KEY (`ID_NEWS_TAGS`));
+  
+  DROP TABLE IF EXISTS REACTIONS;
+  CREATE TABLE `GOOD_OLD_TIMES_DB`.`REACTIONS` (
+  `ID_REACTIONS` INT NOT NULL AUTO_INCREMENT COMMENT 'Llave primaria de la tabla asociativa de la relación Usuario REACCIONA A Noticia',
+  `USER` INT NOT NULL COMMENT 'Identificador del usuario involucrado en la relación',
+  `REPORT` INT NOT NULL COMMENT 'Identificador de la noticia involucrada en la relación',
+  `LIKE` BOOLEAN NOT NULL DEFAULT FALSE COMMENT 'Bandera que indica la reaccion del usuario a la nota',
+  PRIMARY KEY (`ID_REACTIONS`));
   
   
   /*----------------------------------
   --------LLAVES FORANEAS-------------
   ------------------------------------*/
+
   
-ALTER TABLE `scdchnc`.`etiqueta` 
-ADD CONSTRAINT `FK_Tag_Usuario`
-  FOREIGN KEY (`usuario`)
-  REFERENCES `scdchnc`.`usuario` (`id_Usuario`)
+ALTER TABLE `GOOD_OLD_TIMES_DB`.`COMMENTS` 
+ADD CONSTRAINT `FK_COMMENT_USER`
+  FOREIGN KEY (`CREATED_BY`)
+  REFERENCES `GOOD_OLD_TIMES_DB`.`USERS` (`ID_USER`)
   ON DELETE NO ACTION
   ON UPDATE NO ACTION;
   
-ALTER TABLE `scdchnc`.`nota` 
-ADD CONSTRAINT `FK_Nota_Usuario`
-  FOREIGN KEY (`usuario`)
-  REFERENCES `scdchnc`.`usuario` (`id_Usuario`)
+ALTER TABLE `GOOD_OLD_TIMES_DB`.`NEWS_REPORTS` 
+ADD CONSTRAINT `FK_REPORT_USER`
+  FOREIGN KEY (`CREATED_BY`)
+  REFERENCES `GOOD_OLD_TIMES_DB`.`USERS` (`ID_USER`)
   ON DELETE NO ACTION
   ON UPDATE NO ACTION;
   
-  ALTER TABLE `scdchnc`.`nota_tag` 
-ADD CONSTRAINT `FK_NT_Etiqueta`
-  FOREIGN KEY (`etiqueta`)
-  REFERENCES `scdchnc`.`etiqueta` (`id_Etiqueta`)
+  ALTER TABLE `GOOD_OLD_TIMES_DB`.`MEDIA` 
+ADD CONSTRAINT `FK_MEDIA_REPORT`
+  FOREIGN KEY (`REPORT`)
+  REFERENCES `GOOD_OLD_TIMES_DB`.`NEWS_REPORTS` (`ID_NEWS`)
   ON DELETE NO ACTION
   ON UPDATE NO ACTION;
   
-   ALTER TABLE `scdchnc`.`nota_tag` 
-ADD CONSTRAINT `FK_NT_Nota`
-  FOREIGN KEY (`nota`)
-  REFERENCES `scdchnc`.`nota` (`id_Nota`)
+  ALTER TABLE `GOOD_OLD_TIMES_DB`.`COMMENTS` 
+ADD CONSTRAINT `FK_COMMENT_REPORT`
+  FOREIGN KEY (`REPORT`)
+  REFERENCES `GOOD_OLD_TIMES_DB`.`NEWS_REPORTS` (`ID_NEWS`)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION;
+  
+  /*NEWS SECTIONS*/
+
+  ALTER TABLE `GOOD_OLD_TIMES_DB`.`NEWS_SECTIONS` 
+ADD CONSTRAINT `FK_N_S_REPORT`
+  FOREIGN KEY (`REPORT`)
+  REFERENCES `GOOD_OLD_TIMES_DB`.`NEWS_REPORTS` (`ID_NEWS`)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION; 
+  
+  ALTER TABLE `GOOD_OLD_TIMES_DB`.`NEWS_SECTIONS` 
+ADD CONSTRAINT `FK_N_S_SECTION`
+  FOREIGN KEY (`SECTION`)
+  REFERENCES `GOOD_OLD_TIMES_DB`.`SECTIONS` (`SECTION_NAME`)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION; 
+  
+  
+  /*NEWS TAGS*/
+  ALTER TABLE `GOOD_OLD_TIMES_DB`.`NEWS_TAGS` 
+ADD CONSTRAINT `FK_N_T_REPORT`
+  FOREIGN KEY (`REPORT`)
+  REFERENCES `GOOD_OLD_TIMES_DB`.`NEWS_REPORTS` (`ID_NEWS`)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION; 
+  
+  ALTER TABLE `GOOD_OLD_TIMES_DB`.`NEWS_TAGS` 
+ADD CONSTRAINT `FK_N_T_TAG`
+  FOREIGN KEY (`TAG`)
+  REFERENCES `GOOD_OLD_TIMES_DB`.`TAGS` (`TAG_NAME`)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION;
+  
+  
+  /*REACTIONS*/
+  ALTER TABLE `GOOD_OLD_TIMES_DB`.`REACTIONS` 
+ADD CONSTRAINT `FK_REACTION_USER`
+  FOREIGN KEY (`USER`)
+  REFERENCES `GOOD_OLD_TIMES_DB`.`USERS` (`ID_USER`)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION;
+  
+    ALTER TABLE `GOOD_OLD_TIMES_DB`.`REACTIONS` 
+ADD CONSTRAINT `FK_REACTION_REPORT`
+  FOREIGN KEY (`REPORT`)
+  REFERENCES `GOOD_OLD_TIMES_DB`.`NEWS_REPORTS` (`ID_NEWS`)
   ON DELETE NO ACTION
   ON UPDATE NO ACTION;
   
