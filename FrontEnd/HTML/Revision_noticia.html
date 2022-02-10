@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
-    <title>Good Old Times - Noticia</title>
+    <title>Good Old Times - Revision Noticia</title>
 
     <link rel="canonical" href="https://getbootstrap.com/docs/5.1/examples/blog/">
     <link rel="canonical" href="https://getbootstrap.com/docs/5.1/examples/navbar-fixed/">
@@ -47,6 +47,12 @@
       }
       .blog-footer{
           margin-top: 5%;
+      }
+
+      .Titulo_pagina{
+        margin-top: 5%;
+        text-align: center;
+        font-size: 30px;
       }
 
       @media (min-width: 768px) {
@@ -95,14 +101,12 @@
   </div>
 </nav>
 
+
 <main class="container">
-  
+  <h6 class=" Titulo_pagina text-dark">REVISIÓN DE NOTICIA</h6>
     <div class="imagen_portada p-2 mb-3 bg-light rounded-3">
           <img src="../Elementos/NP.jpg" class="img-fluid img-thumbnail mx-auto d-block" alt="">
       </div>
-
-    
-
       <div class="row g-5">
         <div class="col-md-8">
           <article class="blog-post">
@@ -278,27 +282,12 @@
             </article>
         </div>
 
-
-    
         <div class="col-md-4">
-          <div class="position-sticky" style="top: 2rem;">
+          <div class="position-relevate" style="top: 2rem;">
             <div class="p-4 mb-3 bg-light rounded">
               <h4 class="fst-italic">Autor de la Noticia</h4>
               <p class="Info_nota blog-post-meta">28 de Febrero del 2022 8:40.P.M por <a href="#">Juanito Barraza</a></p>
-              <p class="Cant_likes blog-post-meta">Likes de la noticia: <a class="text-dark" href="#">30</a></p>
-              <button class="button_like"><i class="far fa-thumbs-up"></i> Dar like</button>
             </div>
-
-            <div class="Rel_notice p-4">
-                <h4 class="fst-italic">Noticias relacionadas</h4>
-                <ol class="list-unstyled mb-0">
-                  <li><a class="text-dark" href="#">Chavis rompe en llanto</a></li>
-                  <li><a class="text-dark" href="#">Konan Bieber ¡VOLVIO!</a></li>
-                  <li><a class="text-dark" href="#">Detienen a Altonio</a></li>
-                  <li><a class="text-dark" href="#">¡AMLO RULES IN THE AREA!</a></li>
-                </ol>
-              </div>
-      
           </div>
         </div>
       </div>
@@ -306,43 +295,23 @@
 </main>
 
  <!--  COMENTARIOS NOTICIA  -->
- <main class="container">
- <div class="my-3 p-3 bg-body rounded shadow-sm">
-  <h6 class="border-bottom pb-2 mb-0 text-light">Comentarios de la Noticia </h6>
-  <div class="d-flex text-muted pt-3">
-    <svg class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 32x32" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#007bff"/><text x="50%" y="50%" fill="#007bff" dy=".3em">32x32</text></svg>
+ <hr class="my-4">
+ <button class=" boton_final w-100 btn btn-outline-success btn-lg " type="submit">APROBAR NOTICIA</button>
+ <br>
+ <br>
+ <button class=" boton_final w-100 btn btn-outline-danger btn-lg " type="submit">DEVOLVER NOTICIA CON COMENTARIO</button>
 
-    <p class="pb-3 mb-0 small lh-sm border-bottom">
-      <strong class="d-block text-gray-dark">@usernameX</strong>
-      "Supe cool la noticia, excelente redaccion y un orgullo mexicano el muchachito"
-    </p>
-  </div>
-  <div class="d-flex text-muted pt-3">
-    <svg class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 32x32" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#e83e8c"/><text x="50%" y="50%" fill="#e83e8c" dy=".3em">32x32</text></svg>
 
-    <p class="pb-3 mb-0 small lh-sm border-bottom">
-      <strong class="d-block text-gray-dark">@usernameX</strong>
-      "No pues en hora buena por este país, ya hacia falta joveazos asi eda"
-    </p>
-  </div>
-  <div class="d-flex text-muted pt-3">
-    <svg class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 32x32" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#6f42c1"/><text x="50%" y="50%" fill="#6f42c1" dy=".3em">32x32</text></svg>
+<main class="container">
+    <div class="my-3 p-3 bg-body rounded shadow-sm">
+      <h6 class="text-light border-bottom pb-2 mb-0">Comentario para Reportero</h6>
+      <small class="d-block text-end mt-3">
+        <input type="text" class="form-control" name="coment"></input>
+      </small>
+    </div>
+    </main>
 
-    <p class="pb-3 mb-0 small lh-sm border-bottom">
-      <strong class="d-block text-gray-dark">@usernameX</strong>
-       "Ay ese muchachito me recuerda a otro joven que se dedica a la industria de la cinematografia dirigida a publico mayor, no recuerdo como se llama. Pero en hora buena por el muchacho"
-    </p>
-  </div>
-</div>
-<div class="my-3 p-3 bg-body rounded shadow-sm">
-  <h6 class="text-light border-bottom pb-2 mb-0">Comentario para la noticia</h6>
-  <small class="d-block text-end mt-3">
-    <a class="text-light" href="#">Enviar Comentario</a>
-    <input type="text" class="form-control" name="coment"></input>
-  </small>
-</div>
-</main>
-
+    
 <footer class="blog-footer">
     <a href="#">Regresar a la parte superior</a>
   </p>
