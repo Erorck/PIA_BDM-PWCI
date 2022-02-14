@@ -18,6 +18,15 @@
             background-image: url(../Elementos/GOT_BACK_WHITE.jpg);
             background-position: center center;
         }
+         
+        .alert{
+            display: block;
+            padding: 12px 20px;
+            background: #f8d7da;
+            color: #721c24;
+            margin-bottom: 10px;
+            border: 1px solid #f5c6cb; 
+        }
     </style>
 
 </head>
@@ -34,14 +43,14 @@
          </div> 
     <h2 class="fw-bold text-center "> ¡Bienvendio de nuevo!</h2>
 
-    <form action="#">
+    <form action="#" id="login">
         <div class="mb-4">
             <label for="email" class="form-label">Correo electrónico</label>
-            <input type="email" class="form-control" name="email">
+            <input type="email" class="form-control" id="correo" name="email">
         </div>
         <div class="mb-4">
             <label for="password" class="form-label">Contraseña</label>
-            <input type="password" class="form-control" name="password">
+            <input type="password" class="form-control" id="contra" name="password">
         </div>
         <div class="mb-4 form-check">
             <input type="checkbox" class="form-check-input" name="connected">
@@ -91,6 +100,10 @@
     </div>
     </div>
     </div>
+
     <script src="../JS/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="/FrontEnd/JS/ValidacionLogin.js"></script>
+
 </body>
 </html>

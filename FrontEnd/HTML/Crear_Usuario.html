@@ -18,6 +18,16 @@
             background-image: url(../Elementos/GOT_BACK_WHITE.jpg);
             background-position: center center;
         }
+
+        .alert{
+            display: block;
+            padding: 12px 20px;
+            background: #f8d7da;
+            color: #721c24;
+            margin-bottom: 10px;
+            border: 1px solid #f5c6cb; 
+        }
+        
     </style>
 
 </head>
@@ -34,18 +44,18 @@
          </div> 
     <h2 class="fw-bold text-center"> ¡Crea tu cuenta ahora!</h2>
 
-    <form action="#">
+    <form action="#" id="crearcuent">
         <div class="mb-4">
             <label for="name" class="form-label">Nombre completo</label>
-            <input type="text" class="form-control" name="name">
+            <input type="text" class="form-control" name="name" id="name">
         </div>
         <div class="mb-4">
             <label for="email" class="form-label">Correo electrónico</label>
-            <input type="email" class="form-control" name="email">
+            <input type="email" class="form-control" name="email" id="correo">
         </div>
         <div class="mb-4">
             <label for="password" class="form-label">Contraseña</label>
-            <input type="password" class="form-control" name="password">
+            <input type="password" class="form-control" name="password" id="contra">
         </div>
         <div class="mb-4 form-check">
             <input type="checkbox" class="form-check-input" name="connected">
@@ -96,5 +106,7 @@
     </div>
     </div>
     <script src="../JS/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="/FrontEnd/JS/Validacion_CrearCuenta.js"></script>
 </body>
 </html>
