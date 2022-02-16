@@ -1,0 +1,166 @@
+ .Contenedor-base{
+     
+     width: 100%;
+     height: 100%;
+     
+}
+
+.mainContenedor{
+    
+    display: flex;
+    
+    flex-direction: column;
+    
+    justify-content: flex-start;
+    align-items: center;
+    padding-top: 5%;
+
+    width: 100%;
+    height: 100%;
+
+    background-image: url("https://cdn.pixabay.com/photo/2014/05/21/22/28/old-newspaper-350376_960_720.jpg");
+   background-repeat: no-repeat;
+   background-size: cover;
+    
+ 
+	}
+
+
+
+	body{
+	min-height: 100vh;
+
+	}
+
+
+
+	h1{
+    
+    color: #F5F5F5;
+    font-family: sans-serif; 
+    font-weight: bold;  
+  
+ 	}
+
+ 	h4{
+
+ 	color: #F5F5F5;
+    font-family: sans-serif; 
+    font-weight: bold;
+    font-size: 10%;
+
+ 	}
+
+
+
+ #Barra{
+    
+    width: 80%;
+    height: 100%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+	}
+
+.Barra-navegacion{
+    
+    position: fixed;
+ 
+    width: 100%;
+    height: 10%;
+   
+    background-color:  #30475E;
+
+   display: flex;
+   justify-content: center;
+   align-items: center;
+}
+
+#Barra > input{
+   
+   height: 50%;
+   width: 95%;
+   border-color:  #F05454;
+   border-width: 3px;
+}
+
+#Logo{
+    
+    display: flex;
+    width: 10%;
+    height: 100%;
+   
+    align-items: center;
+    justify-content: center;
+        
+    background-color: #30475E;
+    
+}
+
+body{
+    
+    display: flex;
+    flex-direction: column;
+    
+    justify-content: center;
+    align-items: center;
+    
+   margin: 0;
+   padding: 0;
+  
+   
+   
+   
+}
+
+footer {
+ 
+    font-family: sans-serif;
+    font-weight:bolder;
+    
+    font-size: 90%;
+    font-stretch: condensed;
+    color: #FFEBA1;
+     
+    display: flex;
+    justify-content: space-between;
+    
+  width: 100%;
+    
+   margin-top: auto;
+   
+   
+   background-color: #30475E;
+   
+   
+    
+    
+ }
+
+
+
+ .Datos{
+    
+    display: flex;
+    
+    flex-direction: column;
+    
+    justify-content: flex-start;
+    align-items: center;
+    
+    background: #F05454;
+  
+    margin: 1rem;
+    padding: 1rem;
+   
+    border: 8px solid #F05454;
+    
+    width: 60%;
+    height: 100%;
+   
+   border-radius: 15px;
+   border-color: #F05454;
+    
+}
+

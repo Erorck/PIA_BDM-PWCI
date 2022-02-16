@@ -2,10 +2,10 @@
 
 <html>
     <head>
-              <title>Perfil</title>
+              <title>Perfil Editor</title>
         <meta charset="UTF-8">
        
-        <link rel="stylesheet" href="css/PerfilUsuario.css" >
+        <link rel="stylesheet" href="css/PerfilEditor.css" >
 
          <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
       
@@ -29,7 +29,7 @@
                 
                 <div class = "Datos_Usuario">
 
-                <h1>Datos de Usuario</h1>
+                <h1>Datos de Editor</h1>
                 
                  <div class = "Foto_perfil"><img src="https://cdn.hobbyconsolas.com/sites/navi.axelspringer.es/public/styles/1200/public/media/image/2020/01/solid-snake-1841251.jpg?itok=c67o1Bzx" height ="50" width="50" alt="alt"/></div>
                       
@@ -37,7 +37,7 @@
                 <div id="id_Nombres"><strong>Nombre Reportero</strong></div> 
                 
                  <div id="id_Correo"><strong>Correo</strong></div> 
-                
+                 
                 <div id="id_Fecha_nac"><strong>Fecha de nacimiento</strong></div> 
 
                 <button class = "btn btn-light">Editar</button>
@@ -45,9 +45,45 @@
                 
                 </div>
 
+                <div class ="Edicion_Secciones">
+
+                  <h2>Agregar nueva sección</h2>
+
+                  <div class="input-group mb-3">
+                  <input type="text" class="form-control" placeholder="Nueva Seccion" aria-label="Recipient's username" aria-describedby="button-addon2">
+                  <button class="btn btn-primary" type="button" id="button-addon2">Agregar</button>
+                  </div>
+
+                  <h2>Editar secciones</h2>
+
+                  <select class="form-select" aria-label="Default select example">
+                  <option selected>Secciones</option>
+                  <option value="1">Deportes</option>
+                  <option value="2">Tecnologia</option>
+                  <option value="3">Ciencia</option>
+                  </select>
+               
+                  <br>
+
+                  <span style="color:#F5F5F5;">Selecciona el color</span>
+                  <input type="color">
+
+                  <br>
+
+                  <div class="input-group mb-3">
+                  <input type="text" class="form-control" placeholder="Nombre de la seccion" aria-label="Recipient's username" aria-describedby="button-addon2">
+                  <button class="btn btn-primary" type="button" id="button-addon2">Editar</button>
+                  </div>
+
+                  <br>
+
+                  <button class="btn btn-danger" type="button" id="button-addon2">Eliminar</button>
+
+                </div>
+
                 <div class = "Mis_Noticias">
                   
-                  <h1> Mis noticias</h1>
+                  <h1>Noticias Pendientes de revisión</h1>
 
                  <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
 
@@ -73,12 +109,10 @@
                     </div>
 
                       <h4 class="display-5">Titulo</h4>
-                      <h5 class="display-6">Aceptado/Rechazado</h5>
+                      <h5 class="display-6">Reportero</h5>
 
                     <br>
-                    <button class = "btn btn-light">Editar</button> 
-                    <br>
-                    <button class = "btn btn-danger">Eliminar</button>
+                    <button class = "btn btn-light">Revisar</button> 
 
                 </div>
 

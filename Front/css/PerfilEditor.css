@@ -6,7 +6,7 @@ a{
 
 body{
 
-height: 200vh;
+min-height: 100vh;
 
 }
 
@@ -291,3 +291,19 @@ footer {
     
     
  }
+
+.Edicion_Secciones{
+
+ width:70%;
+ background-color:#30475E;
+
+ padding: 3%;
+
+ display: flex;
+ justify-content: center;
+ align-items: center;
+
+ flex-direction: column;
+
+
+}

@@ -59,10 +59,12 @@
 
 .Barra-navegacion{
     
-    position: fixed;
+    position: sticky;
+
+    top: 0;
  
     width: 100%;
-    height: 10%;
+    height: 5%;
    
     background-color: #30475E;
 
@@ -228,9 +230,9 @@ button{
     max-width:100%; 
      
     height: 160vh;
-  
      
 }
+
 
 .Columna{
     
@@ -244,7 +246,21 @@ button{
     flex-direction: Column;
     
 	padding-bottom:2%;
+
        
+}
+
+.Columna > .Noticia > .Imagen{
+
+width: 50%;
+
+}
+
+.Columna > .Noticia > .Imagen > img{
+
+height: 40%;
+width: 40%;
+
 }
 
 .Mas_visto{
@@ -297,15 +313,20 @@ button{
 	
 	font-family: "Trebuchet MS", Verdana, sans-serif;
 	
-	
+
+
 	letter-spacing: 5px;
 	font-size: 150%;
 	font-weight:bold;
 	text-align: center;
 	
 	text-transform: uppercase;
+
+    background-color: #F05454 ;
 	
 }
+
+
 
 .Seccion_Mas_reciente{
 	
@@ -326,6 +347,7 @@ button{
 	
 	text-transform: uppercase;
 	
+    background-color: #F05454 ;
 	
 	
 }
@@ -361,12 +383,7 @@ button{
 	
 	display:flex;
 	justify-content:center;
-    align-items:center;
-    
-    
-   
-    
-    
+    align-items:center; 
 }
 
 .Imagen > img{
@@ -485,8 +502,7 @@ input{
    
 
     width: 100%;
-    height: 100%;
-    
+    height: 100%;    
      
 }
 
@@ -495,8 +511,9 @@ input{
 	display: flex;
     justify-content: flex-start;
     align-items: flex-start;
-    
-    height: 15%;
+
+
+    height: 100%;
     width: 100%;
 	
 }
@@ -532,7 +549,7 @@ input{
     font-size: 18px;
     
     width: 15%;
-    height: 40%;
+    height: 70%;
     
     margin-right: 20px;
     border: none;
@@ -618,105 +635,9 @@ color: #F5F5F5;
      width: 100%;
      height: 100%;
      
-     background: #F5F5F5;
-
-     
+    background-color: #F5F5F5;    
     
 }
-
-/* Para clases de  Creando_Nota.html */
-
-#btn_Guardar > button{
-    
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    
-    width: 25%;
-    height: 55%;
-   
-    border: none;
-    border-radius: 15px;
-    margin-bottom: 0px;
-
-    padding-left: 20px;
-    padding-right: 20px;
-    background: #6F69AC;
-    color: #FFEBA1;
-    
-    font-family: sans-serif;
-    font-size: 25px;
-    font-weight: bolder;
-    
-}
-
-#btn_Guardar {
-    
-    display: flex;
-    box-sizing:border-box;
-    justify-content: flex-end;
-    align-items: center;
-
-    padding-right: 5%;
-  
-    width: 100%;
-    height: 10%;
-    
-    background-color:#FD6F96;
-}
-
-#btn_Borrar{
-    
-    display: flex;
-    box-sizing:border-box;
-    justify-content: flex-end;
-    align-items: center;
-
-    padding-right: 5%;
-  
-    width: 100%;
-    height: 10%;
-    
-    background-color:#FD6F96;
-}
-
-#btn_Borrar > button{
-    
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    
-     width: 25%;
-    height: 55%;
-   
-    border: none;
-    border-radius: 15px;
-    margin-bottom: 0px;
-
-    padding-left: 20px;
-    padding-right: 20px;
-    background: #6F69AC;
-    color: #FFEBA1;
-    
-    font-family: sans-serif;
-    font-size: 25px;
-    font-weight: bolder;
-    
-}
-
-
-.Creacion_Nota{
-    
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-
-    width: 100%;
-    height: 100%;
-}
-
-
 
 .Nota{
     
@@ -728,7 +649,7 @@ color: #F5F5F5;
     align-items: flex-start;
     flex-direction: column;
     
-    background-color: #F5F5F5;
+    background-color: #F05454;
  
     text-align: left;
     color: aliceblue;

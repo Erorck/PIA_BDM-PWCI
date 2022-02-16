@@ -4,6 +4,13 @@ a{
     
 }
 
+p{
+
+font-family: sans-serif;
+color: #F5F5F5 ;
+
+}
+
 body{
 
 height: 200vh;
@@ -23,15 +30,7 @@ strong{
 }
 
 
-h1{
-    
-    color: #F5F5F5;
-    font-family: Copperplate; 
-    font-weight: bold;  
-    font-size: 120%;
- }
- 
- h2{
+h1,h5,h6{
     
     color: #F5F5F5;
     font-family: Copperplate; 
@@ -39,11 +38,9 @@ h1{
     font-size: 100%;
  }
 
- h3{
 
-color: #F5F5F5;
+ 
 
- }
  
  label{
      
@@ -106,7 +103,7 @@ body{
    
 }
 
-.Mis_Noticias{
+.Noticia{
 
 	display: flex;
 
@@ -117,7 +114,10 @@ body{
 	border-radius: 15px;
 
 	width: 70%;
-	height: 50%;
+	
+
+    min-height: 50%;
+    max-height: 100%;
 
 	background-color: #F05454;
 
@@ -125,7 +125,7 @@ body{
     padding: 1rem;
 }
 
-.Mis_Noticias > h1{
+.Noticia > h1{
 
 	display: flex;
 
@@ -135,95 +135,6 @@ body{
 }
 
 
-.Datos_Usuario{
-    
-    display: flex;
-    
-    flex-direction: column;
-    
-    justify-content: center;
-    align-items: center;
-    
-    background: #F05454;
-  
-      
-    margin: 1rem;
-    padding: 1rem;
-
-    
-
-    border: 8px solid #F05454;
-    
-    width: 40%;
-    height: 50%;
-   
-   border-radius: 15px;
-   border-color: #F05454;
-    
-}
-
-.Datos_Usuario > div{
-    
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    
-     width: 80%;
-     height: 100%;
-   
-}
-
-
-.Datos_Usuario > div > img{
-    
-   
-    width: 50%;
-    height: 100%;
-    border-radius: 20%;
-    
-    
-}
-
-.Datos_Usuario > div > button{
-    
-      width: fit-content;
-      height: 70%;
-     
-      border: none;
-      border-radius: 15px;
-      margin-bottom: 0px;
-  
-      padding-left: 20px;
-      padding-right: 20px;
-      background: #FD6F96;
-      color: #FFEBA1;
-      
-      font-family: sans-serif;
-      font-size: 13px;
-      font-weight: bolder;
-       
-}
-
-#btn_Buscar > button{
-    
-    width: fit-content;
-      height: 65%;
-     
-      border: none;
-      border-radius: 15px;
-      margin-bottom: 0px;
-  
-      padding-left: 20px;
-      padding-right: 20px;
-      background: #FD6F96;
-      color: #FFEBA1;
-      
-      font-family: sans-serif;
-      font-size: 20px;
-      font-weight: bolder;
-       
-      
-}
 
 #Logo{
     
@@ -236,6 +147,12 @@ body{
         
     background-color: #30475E;
     
+}
+
+.Logo-web{
+
+color: #F5F5F5 ;
+
 }
 
 
@@ -253,7 +170,7 @@ body{
     
     flex-direction: column;
     
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     padding-top: 5%;
 
