@@ -17,11 +17,11 @@
 
 <body>
 
-    <div class="Contenedor-base">
+   
         
         <div class = "Barra-navegacion">
         
-            <div id="Logo"> <h3 class="Logo-web"> Noticias </h3></div>
+            <div id="Logo"> <h3 style="font-style: italic;" class="Logo-web"> Noticias </h3></div>
             
             
         </div>
@@ -30,33 +30,23 @@
 
             <div class="Login">
               
-                <h1 class ="display-4" style="color:#F5F5F5" >Inicia sesion</h1>
-                <form action="" method="GET" class="Formulario">
+                <h1 style="font-style: italic; color:#F5F5F5;" class ="display-4" " >Inicia sesion</h1>
+                <form action="" method="GET" class="Formulario" name="Inicio_Sesion">
     
-                    <div class="input-Msg">
-                        <input type="text" id="usernameIt" placeholder="Nombre de usuario:">
-                        <div>
-                            <div id="mensaje1" class="errorMsg"> Msg: Error nickname</div>
-                        </div>
-                    </div>
-    
-                    <div class="input-Msg">
-                        <input type="password" id="claveIt" placeholder="Contraseña:">
-                        <div>
-                            <div id="mensaje2" class="errorMsg"> Msg: Error contraseña</div>
-                        </div>
-                    </div>
-    
-                    <button  class ="btn btn-danger" type="submit" id="btnLog"> Ingresar </button>
+                <input class="form-control" type="text" id="id_Usuario" placeholder="Nombre de usuario:" name ="Nombre_Usuario">
+            
+                <input class="form-control" type="password" id="id_Contraseña" placeholder="Contraseña:" name="Contraseña">
 
                 </form>
+
+                <button  class ="btn btn-danger" type="submit" id="btnLog" onclick="validar();"> Ingresar </button>
+
                 <br>
                 <a class="btn btn-light" href="index.html">Haz clic aqui para crear una cuenta</a><br>
             </div>
     
         </div>
-    </div>
-    
+   
 
     <footer>
 
@@ -65,6 +55,9 @@
         <div class="Informacion"> Informacion Compañia | Privacion y Politica | Terminos y Condiciones </div>
 
     </footer>
+
+       <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+       <script src="js/Inicio_de_sesion.js"></script>
 
 </body>
 

@@ -31,59 +31,40 @@
             <div class="Login">
               
                 <h1 class ="display-4" style="color:#F5F5F5" >Crear cuenta</h1>
-                <form action="" method="GET" class="Formulario">
+                <form action="" method="GET" class="Formulario" name ="F_Crear_Cuenta">
     
-                   <div class="input-Msg">
-                    <input type="text" id="usernameIt" name="Nombre de usuario" placeholder="Nombre de Usuario">
                    
-                </div>
+                <input class="form-control" type="text" id="usernameIt" name="Nombre_de_usuario" placeholder="Nombre de Usuario">
 
-                <div class="input-Msg"> 
-                    <input type="text" id="nombreIt" name="Nombre" placeholder="Nombre(s)">
-                   
-                </div>
+                <input class="form-control" type="text" id="nombreIt" name="Nombre" placeholder="Nombre(s)">
 
-                <div class="input-Msg">
-                    <input type="text" id="apellPIt" name="Apellido P" placeholder="Apellido Paterno">
-                   
-                </div>
+                <input class="form-control" type="text" id="apellPIt" name="Apellido_P" placeholder="Apellido Paterno">
 
-                <div class="input-Msg">
-                    <input type="text" id="apellMIt" name="Apellido M" placeholder="Apellido Materno">
+                <input class="form-control" type="text" id="apellMIt" name="Apellido_M" placeholder="Apellido Materno">
                     
-                </div>
+                
 
                 <div class="texto-sans-serif">Fecha de nacimiento</div>
-                <div class="input-Msg">
-                    
-                    <input type="date" id="f_NacIt" name="Fecha de nacimiento" >
-                   
-                </div>
-
-                <div class="input-Msg">
-                    <input type="email" id="emailIt" name="direccionemail" placeholder="Ej.: usuario@servidor.com">
-                    
-                </div>
-
-                <div class="input-Msg">
-                    <input type="password" id="clave_1It" name="Contraseña" placeholder="Contraseña">
-                  
-                </div>
-
-
-                <div class="input-Msg">
-                    <input type="password" id="clave_2It" name="Contraseña" placeholder="Verificacion de contraseña">
-                  
-                </div>
-
-				<br>
-                <button class ="btn btn-danger" type="submit" id="btnReg"> Registrarse </button>
                 
-                 <br>
-                <a class="btn btn-light" href="index.html">Haz clic aqui para crear una cuenta</a>
-                <br>
+                    
+                <input class="form-control" type="date" id="f_NacIt" name="Fecha de nacimiento" >
+
+                <input class="form-control" type="email" id="emailIt" name="direccionemail" placeholder="Ej.: usuario@servidor.com">
+
+                <input class="form-control" type="password" id="clave_1It" name="Contraseña" placeholder="Contraseña">
+
+                <input class="form-control" type="password" id="clave_2It" name="Contraseña_Confirm" placeholder="Verificacion de contraseña">
+                  
                 
                 </form>
+
+
+                <br>
+                <button class ="btn btn-danger" type="submit" id="btnReg" onclick="validar();"> Registrarse </button>
+                
+                 <br>
+                <a class="btn btn-light" href="index.html">Haz clic aqui para iniciar sesion</a>
+                <br>
                 
                
             </div>
@@ -99,6 +80,9 @@
         <div class="Informacion"> Informacion Compañia | Privacion y Politica | Terminos y Condiciones </div>
 
     </footer>
+
+       <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+       <script src="js/Index.js"></script>
 
 </body>
 

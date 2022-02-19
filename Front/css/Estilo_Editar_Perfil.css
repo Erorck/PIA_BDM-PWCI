@@ -4,12 +4,41 @@ a{
     
 }
 
-body{
+.Formulario_Contraseña{
 
-height: 140vh;
+display: flex;
+flex-direction: column;
+height: 100%;
+width: 100%;
+border: 3px solid #F5F5F5;
+padding: 5%;
+margin: 5%;
 
 }
 
+.Formulario_Contraseña > div{
+
+padding-bottom: 2%;
+
+}
+
+.Formulario{
+
+display: flex;
+flex-direction: column;
+height: 100%;
+width: 100%;
+border: 3px solid #F5F5F5;
+padding: 5%;
+margin: 5%;
+
+}
+
+.Formulario > div{
+
+padding-bottom: 2%;
+
+}
 
 h1{
     
@@ -123,13 +152,13 @@ body{
     padding: 1rem;
     border: 8px solid #F05454;
     
-    width: 40%;
+    width: 60%;
     height: 95%;
     
     min-width: max-content;
     min-height: max-content;
    
-   border-radius: 15px;
+   border-radius: 5%;
    border-color: #F05454;
     
 }
@@ -142,7 +171,7 @@ body{
     
      width: 80%;
      height: 15%;
-    margin-top: 10px;
+    margin-top: 10;
       
     
 }
@@ -151,9 +180,7 @@ body{
 .Datos_Usuario > div > img{
     
    
-    width: 50%;
-    height: 100%;
-    border-radius: 20%;
+    border-radius: 10%;
     
     
 }
@@ -279,3 +306,10 @@ footer {
     
     
  }
+
+.Imagen_Usuario{
+
+
+
+
+}

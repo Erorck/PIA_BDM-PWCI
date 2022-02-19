@@ -1,8 +1,10 @@
 a{
     
     color: #0a4e5a;
+    text-decoration: none;
     
 }
+
 
 p{
 
@@ -178,6 +180,19 @@ justify-content: center;
         
     background-color: #30475E;
     
+}
+
+#Logo > a{
+
+text-decoration: none;
+
+}
+
+ a:hover {  
+  
+  background-color: #F05454;  
+  
+
 }
 
 .Logo-web{

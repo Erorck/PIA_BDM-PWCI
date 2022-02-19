@@ -31,7 +31,7 @@
 
                       <h1>Datos de la noticia</h1>
                       
-                      <form action="" method="GET" class="Datos_Noticia" ectype="multipart/form-data"> <!-- ectype es para poder enviar imagenes en el formulario -->
+                      <form action="" method="GET" class="Datos_Noticia" name="Datos_de_Noticia" ectype="multipart/form-data"> <!-- ectype es para poder enviar imagenes en el formulario -->
 
                       <h4>Lugar</h4>
                       <input class="form-control" type="text" id="Lugar" name="Lugar" placeholder="">
@@ -60,6 +60,8 @@
 
                       <h4>Palabras clave</h4>
 
+                      <input class="form-control" type="text" id="Palabras_Clave" name="Palabras_Clave">
+
                       <h4>Seccion</h4>
                       <!-- El siguiente codigo es para hacer un checkbox -->
 
@@ -72,16 +74,14 @@
                       <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
                       <label class="form-check-label" for="flexSwitchCheckDefault">Deportes</label>
                       </div>
-                      <br>
-                      <button class="btn btn-outline-dark" >Enviar para revisión</button>
-
-
-
-                    </div>
+                    
+                    
 
                    </form>
 
-                    
+                      <br>
+                      <button id="id_Enviar_para_revision" class="btn btn-outline-dark" onclick="validar_Noticia();">Enviar para revisión</button>
+                    </div>
 
                   </div>
          
@@ -95,5 +95,8 @@
 
     </footer>
         
+       <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+       <script src="js/Editar_Noticia.js"></script>
+
     </body>
 </html>

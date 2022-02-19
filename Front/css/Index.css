@@ -6,7 +6,7 @@ a{
 
 body{
 
-height: 100vh;
+min-height: 100vh;
 
 }
 
@@ -42,14 +42,6 @@ height: 100vh;
    align-items: center;
 }
 
-#Barra > input{
-   
-   height: 50%;
-   width: 95%;
-   border-color:  #F05454;
-   border-width: 3px;
-}
-
 
 body{
     
@@ -63,9 +55,7 @@ body{
    padding: 0;
    background-size: cover;
   
-   
-   
-   
+ 
 }
 
 
@@ -78,19 +68,6 @@ body{
     
 }
 
-.errorMsg{
-    background-color: #df3861;
-    color: aliceblue;
-    display: none;
-    font-size: 14px;
-    padding: 8px;
-    font-weight: bold;
-    font-family: sans-serif;
-    
-    position:absolute;
-
-    border-radius: 14px;
-}
 
 footer {
  
@@ -131,18 +108,12 @@ footer {
 
 
 
-input{
-    
+.Formulario > input{
 
-    
     width: 100%;
     height: 100%;
-    
-    border-radius: 8px;
-    border-color: white;
-        
-    background: white;
-    cursor: text;    
+    cursor: text;   
+    margin-bottom: 5%; 
 }
 
 .input-Msg{
