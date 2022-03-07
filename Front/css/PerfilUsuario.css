@@ -291,3 +291,140 @@ footer {
     
     
  }
+
+
+/*ESTILO PARA LISTADO DE NOTICIAS*/
+
+
+
+.Columna{
+    
+    width: 100%;
+    height: 70%;
+   
+    display: flex;
+    justify-content:center;
+    align-items:center;
+    
+    flex-direction: Column;
+    
+    padding-bottom:2%;
+    margin: 5%;
+
+       
+}
+
+.Columna > .Noticia > .Imagen{
+
+width: 50%;
+
+}
+
+.Columna > .Noticia > .Imagen > img{
+
+height: 40%;
+width: 40%;
+
+}
+
+.Nota{
+    
+    color: #F5F5F5;
+
+    text-decoration:none;
+
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-direction: column;
+    
+    width: 100%;
+    height: 10%;
+    
+    padding-left:2%;
+        
+     
+}
+
+.Noticia{
+    
+    
+    
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-direction: row;
+    
+    width: 100%;
+    height: 100%;
+    
+    margin: 1%;
+    border-color: #F05454; 
+
+
+    
+  
+}
+
+.Imagen{
+    
+    display:flex;
+    justify-content:center;
+    align-items:center; 
+}
+
+.Imagen > img{
+    
+    width: 40%;
+    height: 40%;
+    
+    border-radius: 5%;
+    
+    
+    
+}
+
+.Titulo_Nota{
+    
+    font-family: monospace;
+    
+    display: flex;
+    justify-content:center;
+    align-items:center;
+    
+    font-size: xx-large;
+    background-color: #F05454;
+    width: 100%;
+    height:100%;
+    border-radius: 10px;
+   
+    
+}
+
+.Fecha_Nota{
+    
+    margin-top: 2%;
+    
+    display: flex;
+    justify-content:center;
+    align-items:center;
+    
+    width: 100%;
+    font-family: cursive;
+    background-color: #30475E;
+    border-radius: 10px;
+    
+}
+
+.Descripcion{
+    
+    display: flex;
+    
+    justify-content: center;
+    align-items: center;
+    
+    font-family: sans-serif;
+    color: #121212;
+   
+    
+}
