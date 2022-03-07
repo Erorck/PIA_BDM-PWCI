@@ -68,7 +68,7 @@ CREATE TABLE `GOOD_OLD_TIMES_DB`.`USERS` (
   `CREATED_BY` INT NOT NULL COMMENT 'Usuario que creo la nota',
   `LAST_UPDATE_DATE` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Última fecha de modificación de la nota',
   `LAST_UPDATED_BY` INT NOT NULL COMMENT 'Ultimo usuario que modifico la nota',
-  `REPORT_STATUS` CHAR(2) NOT NULL DEFAULT 'RR' COMMENT 'Estado actual de la noticia [P-Publicada  E-Eliminada  RA-En revision por administrador  RR-En revision por reportero]',
+  `REPORT_STATUS` CHAR(2) NOT NULL DEFAULT 'RA' COMMENT 'Estado actual de la noticia [P-Publicada  E-Eliminada  RA-En revision por administrador  RR-En revision por reportero]',
   PRIMARY KEY (`REPORT_ID`));
   
   DROP TABLE IF EXISTS COMMENTS;
@@ -157,6 +157,13 @@ ALTER TABLE `GOOD_OLD_TIMES_DB`.`COMMENTS`
 ADD CONSTRAINT `FK_COMMENT_USER`
   FOREIGN KEY (`CREATED_BY`)
   REFERENCES `GOOD_OLD_TIMES_DB`.`USERS` (`ID_USER`)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION;
+  
+  ALTER TABLE `GOOD_OLD_TIMES_DB`.`COMMENTS` 
+ADD CONSTRAINT `FK_COMMENT_REPORT`
+  FOREIGN KEY (`REPORT_ID`)
+  REFERENCES `GOOD_OLD_TIMES_DB`.`NEWS_REPORTS` (`REPORT_ID`)
   ON DELETE NO ACTION
   ON UPDATE NO ACTION;
   
