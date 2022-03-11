@@ -1,41 +1,65 @@
 -- STORED PROCEDURE USUARIO
 
-USE scdchnc;
+USE GOOD_OLD_TIMES_DB;
 -- SELECT * FROM usuario;
 -- CALL sp_Usuario('I', null, 'Capoeira12', 'gordito21','KARIM', 'CHAPARRO', 'HDZ', 'karim@live.com', '1999-12-07', null)
 -- CALL sp_Usuario('U', 4, 'Mascaporonga12', NULL, NULL, NULL, NULL, NULL, NULL, null);
 -- CALL sp_Usuario('U', 3, 'Mascaporonga12', NULL,'KARIM', 'CHAPARRO', NULL, 'karim@live.com', '1999-12-08', null);
--- CALL sp_Usuario('H', 3, NULL, NULL, NULL, NULL, NULL, NULL, NULL, null);
+-- CALL sp_User('SA', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 -- SELECT * FROM usuario;
 
 DELIMITER //
-DROP PROCEDURE IF EXISTS sp_Usuario//
-CREATE PROCEDURE sp_Usuario (	
-	IN Oper char(2),
+DROP PROCEDURE IF EXISTS sp_User//
+CREATE PROCEDURE sp_User (	
+	IN Oper char(3),
 	IN id_UserT INT,
-	IN nicknameT VARCHAR(40),
-	IN credentialT VARCHAR(45),
-	IN nameT VARCHAR(35),
-	IN apellido_PT CHAR(25),
-	IN apellido_MT CHAR(25),
-	IN emailT VARCHAR(40),
-	IN f_NacT DATE,
-	IN Foto_PerfilT VARCHAR(260)
+	IN user_AliasT VARCHAR(100),
+	IN credentialT VARCHAR(75),
+	IN nameT VARCHAR(100),
+	IN emailT VARCHAR(100),
+    IN phone_NumberT VARCHAR(12),
+	IN birthdayT DATE,
+	IN profile_PicT LONGBLOB, 
+    IN banner_PicT LONGBLOB, 
+    IN user_TypeT CHAR(2),
+    IN updated_byT INT
 )
 CONTAINS SQL
-`sp_Usuario`:
+`sp_User`:
 BEGIN
 
 	DECLARE EXIT HANDLER FOR 1452
 		BEGIN
 			SELECT 'Error al insertar en la tabla usuario' MSG;
 		END;
-        
-	DECLARE EXIT HANDLER FOR 1062
-		BEGIN
-			SELECT CONCAT('Identificadores duplicados con entrada (ID: ',id_Usuario, ' - Nickname: ' ,nickname,') ') AS message
-            FROM usuario WHERE nickname = nicknameT;
-		END;
+ 
+
+ /*#######################################
+				CONSULTAR TODOS
+    ########################################*/
+    IF Oper = 'SA'
+	THEN
+		SELECT `FULL_NAME`, `USER_ALIAS`,  `CREDENTIAL`, `EMAIL`, `PHONE_NUMBER`, `BIRTHDAY`, `PROFILE_PICTURE`, `BANNER_PICTURE`, `USER_TYPE`, `CREATED_BY`, `LAST_UPDATED_BY` FROM USERS;
+        LEAVE `sp_User`;   
+    END IF;
+    
+    /*#######################################
+			CONSULTAR CREDENCIAL POR EMAIL
+    ########################################*/
+    IF Oper = 'SCE'
+	THEN
+		SELECT  `CREDENTIAL` FROM USERS WHERE `EMAIL` = emailT;
+        LEAVE `sp_User`;   
+    END IF;
+    
+    /*#######################################
+				CONSULTAR CORREO
+    ########################################*/
+    IF Oper = 'SE'
+	THEN
+		SELECT  `EMAIL` FROM USERS WHERE `EMAIL` = emailT;
+        LEAVE `sp_User`;   
+    END IF;
 
 	/*#######################################
 					INSERT
@@ -43,21 +67,30 @@ BEGIN
 	IF Oper = 'I'
     THEN
 		START TRANSACTION;
-			INSERT INTO usuario(nombre, apellido_P, apellido_M, nickname, contrasenia, email, f_Nac, Foto_Perfil) 
-				VALUES (nameT, apellido_PT, apellido_MT, nicknameT, credentialT, emailT, f_NacT, Foto_PerfilT);
+			INSERT INTO USERS(`FULL_NAME`,`USER_ALIAS`,  `CREDENTIAL`, `EMAIL`, `PHONE_NUMBER`, `BIRTHDAY`, `PROFILE_PICTURE`, `BANNER_PICTURE`, `USER_TYPE`, `CREATED_BY`, `LAST_UPDATED_BY`) 
+				VALUES (nameT, user_AliasT, credentialT, emailT, phone_NumberT, birthdayT, profile_PicT, banner_PicT, user_TypeT, updated_byT, updated_byT);
+                
+		IF @@error_count = 0
+            THEN
+				COMMIT;
+		ELSE
+				SELECT 'Error al insertar en la tabla usuarios.' MSG
+                FROM users WHERE id_User = id_UserT;
+				ROLLBACK;
+		END IF;
             
-		LEAVE `sp_Usuario`;
+		LEAVE `sp_User`;
 	END IF;        
   
      /*#######################################
 			VALIDACION PARA MODIFICAR
     ########################################*/
     IF NOT EXISTS(
-	SELECT * FROM usuario
-	WHERE id_Usuario = id_UserT)
+	SELECT * FROM users
+	WHERE id_User = id_UserT)
 	THEN
 		SELECT 'Usuario inexistente' MSG;
-		LEAVE `sp_Usuario`;
+		LEAVE `sp_User`;
 	END IF;
     
     /*#######################################
@@ -65,33 +98,35 @@ BEGIN
     ########################################*/
 	IF Oper = 'U'
 	THEN
-		
+        
 		START TRANSACTION;
-			UPDATE usuario 
-			SET 
-				nombre = IFNULL(nameT, nombre),
-				apellido_P = IFNULL(apellido_PT, apellido_P),
-				apellido_M = IFNULL(apellido_MT, apellido_M),
-				nickname = IFNULL(nicknameT, nickname),
-				contrasenia = IFNULL(credentialT, contrasenia),
-				email = IFNULL(emailT, email),
-				f_Nac = IFNULL(f_NacT, f_Nac),
-				f_Mod = NOW(),
-				Foto_Perfil = IFNULL(Foto_PerfilT, Foto_Perfil)
-			WHERE
-				id_Usuario = id_UserT;
+			UPDATE USERS 
+SET 
+    `FULL_NAME` = IFNULL(nameT, `FULL_NAME`),
+    `USER_ALIAS` = IFNULL(user_AliasT, `USER_ALIAS`),
+    `CREDENTIAL` = IFNULL(credentialT, `CREDENTIAL`),
+    `EMAIL` = IFNULL(emailT, `EMAIL`),
+    `PHONE_NUMBER` = IFNULL(phone_numberT, `PHONE_NUMBER`),
+    `BIRTHDAY` = IFNULL(birthdayT, `BIRTHDAY`),
+    `LAST_UPDATE_DATE` = NOW(),
+    `LAST_UPDATED_BY` = IFNULL(updated_byT, `LAST_UPDATED_BY`),
+    `PROFILE_PICTURE` = IFNULL(profile_PicT, `PROFILE_PICTURE`),
+    `BANNER_PICTURE` = IFNULL(banner_PicT, `BANNER_PICTURE`),
+    `USER_TYPE` = IFNULL(user_TypeT, `USER_TYPE`)
+WHERE
+    id_User = id_UserT;
             
-            SELECT @@Error_Count;
+SELECT @@Error_Count;
 		IF @@error_count = 0
             THEN
 				COMMIT;
 			ELSE
-				SELECT CONCAT('Error al modificar al usuario con No. ', CAST(id_Usuario AS CHAR))
-                FROM usuario WHERE id_Usuario = id_UserT;
+				SELECT CONCAT('Error al modificar al usuario con No. ', CAST(id_User AS CHAR))
+                FROM users WHERE id_User = id_UserT;
 				ROLLBACK;
 			END IF;
             
-		LEAVE `sp_Usuario`;
+		LEAVE `sp_User`;
     END IF;
     
     /*#######################################
@@ -100,24 +135,25 @@ BEGIN
 	IF Oper = 'S'
 	THEN
 		START TRANSACTION;
-			UPDATE usuario 
+			UPDATE USERS 
 SET 
-    estatus = 'S',
-    f_Mod = NOW()
+	`LAST_UPDATE_DATE` = NOW(),
+    `LAST_UPDATED_BY` = IFNULL(updated_byT, `LAST_UPDATED_BY`),
+    `USER_STATUS` = 'B'
 WHERE
-    id_Usuario = id_UserT;
+    id_User = id_UserT;
             
             
          IF @@error_count = 0
             THEN
 				COMMIT;
 			ELSE
-				SELECT CONCAT('Error al suspender al usuario con No. ', CAST(id_Usuario AS CHAR))
-                FROM usuario WHERE id_Usuario = id_UserT;
+				SELECT CONCAT('Error al suspender al usuario con No. ', CAST(id_User AS CHAR))
+                FROM users WHERE id_User = id_UserT;
 				ROLLBACK;
 			END IF;
             
-		LEAVE `sp_Usuario`;   
+		LEAVE `sp_User`;   
     END IF;
     
     /*#######################################
@@ -126,23 +162,24 @@ WHERE
 	IF Oper = 'H'
 	THEN
 		START TRANSACTION;
-			UPDATE usuario 
+			UPDATE USERS 
 SET 
-    estatus = 'A',
-    f_Mod = NOW()
+	`LAST_UPDATE_DATE` = NOW(),
+	`LAST_UPDATED_BY` = IFNULL(updated_byT, `LAST_UPDATED_BY`),
+    `USER_STATUS` = 'H'
 WHERE
-    id_Usuario = id_UserT;
+    id_User = id_UserT;
         
 		IF @@error_count = 0
             THEN
 				COMMIT;
 			ELSE
-				SELECT CONCAT('Error al habilitar al usuario con No. ', CAST(id_Usuario AS CHAR))
-                FROM usuario WHERE id_Usuario = id_UserT;
+				SELECT CONCAT('Error al habilitar al usuario con No. ', CAST(id_User AS CHAR))
+                FROM users WHERE id_User = id_UserT;
 				ROLLBACK;
 			END IF;
             
-		LEAVE `sp_Usuario`;   
+		LEAVE `sp_User`;   
     END IF;
     
      /*#######################################
@@ -151,22 +188,26 @@ WHERE
 	IF Oper = 'E'
 	THEN
 		START TRANSACTION;
-			UPDATE usuario 
+			UPDATE USERS 
 SET 
-    estatus = 'E',
-    f_Mod = NOW()
+    `LAST_UPDATE_DATE` = NOW(),
+	`LAST_UPDATED_BY` = IFNULL(updated_byT, `LAST_UPDATED_BY`),
+    `USER_STATUS` = 'E'
 WHERE
-    id_Usuario = id_UserT;
+    id_User = id_UserT;
             
 		IF @@error_count = 0
             THEN
 				COMMIT;
 			ELSE
-				SELECT CONCAT('Error al dar de baja al usuario con No. ', CAST(id_Usuario AS CHAR))
-                FROM usuario WHERE id_Usuario = id_UserT;
+				SELECT CONCAT('Error al dar de baja al usuario con No. ', CAST(id_User AS CHAR))
+                FROM users WHERE id_User = id_UserT;
 				ROLLBACK;
 			END IF;
+            LEAVE `sp_User`;   
     END IF;
+    
+   
     
 END//
 DELIMITER ;

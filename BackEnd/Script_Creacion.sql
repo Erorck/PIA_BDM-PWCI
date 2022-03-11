@@ -19,11 +19,9 @@ CALL PROC_DROP_FOREIGN_KEY('REACTIONS', 'FK_REACTION_REPORT');
 DROP TABLE IF EXISTS USERS;
 CREATE TABLE `GOOD_OLD_TIMES_DB`.`USERS` (
   `ID_USER` INT NOT NULL AUTO_INCREMENT COMMENT 'Llave primaria de la tabla USERS',
-  `CREDENTIAL` VARCHAR(45) NOT NULL COMMENT 'Contraseña del usuario',
-  `NAME` VARCHAR(100) NOT NULL COMMENT 'Nombres del usuario',
+  `CREDENTIAL` VARCHAR(75) NOT NULL COMMENT 'Contraseña del usuario',
+  `FULL_NAME` VARCHAR(200) NOT NULL COMMENT 'Nombre completo del usuario',
   `USER_ALIAS` VARCHAR(100) NOT NULL COMMENT 'Apodo del usuario',
-  `FIRST_LAST_NAME` CHAR(45) NOT NULL COMMENT 'Apellido paterno del usuario',
-  `SECOND_LAST_NAME` CHAR(45) NOT NULL COMMENT 'Apellido materno del usuario',
   `EMAIL` VARCHAR(100) NOT NULL COMMENT 'Nombres del usuario',
   `PHONE_NUMBER` VARCHAR(12) COMMENT 'Numero telefonico de contacto',
   `BIRTHDAY` DATE NULL COMMENT 'Fecha de nacimiento del usuario',
@@ -31,10 +29,11 @@ CREATE TABLE `GOOD_OLD_TIMES_DB`.`USERS` (
   `CREATED_BY` INT NOT NULL COMMENT 'Usuario que creo la entrada',
   `LAST_UPDATE_DATE` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Última fecha de modificación del usuario',
   `LAST_UPDATED_BY` INT NOT NULL COMMENT 'Último usuario que modifico la entrada',
-  `PROFILE_PICTURE` MEDIUMBLOB NULL COMMENT 'Imagen de perfil',
+  `PROFILE_PICTURE` LONGBLOB NULL COMMENT 'Imagen de perfil',
+  `BANNER_PICTURE` LONGBLOB NULL COMMENT 'Imagen de portada del usuario',
   `USER_TYPE` CHAR(2) NOT NULL COMMENT 'Tipo de usuario [AD - Administrador RE - Reportero  UR - Usuario registrado]',
   `USER_STATUS` CHAR(1) NOT NULL DEFAULT 'A' COMMENT 'Estado actual del usuario [A - Activo  I - Inactivo  B - Bloqueado]',
-  PRIMARY KEY (`ID_USER`));
+  PRIMARY KEY (`ID_USER`))DEFAULT CHARSET = utf8 COLLATE= utf8_unicode_ci;
   
   DROP TABLE IF EXISTS CATEGORIES;
   CREATE TABLE `GOOD_OLD_TIMES_DB`.`CATEGORIES` (
@@ -63,13 +62,13 @@ CREATE TABLE `GOOD_OLD_TIMES_DB`.`USERS` (
   `REPORT_DESCRIPTION` VARCHAR(100) COMMENT 'Descripción breve de la nota',
   `REPORT_CONTENT` VARCHAR(1000) NOT NULL COMMENT 'Contenido de la nota',
   `LIKES` INT NOT NULL DEFAULT 0 COMMENT 'Numero de likes que ha recibido la nota',
-  `THUMBNAIL` MEDIUMBLOB NOT NULL COMMENT 'Miniatura con la que la nota se muestra',
+  `THUMBNAIL` LONGBLOB NOT NULL COMMENT 'Miniatura con la que la nota se muestra',
   `CREATION_DATE` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Fecha de creacion de la nota',
   `CREATED_BY` INT NOT NULL COMMENT 'Usuario que creo la nota',
   `LAST_UPDATE_DATE` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Última fecha de modificación de la nota',
   `LAST_UPDATED_BY` INT NOT NULL COMMENT 'Ultimo usuario que modifico la nota',
   `REPORT_STATUS` CHAR(2) NOT NULL DEFAULT 'RA' COMMENT 'Estado actual de la noticia [P-Publicada  E-Eliminada  RA-En revision por administrador  RR-En revision por reportero]',
-  PRIMARY KEY (`REPORT_ID`));
+  PRIMARY KEY (`REPORT_ID`))DEFAULT CHARSET = utf8 COLLATE= utf8_unicode_ci;
   
   DROP TABLE IF EXISTS COMMENTS;
   CREATE TABLE `GOOD_OLD_TIMES_DB`.`COMMENTS` (
@@ -97,23 +96,23 @@ CREATE TABLE `GOOD_OLD_TIMES_DB`.`USERS` (
   CREATE TABLE `GOOD_OLD_TIMES_DB`.`IMAGES` (
   `ID_IMAGE` INT NOT NULL AUTO_INCREMENT COMMENT 'Llave primaria de la tabla IMAGES',
   `DESCRIPTION` VARCHAR(200) NOT NULL COMMENT 'Breve descripcion del contenido del archivo',
-  `CONTENT` MEDIUMBLOB NOT NULL COMMENT 'Datos de la imagen',
+  `CONTENT` LONGBLOB NOT NULL COMMENT 'Datos de la imagen',
   `ROUTE` VARCHAR(1000) NOT NULL COMMENT 'Ruta del archivo',
   `UPLOAD_DATE` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Fecha de subida del material',
   `IMAGE_STATUS` CHAR(2) NOT NULL DEFAULT 'P' COMMENT 'Estado actual del material [P-Publico  E-Eliminado]',
   `REPORT_ID` INT NOT NULL COMMENT 'Id de la noticia a la que pertence el material',
-  PRIMARY KEY (`ID_IMAGE`));
+  PRIMARY KEY (`ID_IMAGE`))DEFAULT CHARSET = utf8 COLLATE= utf8_unicode_ci;
   
   DROP TABLE IF EXISTS VIDEOS;
   CREATE TABLE `GOOD_OLD_TIMES_DB`.`VIDEOS` (
   `ID_VIDEO` INT NOT NULL AUTO_INCREMENT COMMENT 'Llave primaria de la tabla VIDEOS',
   `DESCRIPTION` VARCHAR(200) NOT NULL COMMENT 'Breve descripcion del contenido del archivo',
-  `CONTENT` MEDIUMBLOB NOT NULL COMMENT 'Datos deL video',
+  `CONTENT` LONGBLOB NOT NULL COMMENT 'Datos deL video',
   `ROUTE` VARCHAR(1000) NOT NULL COMMENT 'Ruta del archivo',
   `UPLOAD_DATE` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Fecha de subida del material',
   `VIDEO_STATUS` CHAR(2) NOT NULL DEFAULT 'P' COMMENT 'Estado actual del material [P-Publico  E-Eliminado]',
   `REPORT_ID` INT NOT NULL COMMENT 'Id de la noticia a la que pertence el material',
-  PRIMARY KEY (`ID_VIDEO`));
+  PRIMARY KEY (`ID_VIDEO`))DEFAULT CHARSET = utf8 COLLATE= utf8_unicode_ci;
   
   DROP TABLE IF EXISTS TAGS;
   CREATE TABLE `GOOD_OLD_TIMES_DB`.`TAGS` (

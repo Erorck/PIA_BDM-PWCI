@@ -11,7 +11,7 @@ function validarFormularioLogin(){
 
     $('.alert').remove();
     var correo =$('#correo').val(),
-        pass =$('#contra').val()
+        pass =$('#contra').val();
 
         var resultado = true;
     if(correo ==""||correo==null){

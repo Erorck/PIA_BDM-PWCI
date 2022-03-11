@@ -1,3 +1,7 @@
+<?php 
+session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,8 +10,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Crear Cuenta</title>
 
-    <link rel="stylesheet" href="../CSS/bootstrap.min.css">
-    <link rel="shortcut icon" href="../Elementos/Good Old Times-ICON.2.png" type="image/x-icon">
+    <link rel="stylesheet" href="../../CSS/bootstrap.min.css">
+    <link rel="shortcut icon" href="../../Elementos/Good Old Times-ICON.2.png" type="image/x-icon">
 
     <style>
         body{
@@ -15,7 +19,7 @@
             background: linear-gradient(to right, rgb(23, 7, 80), rgb(107, 158, 216));
         }
         .bg{
-            background-image: url(../Elementos/GOT_BACK_WHITE.jpg);
+            background-image: url(../../Elementos/GOT_BACK_WHITE.jpg);
             background-position: center center;
         }
 
@@ -40,11 +44,11 @@
         </div>
         <div class="col bg-white p-5 rounded-end">
          <div class="text-end">
-    <img src="../Elementos/Good Old Times_LOGO2.2.png" width="100" alt="">
+    <img src="../../Elementos/Good Old Times_LOGO2.2.png" width="100" alt="">
          </div> 
     <h2 class="fw-bold text-center"> ¡Crea tu cuenta ahora!</h2>
 
-    <form action="#" id="crearcuent">
+    <form action="../includes/register_inc.php" method="post" enctype="multipart/form-data" id="crearcuent">
         <div class="mb-4">
             <label for="name" class="form-label">Nombre completo</label>
             <input type="text" class="form-control" name="name" id="name">
@@ -69,7 +73,7 @@
             <label for="connected" class="form-check-label">Mantenerme conectado</label>
         </div>
         <div class="d-grid">
-            <button type="submit" class="btn btn-primary">Crear Cuenta</button>
+            <button type="submit" name="submit" class="btn btn-primary">Crear Cuenta</button>
         </div>
 
         <div class="my-3">
@@ -87,7 +91,7 @@
                     <button class="btn btn-outline-primary w-100 my-1">
                         <div class="row align-items-center">
                             <div class="col-2 d-none d-md-block">
-                                <img src="../Elementos/fb_icon.png" width="32" alt="">
+                                <img src="../../Elementos/fb_icon.png" width="32" alt="">
                             </div>
                             <div class="col-12 col-md-10 text-center">
                                 Facebook
@@ -99,7 +103,7 @@
                     <button class="btn btn-outline-danger w-100 my-1">
                         <div class="row align-items-center">
                             <div class="col-2 d-none d-md-block">
-                                <img src="../Elementos/google_icon.png" width="32" alt="">
+                                <img src="../../Elementos/google_icon.png" width="32" alt="">
                             </div>
                             <div class="col-12 col-md-10 text-center">
                                 Google
@@ -112,8 +116,8 @@
     </div>
     </div>
     </div>
-    <script src="../JS/bootstrap.bundle.min.js"></script>
+    <script src="../../JS/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-    <script src="../JS/Validacion_CrearCuenta.js"></script>
+    <script src="../../JS/Validacion_CrearCuenta.js"></script>
 </body>
 </html>

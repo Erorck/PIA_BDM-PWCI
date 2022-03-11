@@ -15,7 +15,9 @@ $('#crearcuent').submit(function(e){
         $('.alert').remove();
         var correo =$('#correo').val(),
             pass =$('#contra').val(),
-            name =$('#name').val()
+            name =$('#name').val(),
+            passC =$('#contraConfirm').val();
+
     
             var resultado = true;
         
@@ -61,6 +63,10 @@ $('#crearcuent').submit(function(e){
                 cambiarColor("contra");
                 mostrarAlertapass("Ingrese una contraseña maximo 15 caracteres y minimo 8, 1 Mayuscula, 1 minuscula y un digito");
                 resultado = false;
+            }else if (pass != passC){
+                cambiarColor("contraConfirm");
+                mostrarAlertapassConfirm("Las contraseñas no coinciden");
+                resultado = false;
             }
         }
 
@@ -100,5 +106,9 @@ function cambiarColor(dato){
     
     function mostrarAlertapass(texto){
         $('#contra').before('<div class= "alert" > Error: ' + texto +'</div>')
+    }
+
+    function mostrarAlertapassConfirm(texto){
+        $('#contraConfirm').before('<div class= "alert" > Error: ' + texto +'</div>')
     }
     
