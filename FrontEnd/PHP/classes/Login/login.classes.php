@@ -4,11 +4,11 @@ include "../classes/dbh.classes.php";
 class Login extends Dbh{
 
     protected function sign_in($email, $password){
-        $stmt = $this->connect()->prepare('SELECT USER_PASSWORD FROM USERS WHERE EMAIL = ?;');
+        $stmt = $this->connect()->prepare('CALL sp_User("SO", NULL, NULL, NULL, NULL, ?, NULL, NULL, NULL, NULL, NULL, NULL);');
 
         if(!$stmt->execute(array($email))){
             $stmt = null;
-            header("Location: ../index.php?error=stmtFailed");
+            header("location: ../Pages/Login.php?error=stmtFailed");
             exit();
         }
 
@@ -17,20 +17,25 @@ class Login extends Dbh{
         if($stmt->rowCount()==0){
             $check = true;
             $stmt = null;
-            header("Location: ../index.php?error=userNotFound");
+            header("location: ../Pages/Login.php?error=userNotFound");
+            session_start();
+            $_SESSION["error"] = "userNotFound";
             exit();
         }
         
-        $pwdHashed = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        $checkPwd = password_verify($password, $pwdHashed[0]["USER_PASSWORD"]);
+        $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $checkPwd = password_verify($password, $users[0]["CREDENTIAL"]);
 
         if($checkPwd == false){
             $stmt = null;
-            header("Location: ../index.php?error=wrongPassword");
+            header("location: ../Pages/Login.php?error=wrongPassword");
+            session_start();
+            $_SESSION["error"] = "wrongPassword";
             exit();
         }else if($checkPwd == true){
             session_start();
-            $_SESSION["user_email"] = $email;
+            $_SESSION["user_name"] = $users[0]["FULL_NAME"];
+            $_SESSION["permission"] = $users[0]["USER_TYPE"];
         }
 
         $stmt = null;

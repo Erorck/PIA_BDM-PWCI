@@ -1,5 +1,5 @@
 <?php
-include "../classes/login.classes.php";
+include "login.classes.php";
 
 class LoginContr extends Login {
 
@@ -12,10 +12,10 @@ class LoginContr extends Login {
     }
 
     public function loginUser(){
-        if($this->emptyInputs() == false){
-            header("Location:../index.php?error=emptyInput");
-            exit();
-        }
+        // if($this->emptyInputs() == false){
+        //     header("Location:../index.php?error=emptyInput");
+        //     exit();
+        // }
 
         $this->sign_in($this->email, $this->pwd);
     }

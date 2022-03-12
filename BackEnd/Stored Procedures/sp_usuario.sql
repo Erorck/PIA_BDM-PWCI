@@ -44,6 +44,16 @@ BEGIN
     END IF;
     
     /*#######################################
+				CONSULTAR UNO
+    ########################################*/
+    IF Oper = 'SO'
+	THEN
+		SELECT `FULL_NAME`, `USER_ALIAS`,  `CREDENTIAL`, `EMAIL`, `PHONE_NUMBER`, `BIRTHDAY`, `PROFILE_PICTURE`, `BANNER_PICTURE`, `USER_TYPE`, `CREATED_BY`, `LAST_UPDATED_BY` FROM USERS
+        WHERE `EMAIL` = emailT;
+        LEAVE `sp_User`;   
+    END IF;
+    
+    /*#######################################
 			CONSULTAR CREDENCIAL POR EMAIL
     ########################################*/
     IF Oper = 'SCE'

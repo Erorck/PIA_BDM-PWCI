@@ -61,7 +61,7 @@ $('#crearcuent').submit(function(e){
             var lenght =/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])([A-Za-z\d$@$!%*?&]|[^ ]){8,15}$/;
             if(!lenght.test(pass)){
                 cambiarColor("contra");
-                mostrarAlertapass("Ingrese una contraseña maximo 15 caracteres y minimo 8, 1 Mayuscula, 1 minuscula y un digito");
+                mostrarAlertapass("Ingrese una contraseña de 8-15 caracteres. Debe contener 1 mayúscula, 1 minúscula, 1 número y un carater especial [$@$!%*?&]");
                 resultado = false;
             }else if (pass != passC){
                 cambiarColor("contraConfirm");
