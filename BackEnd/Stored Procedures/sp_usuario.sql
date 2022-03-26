@@ -48,8 +48,18 @@ BEGIN
     ########################################*/
     IF Oper = 'SO'
 	THEN
-		SELECT `FULL_NAME`, `USER_ALIAS`,  `CREDENTIAL`, `EMAIL`, `PHONE_NUMBER`, `BIRTHDAY`, `PROFILE_PICTURE`, `BANNER_PICTURE`, `USER_TYPE`, `CREATED_BY`, `LAST_UPDATED_BY` FROM USERS
+		SELECT `ID_USER`, `FULL_NAME`, `USER_ALIAS`,  `CREDENTIAL`, `EMAIL`, `PHONE_NUMBER`, `BIRTHDAY`, `PROFILE_PICTURE`, `BANNER_PICTURE`, `USER_TYPE`, `CREATED_BY`, `LAST_UPDATED_BY` FROM USERS
         WHERE `EMAIL` = emailT;
+        LEAVE `sp_User`;   
+    END IF;
+    
+    /*#######################################
+				CONSULTAR UNO POR ID
+    ########################################*/
+    IF Oper = 'SOI'
+	THEN
+		SELECT `ID_USER`, `FULL_NAME`, `USER_ALIAS`,  `CREDENTIAL`, `EMAIL`, `PHONE_NUMBER`, `BIRTHDAY`, `PROFILE_PICTURE`, `BANNER_PICTURE`, `USER_TYPE`, `CREATED_BY`, `LAST_UPDATED_BY` FROM USERS
+        WHERE `ID_USER` = id_UserT;
         LEAVE `sp_User`;   
     END IF;
     
@@ -58,7 +68,16 @@ BEGIN
     ########################################*/
     IF Oper = 'SCE'
 	THEN
-		SELECT  `CREDENTIAL` FROM USERS WHERE `EMAIL` = emailT;
+		SELECT  `ID_USER` FROM USERS WHERE `EMAIL` = emailT;
+        LEAVE `sp_User`;   
+    END IF;
+    
+     /*#############################################################
+	VERIFICAR SI UN EMAIL HA SIDO UTILIZADO ANTES DE ACTUALIZARLO
+    ##############################################################*/
+    IF Oper = 'SUE'
+	THEN
+		SELECT  `ID_USER` FROM USERS WHERE `EMAIL` = emailT AND `ID_USER` != id_UserT;
         LEAVE `sp_User`;   
     END IF;
     

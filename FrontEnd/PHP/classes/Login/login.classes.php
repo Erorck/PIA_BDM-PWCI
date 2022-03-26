@@ -34,8 +34,10 @@ class Login extends Dbh{
             exit();
         }else if($checkPwd == true){
             session_start();
+            $_SESSION["user"] = $users[0];
             $_SESSION["user_name"] = $users[0]["FULL_NAME"];
             $_SESSION["permission"] = $users[0]["USER_TYPE"];
+            $_SESSION["HASH_CRED"] = $password;
         }
 
         $stmt = null;

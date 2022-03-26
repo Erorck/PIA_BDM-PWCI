@@ -1,3 +1,4 @@
+
 <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
     <div class="container-fluid">
       <a class="blog-header-logo" href="#"><img src="../../Elementos/Good Old Times_LOGO2.invert.white.png" class="logo" alt="logo" width="200px" height="80px"></a>
@@ -20,7 +21,7 @@
             <a class="nav-link text-danger" href="#">Farandula</a>
           </li>
         </ul>
-        <form class="d-flex" action="#">
+        <form class="d-flex" action="../includes/nav_bar_inc.php">
           <?php
              if (isset($_SESSION["user_name"])) {
           ?>
@@ -33,8 +34,8 @@
              }
           ?>
          
-          <button class="btn btn-outline-light" type="submit" method="get"><i class="fas fa-search"></i></button>
-          <button class="btn btn-link" type="submit" method="post"><i class="fas fa-user"></i></button>
+          <button class="btn btn-outline-light" type="submit" ><i class="fas fa-search"></i></button>
+          <button class="btn btn-link" type="submit" name="profile" method="get"><i class="fas fa-user"></i></button>
         </form>
       </div>
     </div>

@@ -32,6 +32,8 @@ class Register extends Dbh{
         $check = false;
         if($stmt->rowCount()>0){
             $check = true;
+            session_start();
+            $_SESSION["error"] = "userChecked";
         }else{
             $check = false;
         }

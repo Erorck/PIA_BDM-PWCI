@@ -1,6 +1,7 @@
 <?php 
 session_start();
 ?>
+<!-- TODO: Implementar ajax para no perder los datos del LOGIN  -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -65,7 +66,7 @@ session_start();
                  if (isset($_SESSION["error"]) && $_SESSION["error"] =="wrongPassword") {
                     $_SESSION["error"] = "none";
             ?>
-                <div class= "alert" > Error: Contraseña incorrecta </div>
+                <div class= "alert" > Error: Contraseña o correo incorrectos </div>
             <?php
                  }
             ?>

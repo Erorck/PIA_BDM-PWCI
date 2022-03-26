@@ -1,5 +1,79 @@
 //VALIDACION PERFIL USUARIO-----------------------------------------------------------------------
 
+function checkEmail() {
+    let userId = $('#idUser').val();
+}
+
+
+//Actualizar la imagen de perfil en el HTML
+$('#upload_profile_pic').on('change', function (evt){
+    var tgt = evt.target || window.event.src,
+    files = tgt.files;
+
+    // FileReader support
+    if (FileReader && files && files.length) {
+        var fr = new FileReader();
+        fr.onload = function () {
+            $("#profile_pic").attr('src',fr.result);
+            $('#examplePPic').val(fr.result);
+        }
+        fr.readAsDataURL(files[0]);
+    }
+    // Not supported
+    else {
+        // fallback -- perhaps submit the input to an iframe and temporarily store
+        // them on the server until the user's session ends.
+    }
+})
+
+//Actualizar la imagen de perfil en el HTML
+$('#upload_banner_pic').on('change', function (evt){
+    var tgt = evt.target || window.event.src,
+    files = tgt.files;
+
+    // FileReader support
+    if (FileReader && files && files.length) {
+        var fr = new FileReader();
+        fr.onload = function () {
+            $("#banner_pic").css('background-image', 'url('+ fr.result +')');
+            $('#exampleBPic').val(fr.result);
+
+        }
+        fr.readAsDataURL(files[0]);
+    }
+    // Not supported
+    else {
+        // fallback -- perhaps submit the input to an iframe and temporarily store
+        // them on the server until the user's session ends.
+    }
+})
+
+
+function updateProfileImage() {
+    let image = $("#upload_profile_pic").val();
+    $.ajax({
+        url: '../includes/image_inc.php',
+        type: 'post',
+        data: {'imageData': image, 'ajax_submit': 1},
+
+        success: function (response) {
+
+            console.log(response);
+            $("#profile_pic").attr('src',response);
+            alert('Se actualizo la imagen: ' + image);
+
+        },
+        error: function (jqXHR, status, error) {
+            alert('Error al actualizar la imagen');
+            console.log(error);
+            console.log(status);
+        },
+        complete: function (jqXHR, status) {
+            console.log("se intento");
+        }
+    })
+}
+
 
 $('#datosusuario').submit(function(e){
     var resultado = validarFormularioUsuario();
@@ -20,6 +94,12 @@ $('#datosusuario').submit(function(e){
     
             var resultado = true;
 
+            normalColor("exampletel");
+            normalColor("examplename");
+            normalColor("examplecorreo");
+            normalColor("examplecontra");
+
+
             if(tel ==""||tel==null){
                 cambiarColor("exampletel");
                 mostrarAlerta_VacioTel("Campo obligatorio")
@@ -34,6 +114,7 @@ $('#datosusuario').submit(function(e){
         
                 }
             }
+           
             
         if(name ==""||name==null){
             cambiarColor("examplename");
@@ -50,6 +131,8 @@ $('#datosusuario').submit(function(e){
             }
         }
 
+
+
         if(correo ==""||correo==null){
             cambiarColor("examplecorreo");
             mostrarAlerta_VacioMail("Campo obligatorio")
@@ -64,7 +147,8 @@ $('#datosusuario').submit(function(e){
     
             }
         }
-    
+        
+
         if(pass ==""||pass==null){
             cambiarColor("examplecontra");
             mostrarAlerta_VacioPass("Campo obligatorio")
@@ -78,6 +162,8 @@ $('#datosusuario').submit(function(e){
                 resultado = false;
             }
         }
+       
+
 
         return resultado;
     
@@ -89,10 +175,16 @@ $('#datosusuario').submit(function(e){
             border: "1px solid #dd5144"
         });
         }
-    
 
+    function normalColor(dato){
+       $('#'+ dato).css({
+           border: "3px solid #3b055f"
+            });
+        }
+    
+        
     function mostrarAlerta_VacioMail(texto){
-        $('#examplecorreo').before('<div class= "alert" > Error: ' + texto +'</div>')
+        $('#examplecorreo').before('<div class= "alert" > Error: ' + texto +'</div>');
     }
     
     function mostrarAlerta_VacioName(texto){

@@ -1,5 +1,5 @@
 <?php
-include"../classes/image.classes.php";
+include "image.classes.php";
 
     class ImageContr extends Image{
         private $image;
@@ -36,6 +36,11 @@ include"../classes/image.classes.php";
         public function uploadImage(){
             $this->upload($this->image);
         }
+
+        //Llamado a la funcion de la clase Image que sube la imagen a la base de datos
+        // public function uploadToUser(){
+        //     $this->updateProfilePic($this->image);
+        // }
         
         //Llamado a la funcion de la clase Image que obtiene la imagen de la base de datos
         public function retrieveImage(){

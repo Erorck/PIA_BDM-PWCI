@@ -1,6 +1,7 @@
 <?php 
 session_start();
 ?>
+<!-- TODO: Implementar ajax para no perder los datos del REGISTRO  -->
 
 <!DOCTYPE html>
 <html lang="en">
@@ -55,6 +56,14 @@ session_start();
         </div>
         <div class="mb-4">
             <label for="email" class="form-label">Correo electrónico</label>
+            <?php
+                 if (isset($_SESSION["error"]) && $_SESSION["error"] =="userChecked") {
+                    $_SESSION["error"] = "none";
+            ?>
+                <div class= "alert" > Error: El correo ingresado ya está ligado a una cuenta </div>
+            <?php
+                 }
+            ?>
             <input type="email" class="form-control" name="email" id="correo">
         </div>
         <div class="mb-4">

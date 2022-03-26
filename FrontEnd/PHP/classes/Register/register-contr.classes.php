@@ -26,7 +26,7 @@ include"../classes/Register/register.classes.php";
             //     exit();
             // }
             if($this->checkUser($this->email)){
-                header("location: ../Pages/Inicio.php?error=userChecked");
+                header("location: ../Pages/Crear_Usuario.php?error=userChecked");
                 exit();
             }
 
