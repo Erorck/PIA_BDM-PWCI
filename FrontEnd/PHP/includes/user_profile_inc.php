@@ -32,3 +32,20 @@ if (isset($_POST["btn_update_profile"])) {
         header("location: ../Pages/Inicio.php?permission=none");
     }
 }
+if (isset($_POST["ajax_update_profile"])) {
+    $idUser = $_POST["idUser"];
+    $nickname = $_POST["Nombre"];
+    $email = $_POST["Correo"];
+    $pwd = $_POST["Contraseña"];
+    $name = $_POST["NombreComp"];
+    $phoneNumber = $_POST["telefono"];
+    $pPicture = $_POST["pPic"];
+    $bPicture = $_POST["bPic"];
+    $userType = $_POST["permission"];
+
+    $user = new UserControler($idUser, $nickname, $email, $pwd, $name, $phoneNumber, $pPicture, $bPicture, $userType);
+    $user->updateUserSelf();
+
+    echo'Se logro c:';
+
+}

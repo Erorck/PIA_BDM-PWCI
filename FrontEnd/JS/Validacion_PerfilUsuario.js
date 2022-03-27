@@ -1,9 +1,5 @@
 //VALIDACION PERFIL USUARIO-----------------------------------------------------------------------
 
-function checkEmail() {
-    let userId = $('#idUser').val();
-}
-
 
 //Actualizar la imagen de perfil en el HTML
 $('#upload_profile_pic').on('change', function (evt){
@@ -49,27 +45,40 @@ $('#upload_banner_pic').on('change', function (evt){
 })
 
 
-function updateProfileImage() {
-    let image = $("#upload_profile_pic").val();
-    $.ajax({
-        url: '../includes/image_inc.php',
-        type: 'post',
-        data: {'imageData': image, 'ajax_submit': 1},
+function updateProfile() {
+    let idUser = $('#exampleid').val();
+    let nickname = $('#exampleusername').val();
+    let email = $('#examplecorreo').val();
+    let pwd = $('#examplecontra').val();
+    let name = $('#examplename').val();
+    let phoneNumber = $('#exampletel').val();
+    let pPicture = $('#examplePPic').val();
+    let bPicture = $('#exampleBPic').val();
+    $.ajax({        
+        url: '../includes/user_profile_inc.php',
+        type: 'POST',
+        data: {
+            'idUser': idUser,
+            'Nombre': nickname,
+            'Correo': email,
+            'Contraseña': pwd,
+            'NombreComp': name,
+            'telefono': phoneNumber,
+            'pPic': pPicture,
+            'bPic': bPicture,
+            'permission': 'UR',
+        'ajax_update_profile': 1},
 
         success: function (response) {
-
             console.log(response);
-            $("#profile_pic").attr('src',response);
-            alert('Se actualizo la imagen: ' + image);
-
         },
         error: function (jqXHR, status, error) {
-            alert('Error al actualizar la imagen');
+            alert('Error updating profile')
             console.log(error);
             console.log(status);
         },
         complete: function (jqXHR, status) {
-            console.log("se intento");
+            console.log("se concreto la actualización");
         }
     })
 }

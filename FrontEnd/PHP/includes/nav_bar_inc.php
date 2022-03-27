@@ -14,7 +14,7 @@ if (isset($_GET["profile"])) {
                 break;
 
             case 'E':
-                header("location: ../Pages/Inicio.php?permission=".$_SESSION["permission"]);
+                header("location: ../Pages/Perfil_Editor.php?permission=".$_SESSION["permission"]);
                 break;
             
             default:
