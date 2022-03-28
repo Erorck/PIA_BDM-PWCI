@@ -98,83 +98,97 @@ $('#datosusuario').submit(function(e){
         var
             correo =$('#examplecorreo').val(),
             pass =$('#examplecontra').val(),
+            passCfrm =$('#exampleconfirmar').val(),
             name =$('#examplename').val(),
+            username =$('#exampleusername').val(),
             tel =$('#exampletel').val()
     
             var resultado = true;
 
             normalColor("exampletel");
             normalColor("examplename");
+            normalColor("exampleusername");
             normalColor("examplecorreo");
             normalColor("examplecontra");
+            normalColor("exampleconfirmar");
 
 
             if(tel ==""||tel==null){
                 cambiarColor("exampletel");
-                mostrarAlerta_VacioTel("Campo obligatorio")
+                mostrarAlerta_Form("exampletel", "Campo obligatorio");
                 resultado = false;
         
             }else{
                 var telef = /^([0-9][ -]*){10}$/;
                 if(!telef.test(tel)){
                     cambiarColor("exampletel");
-                    mostrarAlertaTel("Por favor ingrese solo 10 numeros");
+                    mostrarAlerta_Form("exampletel", "Por favor ingrese solo 10 numeros");
                     resultado = false;
         
                 }
             }
-           
+
+            if(username ==""||username==null){
+                cambiarColor("exampleusername");
+                    mostrarAlerta_Form("exampleusername", "Campo obligatorio");
+                resultado = false;        
+            }
             
-        if(name ==""||name==null){
-            cambiarColor("examplename");
-            mostrarAlerta_VacioName("Campo obligatorio")
-            resultado = false;
-    
-        }else{
-            var nombr = /^[a-zA-ZÀ-ÿ\s]{1,40}$/;
-            if(!nombr.test(name)){
+            if(name ==""||name==null){
                 cambiarColor("examplename");
-                mostrarAlertaName("Por favor ingrese solo letras");
+                    mostrarAlerta_Form("examplename", "Campo obligatorio");
                 resultado = false;
-    
-            }
-        }
-
-
-
-        if(correo ==""||correo==null){
-            cambiarColor("examplecorreo");
-            mostrarAlerta_VacioMail("Campo obligatorio")
-            resultado = false;
-    
-        }else{
-            var mail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,4})+$/;
-            if(!mail.test(correo)){
-                cambiarColor("examplecorreo");
-                mostrarAlertaCorreo("Por favor ingrese un correo valido");
-                resultado = false;
-    
-            }
-        }
         
-
-        if(pass ==""||pass==null){
-            cambiarColor("examplecontra");
-            mostrarAlerta_VacioPass("Campo obligatorio")
-            resultado = false;
-    
-        }else{
-            var lenght =/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])([A-Za-z\d$@$!%*?&]|[^ ]){8,15}$/;
-            if(!lenght.test(pass)){
-                cambiarColor("examplecontra");
-                mostrarAlertapass("Ingrese una contraseña maximo 15 caracteres y minimo 8, 1 Mayuscula, 1 minuscula y un digito");
-                resultado = false;
+            }else{
+                var nombr = /^[a-zA-ZÀ-ÿ\s]{1,40}$/;
+                if(!nombr.test(name)){
+                    cambiarColor("examplename");
+                    mostrarAlerta_Form("examplename", "Por favor ingrese solo letras");
+                    resultado = false;
+        
+                }
             }
-        }
-       
 
 
-        return resultado;
+
+            if(correo ==""||correo==null){
+                cambiarColor("examplecorreo");
+                    mostrarAlerta_Form("examplecorreo", "Campo obligatorio");
+                resultado = false;
+        
+            }else{
+                var mail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,4})+$/;
+                if(!mail.test(correo)){
+                    cambiarColor("examplecorreo");
+                    mostrarAlerta_Form("examplecorreo", "Por favor ingrese un correo valido");
+                    resultado = false;
+        
+                }
+            }
+            
+
+            if(pass ==""||pass==null){
+                cambiarColor("examplecontra");
+                    mostrarAlerta_Form("examplecontra", "Campo obligatorio");
+                resultado = false;
+        
+            }else{
+                var lenght =/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])([A-Za-z\d$@$!%*?&]|[^ ]){8,15}$/;
+                if(!lenght.test(pass)){
+                    cambiarColor("examplecontra");
+                    mostrarAlerta_Form("examplecontra", "Ingrese una contraseña maximo 15 caracteres y minimo 8, 1 Mayuscula, 1 minuscula y un digito");
+                    resultado = false;
+                }else if(pass != passCfrm){
+                    cambiarColor("exampleconfirmar");
+                    mostrarAlerta_Form("exampleconfirmar", "Las contraseñas no coinciden");
+                    resultado = false;
+            
+                }
+            }
+
+            
+
+            return resultado;
     
     }
 
@@ -192,36 +206,7 @@ $('#datosusuario').submit(function(e){
         }
     
         
-    function mostrarAlerta_VacioMail(texto){
-        $('#examplecorreo').before('<div class= "alert" > Error: ' + texto +'</div>');
+    function mostrarAlerta_Form(id, texto){
+            $('#'+id).before('<div class= "alert" > Error: ' + texto +'</div>');
     }
-    
-    function mostrarAlerta_VacioName(texto){
-        $('#examplename').before('<div class= "alert" > Error: ' + texto +'</div>')
-    }
-    
-    function mostrarAlerta_VacioPass(texto){
-        $('#examplecontra').before('<div class= "alert" > Error: ' + texto +'</div>')
-    }
-    
-    function mostrarAlerta_VacioTel(texto){
-        $('#exampletel').before('<div class= "alert" > Error: ' + texto +'</div>')
-    }
-    
 
-
-    function mostrarAlertaName(texto){
-        $('#examplename').before('<div class= "alert" > Error: ' + texto +'</div>')
-    }
-    
-    function mostrarAlertaCorreo(texto){
-        $('#examplecorreo').before('<div class= "alert" > Error: ' + texto +'</div>')
-    }
-    
-    function mostrarAlertapass(texto){
-        $('#examplecontra').before('<div class= "alert" > Error: ' + texto +'</div>')
-    }
-    
-    function mostrarAlertaTel(texto){
-        $('#exampletel').before('<div class= "alert" > Error: ' + texto +'</div>')
-    }

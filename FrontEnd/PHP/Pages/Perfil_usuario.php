@@ -96,6 +96,7 @@ session_start();
                 ?>
                 <li><input id="examplecorreo" type="email" name="Correo" placeholder="Correo" value="<?php echo $_SESSION["user"]["EMAIL"] ?>" class="input-100"></li>
                 <li><input id="examplecontra" type="password" name="Contraseña" placeholder="Contraseña" value="<?php echo $_SESSION["HASH_CRED"] ?>" class="input-cont"></li>
+                <li><input id="exampleconfirmar" type="password" name="ContraseñaConfirmar" placeholder="Confirmar Contraseña" value="<?php echo $_SESSION["HASH_CRED"] ?>" class="input-cont"></li>
               </ul>
               <ul class="lista-datos">
                 <li><input id="examplename" type="text" name="NombreComp" placeholder="Nombre Completo" value="<?php echo $_SESSION["user"]["FULL_NAME"] ?>" class="Nombre-completo"></li>
