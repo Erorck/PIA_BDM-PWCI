@@ -136,7 +136,7 @@ box-shadow: rgba(0, 0, 0, 0.1) 0px -50px 36px -28px inset;
      transition: transform .2s;
 }
 
-.Categ:hover{
+#catBar .Categ:hover{
     transform: scale(1.2);
 }
 
@@ -228,14 +228,7 @@ footer {
 }
 
 .sidenav {
-    text-shadow: 0px 4px 3px rgba(0,0,0,0.4),
-    0px 8px 13px rgba(0,0,0,0.1),
-    0px 18px 23px rgba(0,0,0,0.1);
-    font-family: sans-serif;
-    font-weight:bolder;
     font-size: 60%;
-    font-stretch: condensed;
-    color:  var(--Blanquito);
     height: 100%;
     width: 10%;
     position: fixed;
@@ -251,6 +244,16 @@ footer {
     padding: 6px 6px 6px 20px;
     font-size: 25px;
     display: block;
+}
+
+.Categ{
+    text-shadow: 0px 4px 3px rgba(0,0,0,0.4),
+    0px 8px 13px rgba(0,0,0,0.1),
+    0px 18px 23px rgba(0,0,0,0.1);
+    font-family: sans-serif;
+    font-weight:bolder;
+    font-stretch: condensed;
+    color:  var(--Blanquito);
 }
 
 .ZonaFeed{
@@ -326,11 +329,10 @@ box-shadow: 10px 0 0 #F0F0F0, 20px 0 0 #000, 30px 0 0 #F0F0F0, 0 10px 0 #F0F0F0,
     width: fit-content;
     border: none;
     box-shadow: none;
+    transition:.4s;
 }
 
-.BtnEditProfile :hover{
-    transform: scale(1.2);
-}
+.BtnEditProfile:hover{ transform: scale(1.2)}
 
 .ZonaFeedProfile .profpic{
     height: 200px;
@@ -344,3 +346,43 @@ box-shadow: 10px 0 0 #F0F0F0, 20px 0 0 #000, 30px 0 0 #F0F0F0, 0 10px 0 #F0F0F0,
     background: var(--ArroBlanco);
     text-shadow: 2px 2px 0 var(--Celestito), 4px 4px 0 var(--Celestito);
 }
+
+.ZonaFeedPortal{
+    min-width: 60%;
+    max-width: fit-content;
+    height: 100%;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
+  background:  var(--ArroBlanco);
+  font-family: Copperplate;
+  margin: 1rem;
+  padding: 1rem;
+  border: 8px solid  var(--ArroBlanco);
+  border-radius: 5px;
+  text-align: center;
+}
+
+.ZonaFeedPortal .Categ{
+    padding: 6px 6px 6px 20px;
+    font-size: 25px;
+    display: block;
+    font-size: 25px;
+}
+
+.btn_editCateg{
+    background-Color:transparent;
+    color:white; 
+    border:none;
+    transition: 0.3s;
+}
+
+.btn_editCateg:hover {transform: scale(1.2)}
+
+#btnAddCateg{
+    background-Color:transparent;
+    color:var(--AzulDarks); 
+    border:none;
+    transition: 0.3s;
+    font-size: x-large;
+}
+
+#btnAddCateg:hover {transform: scale(1.2)}

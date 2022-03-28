@@ -28,7 +28,7 @@
                 $Categ = array("Deportes"=>"#e0b21b", "Salud"=>"#b03838", "Negocios"=>"#38b062", "Entretenimiento"=>"#c730a6");
                 foreach ($Categ as $x => $x_value) {
                     echo '<h3 class="Categ" style="background-color:'.$x_value.';">' . $x . '</h3>';
-                  }
+                  };
                 ?>
             </div>
             <div class = "Barra-navegacion">
