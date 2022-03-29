@@ -86,7 +86,7 @@ session_start();
         </div>
 
         <div class="my-3">
-            <span>Ya tienes cuenta? <a href="#">Ingresa aquí</a></span><br>
+            <span>Ya tienes cuenta? <a href="Login.php">Ingresa aquí</a></span><br>
             <!--<span><a href="#">Recuperar contraseña</a></span>-->
         </div>
     </form>

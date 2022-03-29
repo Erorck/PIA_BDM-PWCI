@@ -185,6 +185,10 @@ html {
     background-color: #35E1BF;
   }
 
+  .seccion-perfil-usuario .boton-redes.cancel {
+    background-color: #dd4b46;
+  }
+
   .seccion-perfil-usuario .boton-redes.instagram {
     background: linear-gradient(45deg, #FF2DFD, #40A7FF);
   }

@@ -16,15 +16,13 @@ session_start();
   <link rel="shortcut icon" href="../../Elementos/Good Old Times-ICON.2.png" type="image/x-icon">
 
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/spectrum-colorpicker2/dist/spectrum.min.css">
   <link rel="stylesheet" href="../../CSS/lightslider.css">
 
-  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/spectrum-colorpicker2/dist/spectrum.min.css">
 
   <link rel="canonical" href="https://getbootstrap.com/docs/5.1/examples/navbar-fixed/">
   <link rel="canonical" href="https://getbootstrap.com/docs/5.1/examples/offcanvas-navbar/">
   <link rel="canonical" href="https://getbootstrap.com/docs/5.1/examples/checkout/">
-
-
 
   <script type="text/javascript" src="../../JS/JQuery3.3.1.js"></script>
   <script type="text/javascript" src="../../JS/lightslider.js"></script>
@@ -54,17 +52,16 @@ session_start();
         $hasBPicture = true;
         $imageB = $_SESSION['user']['BANNER_PICTURE'];
         $style = 'background-image: url(' . $imageB . ')';
-        //$style = "background-image:".$imageB;
       ?>
         <div class="perfil-usuario-portada" id="banner_pic" style="<?php echo $style; ?>">
-        <?php
-      } else {
-        $hasBPicture = false;
-        ?>
+      <?php
+         } else {
+            $hasBPicture = false;
+      ?>
           <div class="perfil-usuario-portada" id="banner_pic">
-          <?php
-        }
-          ?>
+      <?php
+          }
+      ?>
           <div class="perfil-usuario-avatar">
             <?php
             if (isset($_SESSION['user']) && $_SESSION['user']['PROFILE_PICTURE'] != null) {

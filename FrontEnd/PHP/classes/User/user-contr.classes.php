@@ -35,5 +35,9 @@ include"user.classes.php";
             $this->Update($this->idUser, $this->nickname, $this->name, $this->pwd, $this->email, $this->phoneNumber, $this->pPicture, $this->bPicture, $this->user_type, $this->idUser);
         }
 
+        public function deleteUserSelf(){ 
+             $this->Delete($this->idUser, $this->idUser);
+         }
+
     }
 ?>

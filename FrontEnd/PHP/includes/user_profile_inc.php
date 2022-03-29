@@ -12,6 +12,7 @@ if (isset($_POST["submit"])) {
         header("location: ../Pages/Inicio.php?permission=none");
     }
 }
+//Actualizacion de perfil mediante formulario
 if (isset($_POST["btn_update_profile"])) {
     $idUser = $_POST["idUser"];
     $nickname = $_POST["Nombre"];
@@ -32,6 +33,7 @@ if (isset($_POST["btn_update_profile"])) {
         header("location: ../Pages/Inicio.php?permission=none");
     }
 }
+//Actualizacion de perfil mediante ajax
 if (isset($_POST["ajax_update_profile"])) {
     $idUser = $_POST["idUser"];
     $nickname = $_POST["Nombre"];
@@ -47,5 +49,18 @@ if (isset($_POST["ajax_update_profile"])) {
     $user->updateUserSelf();
 
     echo'Se logro c:';
+
+}
+//Baja de usuario mediante ajax
+if (isset($_POST["ajax_deactivate_profile"])) {
+    $idUser = $_POST["idUser"];    
+
+    $user = new UserControler($idUser, 0, 0, 0, 0, 0, 0, 0, 0);
+    $user->deleteUserSelf();
+
+    //header("location: ../Pages/Login.php");
+
+    echo"../Pages/Login.php";
+    
 
 }

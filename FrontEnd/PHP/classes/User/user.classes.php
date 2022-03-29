@@ -40,6 +40,25 @@ protected function Update($id, $nickname, $name, $password, $email, $phoneNumber
 
 }
 
+protected function Delete($id, $upd_by){
+    //Editamos el usuario
+    $stmt = $this->connect()->prepare('CALL sp_User("E", ?, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, ?);');    
+
+    if(!$stmt->execute(array($id, $upd_by))){
+        $stmt = null;
+        header("location: ../Pages/Perfil_Usuario.php?error=stmtFailed");
+        exit();
+    }
+
+    $stmt = null;
+
+    if(isset($_SESSION['user'])){
+        session_start();    
+        session_destroy();
+    }
+}
+
+
 protected function checkUpdatedEmail($userId, $email){
     $stmt = $this->connect()->prepare('CALL sp_User("SUE", ?, NULL, NULL, NULL, ?, NULL, NULL, NULL, NULL, NULL, NULL);');
     if(!$stmt->execute(array($userId, $email))){

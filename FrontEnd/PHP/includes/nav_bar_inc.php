@@ -3,6 +3,7 @@
 if (isset($_GET["profile"])) {
     echo'Es get';
     session_start();
+    echo $_SESSION["user"]["USER_TYPE"];
     if (isset($_SESSION["user"])) {
         switch ($_SESSION["user"]["USER_TYPE"]) {
             case 'UR':
@@ -10,7 +11,7 @@ if (isset($_GET["profile"])) {
                 break;
 
             case 'R':
-                header("location: ../Pages/Inicio.php?permission=".$_SESSION["permission"]);
+                header("location: ../Pages/Perfil_reportero.php?permission=".$_SESSION["permission"]);
                 break;
 
             case 'E':

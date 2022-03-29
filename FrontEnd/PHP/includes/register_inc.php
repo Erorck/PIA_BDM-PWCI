@@ -9,7 +9,11 @@ include"../classes/Register/register-contr.classes.php";
 
         $register = new RegisterControler( $name, $email, $pwd, $user_type);
         $register->registerUser();
-        header("location: ../Pages/Inicio.php?error=none");
+        if (isset($_SESSION["permission"])) {
+            header("location: ../Pages/Inicio.php?permission=".$_SESSION["permission"]);
+        } else {
+            header("location: ../Pages/Inicio.php?permission=none");
+        }
 
     }
     else{

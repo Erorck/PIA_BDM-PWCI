@@ -71,6 +71,10 @@ function updateProfile() {
 
         success: function (response) {
             console.log(response);
+            $('#displayFullName').html(name);
+            $('#displayPhone').html('<i class="fas fa-phone-alt"></i> Telefono: +52'+phoneNumber);
+            $('#displayEmail').html('<i class="fas fa-envelope"></i> Email: '+email);
+            $('#displayAlias').html('<i class="fad fa-user-alt"></i> @'+nickname);
         },
         error: function (jqXHR, status, error) {
             alert('Error updating profile')
@@ -83,6 +87,41 @@ function updateProfile() {
     })
 }
 
+function deactivateProfile() {
+    let idUser = $('#exampleid').val();
+    $.ajax({
+        url: '../includes/user_profile_inc.php',
+        type: 'POST',
+        data: {
+            'idUser': idUser,        
+            'permission': 'UR',
+            'ajax_deactivate_profile': 1
+        },
+
+        success: function (response) {            
+           console.log(response);
+           window.location.replace(response);     
+        },
+        error: function (jqXHR, status, error) {
+            alert('Error deleting profile')
+            console.log(error);
+            console.log(status);
+        },
+        complete: function (jqXHR, status) {
+            console.log("se concreto la baja");
+        }
+    })
+}
+
+$('#btn_tools').on('click', function (e) {
+
+    $('#btn_mod').toggle();
+    $('#btn_cancel').toggle();
+    $('.list_mod').toggle();
+    $('#profile_pic_form').toggle();
+    $('#banner_pic_form').toggle();
+
+})
 
 $('#datosusuario').submit(function(e){
     var resultado = validarFormularioUsuario();

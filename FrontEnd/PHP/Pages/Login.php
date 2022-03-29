@@ -81,7 +81,7 @@ session_start();
         </div>
 
         <div class="my-3">
-            <span>No tienes cuenta? <a href="#">Registrate</a></span><br>
+            <span>No tienes cuenta? <a href="Crear_Usuario.php">Registrate</a></span><br>
             <span><a href="#">Recuperar contraseña</a></span>
         </div>
     </form>
