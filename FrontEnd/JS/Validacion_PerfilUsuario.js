@@ -1,16 +1,114 @@
 //VALIDACION PERFIL USUARIO-----------------------------------------------------------------------
+function validarFormularioUsuario() {
 
+    $('.alert').remove();
+    var
+        correo = $('#examplecorreo').val(),
+        pass = $('#examplecontra').val(),
+        passCfrm = $('#exampleconfirmar').val(),
+        name = $('#examplename').val(),
+        username = $('#exampleusername').val(),
+        tel = $('#exampletel').val()
+
+    var resultado = true;
+
+    normalColor("exampletel");
+    normalColor("examplename");
+    normalColor("exampleusername");
+    normalColor("examplecorreo");
+    normalColor("examplecontra");
+    normalColor("exampleconfirmar");
+
+
+    if (tel == "" || tel == null) {
+        cambiarColor("exampletel");
+        mostrarAlerta_Form("exampletel", "Campo obligatorio");
+        resultado = false;
+
+    } else {
+        var telef = /^([0-9][ -]*){10}$/;
+        if (!telef.test(tel)) {
+            cambiarColor("exampletel");
+            mostrarAlerta_Form("exampletel", "Por favor ingrese solo 10 numeros");
+            resultado = false;
+
+        }
+    }
+
+    if (username == "" || username == null) {
+        cambiarColor("exampleusername");
+        mostrarAlerta_Form("exampleusername", "Campo obligatorio");
+        resultado = false;
+    }
+
+    if (name == "" || name == null) {
+        cambiarColor("examplename");
+        mostrarAlerta_Form("examplename", "Campo obligatorio");
+        resultado = false;
+
+    } else {
+        var nombr = /^[a-zA-ZÀ-ÿ\s]{1,40}$/;
+        if (!nombr.test(name)) {
+            cambiarColor("examplename");
+            mostrarAlerta_Form("examplename", "Por favor ingrese solo letras");
+            resultado = false;
+
+        }
+    }
+
+
+
+    if (correo == "" || correo == null) {
+        cambiarColor("examplecorreo");
+        mostrarAlerta_Form("examplecorreo", "Campo obligatorio");
+        resultado = false;
+
+    } else {
+        var mail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,4})+$/;
+        if (!mail.test(correo)) {
+            cambiarColor("examplecorreo");
+            mostrarAlerta_Form("examplecorreo", "Por favor ingrese un correo valido");
+            resultado = false;
+
+        }
+    }
+
+
+    if (pass == "" || pass == null) {
+        cambiarColor("examplecontra");
+        mostrarAlerta_Form("examplecontra", "Campo obligatorio");
+        resultado = false;
+
+    } else {
+        var lenght = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])([A-Za-z\d$@$!%*?&]|[^ ]){8,15}$/;
+        if (!lenght.test(pass)) {
+            cambiarColor("examplecontra");
+            mostrarAlerta_Form("examplecontra", "Ingrese una contraseña maximo 15 caracteres y minimo 8, 1 Mayuscula, 1 minuscula y un digito");
+            resultado = false;
+        } else if (pass != passCfrm) {
+            cambiarColor("exampleconfirmar");
+            mostrarAlerta_Form("exampleconfirmar", "Las contraseñas no coinciden");
+            resultado = false;
+
+        }
+    }
+
+
+
+    return resultado;
+
+}
 
 //Actualizar la imagen de perfil en el HTML
-$('#upload_profile_pic').on('change', function (evt){
+$('#upload_profile_pic').on('change', function (evt) {
     var tgt = evt.target || window.event.src,
-    files = tgt.files;
+        files = tgt.files;
 
     // FileReader support
     if (FileReader && files && files.length) {
         var fr = new FileReader();
         fr.onload = function () {
-            $("#profile_pic").attr('src',fr.result);
+            $("#profile_pic").attr('src', fr.result);
             $('#examplePPic').val(fr.result);
         }
         fr.readAsDataURL(files[0]);
@@ -23,15 +121,15 @@ $('#upload_profile_pic').on('change', function (evt){
 })
 
 //Actualizar la imagen de perfil en el HTML
-$('#upload_banner_pic').on('change', function (evt){
+$('#upload_banner_pic').on('change', function (evt) {
     var tgt = evt.target || window.event.src,
-    files = tgt.files;
+        files = tgt.files;
 
     // FileReader support
     if (FileReader && files && files.length) {
         var fr = new FileReader();
         fr.onload = function () {
-            $("#banner_pic").css('background-image', 'url('+ fr.result +')');
+            $("#banner_pic").css('background-image', 'url(' + fr.result + ')');
             $('#exampleBPic').val(fr.result);
 
         }
@@ -54,7 +152,7 @@ function updateProfile() {
     let phoneNumber = $('#exampletel').val();
     let pPicture = $('#examplePPic').val();
     let bPicture = $('#exampleBPic').val();
-    $.ajax({        
+    $.ajax({
         url: '../includes/user_profile_inc.php',
         type: 'POST',
         data: {
@@ -67,14 +165,15 @@ function updateProfile() {
             'pPic': pPicture,
             'bPic': bPicture,
             'permission': 'UR',
-        'ajax_update_profile': 1},
+            'ajax_update_profile': 1
+        },
 
         success: function (response) {
             console.log(response);
             $('#displayFullName').html(name);
-            $('#displayPhone').html('<i class="fas fa-phone-alt"></i> Telefono: +52'+phoneNumber);
-            $('#displayEmail').html('<i class="fas fa-envelope"></i> Email: '+email);
-            $('#displayAlias').html('<i class="fad fa-user-alt"></i> @'+nickname);
+            $('#displayPhone').html('<i class="fas fa-phone-alt"></i> Telefono: +52' + phoneNumber);
+            $('#displayEmail').html('<i class="fas fa-envelope"></i> Email: ' + email);
+            $('#displayAlias').html('<i class="fad fa-user-alt"></i> @' + nickname);
         },
         error: function (jqXHR, status, error) {
             alert('Error updating profile')
@@ -93,14 +192,14 @@ function deactivateProfile() {
         url: '../includes/user_profile_inc.php',
         type: 'POST',
         data: {
-            'idUser': idUser,        
+            'idUser': idUser,
             'permission': 'UR',
             'ajax_deactivate_profile': 1
         },
 
-        success: function (response) {            
-           console.log(response);
-           window.location.replace(response);     
+        success: function (response) {
+            console.log(response);
+            window.location.replace(response);
         },
         error: function (jqXHR, status, error) {
             alert('Error deleting profile')
@@ -123,129 +222,28 @@ $('#btn_tools').on('click', function (e) {
 
 })
 
-$('#datosusuario').submit(function(e){
+$('#datosusuario').submit(function (e) {
     var resultado = validarFormularioUsuario();
-    if(resultado == false){
+    if (resultado == false) {
         e.preventDefault();
     }
-    
-    })
-    
-    function validarFormularioUsuario(){
-    
-        $('.alert').remove();
-        var
-            correo =$('#examplecorreo').val(),
-            pass =$('#examplecontra').val(),
-            passCfrm =$('#exampleconfirmar').val(),
-            name =$('#examplename').val(),
-            username =$('#exampleusername').val(),
-            tel =$('#exampletel').val()
-    
-            var resultado = true;
 
-            normalColor("exampletel");
-            normalColor("examplename");
-            normalColor("exampleusername");
-            normalColor("examplecorreo");
-            normalColor("examplecontra");
-            normalColor("exampleconfirmar");
+})
 
 
-            if(tel ==""||tel==null){
-                cambiarColor("exampletel");
-                mostrarAlerta_Form("exampletel", "Campo obligatorio");
-                resultado = false;
-        
-            }else{
-                var telef = /^([0-9][ -]*){10}$/;
-                if(!telef.test(tel)){
-                    cambiarColor("exampletel");
-                    mostrarAlerta_Form("exampletel", "Por favor ingrese solo 10 numeros");
-                    resultado = false;
-        
-                }
-            }
+function cambiarColor(dato) {
+    $('#' + dato).css({
+        border: "1px solid #dd5144"
+    });
+}
 
-            if(username ==""||username==null){
-                cambiarColor("exampleusername");
-                    mostrarAlerta_Form("exampleusername", "Campo obligatorio");
-                resultado = false;        
-            }
-            
-            if(name ==""||name==null){
-                cambiarColor("examplename");
-                    mostrarAlerta_Form("examplename", "Campo obligatorio");
-                resultado = false;
-        
-            }else{
-                var nombr = /^[a-zA-ZÀ-ÿ\s]{1,40}$/;
-                if(!nombr.test(name)){
-                    cambiarColor("examplename");
-                    mostrarAlerta_Form("examplename", "Por favor ingrese solo letras");
-                    resultado = false;
-        
-                }
-            }
+function normalColor(dato) {
+    $('#' + dato).css({
+        border: "3px solid #3b055f"
+    });
+}
 
 
-
-            if(correo ==""||correo==null){
-                cambiarColor("examplecorreo");
-                    mostrarAlerta_Form("examplecorreo", "Campo obligatorio");
-                resultado = false;
-        
-            }else{
-                var mail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,4})+$/;
-                if(!mail.test(correo)){
-                    cambiarColor("examplecorreo");
-                    mostrarAlerta_Form("examplecorreo", "Por favor ingrese un correo valido");
-                    resultado = false;
-        
-                }
-            }
-            
-
-            if(pass ==""||pass==null){
-                cambiarColor("examplecontra");
-                    mostrarAlerta_Form("examplecontra", "Campo obligatorio");
-                resultado = false;
-        
-            }else{
-                var lenght =/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])([A-Za-z\d$@$!%*?&]|[^ ]){8,15}$/;
-                if(!lenght.test(pass)){
-                    cambiarColor("examplecontra");
-                    mostrarAlerta_Form("examplecontra", "Ingrese una contraseña maximo 15 caracteres y minimo 8, 1 Mayuscula, 1 minuscula y un digito");
-                    resultado = false;
-                }else if(pass != passCfrm){
-                    cambiarColor("exampleconfirmar");
-                    mostrarAlerta_Form("exampleconfirmar", "Las contraseñas no coinciden");
-                    resultado = false;
-            
-                }
-            }
-
-            
-
-            return resultado;
-    
-    }
-
-
-    function cambiarColor(dato){
-        $('#'+ dato).css({
-            border: "1px solid #dd5144"
-        });
-        }
-
-    function normalColor(dato){
-       $('#'+ dato).css({
-           border: "3px solid #3b055f"
-            });
-        }
-    
-        
-    function mostrarAlerta_Form(id, texto){
-            $('#'+id).before('<div class= "alert" > Error: ' + texto +'</div>');
-    }
-
+function mostrarAlerta_Form(id, texto) {
+    $('#' + id).before('<div class= "alert" > Error: ' + texto + '</div>');
+}

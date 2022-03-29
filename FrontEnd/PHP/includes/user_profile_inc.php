@@ -62,5 +62,6 @@ if (isset($_POST["ajax_deactivate_profile"])) {
 
     echo"../Pages/Login.php";
     
-
 }
+
+

@@ -1,3 +1,5 @@
+
+
 //VALIDACION SECCIONES ALTA.................................................
 
 $('#seccionval').submit(function (e) {
@@ -244,6 +246,76 @@ $('#btn_tools').on('click', function (e) {
 
 })
 
+// ALTA REPORTEROS ---------------------------------------------------------------------------
+function getJournalists() {
+    $.ajax({
+        url: '../includes/consults_inc.php',
+        type: 'POST',
+        data: {            
+            'permission': 'E',
+            'ajax_get_journalists': 1
+        },
+
+        success: function (response) {
+            var data_array = $.parseJSON(response);
+            var htmlJournalists = "";
+            for(let key of data_array){
+                if(key['JOURNALIST_STATUS'] == 'A' || key['JOURNALIST_STATUS'] == 'E'){
+                    htmlJournalists = htmlJournalists.concat('<div class="d-flex text-muted pt-3"><img class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="32" height="32" src='+key['JOURNALIST_ICON']+' role="img" aria-label="Placeholder:" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#007bff" /><text x="50%" y="50%" fill="#007bff" dy=".3em"></text><div class="pb-3 mb-0 small lh-sm border-bottom w-100"><div class="d-flex justify-content-between"><strong class="text-gray-dark">'+key['JOURNALIST_NAME']+'</strong><a href="javascript:VentanamodReportero()" class="text-danger"><i class="fas fa-trash-alt"></i></a></div><span class="d-block">@'+key['JOURNALIST_ALIAS']+'</span></div></div>');
+                }
+            }
+            $('#before_journalist').after(htmlJournalists);
+            // $('#displayPhone').html('<i class="fas fa-phone-alt"></i> Telefono: +52'+phoneNumber);
+            // $('#displayEmail').html('<i class="fas fa-envelope"></i> Email: '+email);
+            // $('#displayAlias').html('<i class="fad fa-user-alt"></i> @'+nickname);
+           console.log(response);
+        },
+        error: function (jqXHR, status, error) {
+            alert('Error consulting')
+            console.log(error);
+            console.log(status);
+        },
+        complete: function (jqXHR, status) {
+            console.log("se concreto la consulta");
+        }
+    })
+}
+
+function getActiveRUsers() {
+    $.ajax({
+        url: '../includes/consults_inc.php',
+        type: 'POST',
+        data: {            
+            'permission': 'E',
+            'ajax_get_users': 1
+        },
+
+        success: function (response) {
+            var data_array = $.parseJSON(response);
+            var htmlRUsers = "";
+            htmlRUsers = htmlRUsers.concat('<option value="N">Añade un Reportero...</option>');
+            for(let key of data_array){
+                if(key['USER_STATUS'] == 'A'){
+                    htmlRUsers = htmlRUsers.concat('<option value='+ key['ID_USER']+'>@'+ key['USER_ALIAS']+': ' + key['USER_NAME']+'</option>');
+                }
+            }
+            $('#state').html(htmlRUsers);
+            // $('#displayPhone').html('<i class="fas fa-phone-alt"></i> Telefono: +52'+phoneNumber);
+            // $('#displayEmail').html('<i class="fas fa-envelope"></i> Email: '+email);
+            // $('#displayAlias').html('<i class="fad fa-user-alt"></i> @'+nickname);
+           console.log(response);
+        },
+        error: function (jqXHR, status, error) {
+            alert('Error consulting')
+            console.log(error);
+            console.log(status);
+        },
+        complete: function (jqXHR, status) {
+            console.log("se concreto la consulta");
+        }
+    })
+}
+
 function cambiarColor(dato){
     $('#'+ dato).css({
         border: "1px solid #dd5144"
@@ -260,3 +332,8 @@ function normalColor(dato){
 function mostrarAlerta_Form(id, texto){
         $('#'+id).before('<div class= "alert" > Error: ' + texto +'</div>');
 }
+
+$( document ).ready(function() {
+    getJournalists();
+    getActiveRUsers();
+})

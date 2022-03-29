@@ -323,7 +323,7 @@ session_start();
 
   <main class="container">
     <div class="my-3 p-3 bg-dark rounded shadow-sm">
-      <h6 class="text-light border-bottom pb-2 mb-0">Reporteros</h6>
+      <h6 id="before_journalist" class="text-light border-bottom pb-2 mb-0">Reporteros</h6>
       <div class="d-flex text-muted pt-3">
         <svg class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 32x32" preserveAspectRatio="xMidYMid slice" focusable="false">
           <title>Placeholder</title>
@@ -369,7 +369,7 @@ session_start();
       <small class="d-block text-end mt-3">
         <a class="text-success" href="#">Añadir</a>
         <select class="form-select" id="state" required>
-          <option value="">Añade un Reportero...</option>
+          <option value='N'>Añade un Reportero...</option>
           <option>Mafer Chavana</option>
         </select>
       </small>
