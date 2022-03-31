@@ -6,11 +6,25 @@
     <!--Para aceptar todas las letras-->
     <title>Crear cuenta</title>
     <link rel="stylesheet" href="css/styles.css" >
-      <link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.min.css">
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-      <script  type="text/javascript" src="js/libs/jquery-3.6.0.min.js" ></script>
-      <script  type="text/javascript" src="js/models/validations.js" ></script>
-      <script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script  type="text/javascript" src="js/libs/jquery-3.6.0.min.js" ></script>
+    <script  type="text/javascript" src="js/models/validations.js" ></script>
+    <script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="js\models\Notipapa.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+                    
+            $("#btnReg").click(function(){
+                if(validar()){
+                    swal.fire('¡¡ ESTA USTED REGISTRADO !!','','success')
+                }
+            })
+             
+             
+        });
+    </script>
       
 </head>
 
@@ -36,7 +50,7 @@
                 <input class="form-control" type="password" id="clave_1It" name="Contraseña" placeholder="Contraseña">
                 <input class="form-control" type="password" id="clave_2It" name="Contraseña_Confirm" placeholder="Verificacion de contraseña">
                 <br>
-                <button class ="btn btn-danger" type="submit" id="btnReg" onclick="validar();"> Registrarse </button>
+                <button class ="btn btn-danger" type="button" id="btnReg"> Registrarse </button>
                 <br>
                 <a href="Login.php" style="color:#F5F5F5; font-size: 150%;">¿Ya tienes cuenta?, ¡Inicia sesión!</a>  
                 </form>
@@ -48,7 +62,5 @@
         <div class="Informacion"> Informacion Compañia | Privacion y Politica | Terminos y Condiciones </div>
     </footer>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="js\models\Notipapa.js"></script>
 </body>
 </html>
