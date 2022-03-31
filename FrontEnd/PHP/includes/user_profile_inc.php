@@ -25,7 +25,7 @@ if (isset($_POST["btn_update_profile"])) {
     $userType = $_SESSION["permission"];
 
     $user = new UserControler($idUser, $nickname, $email, $pwd, $name, $phoneNumber, $pPicture, $bPicture, $userType);
-    $user->updateUserSelf();
+    $user->updateUser();
 
     if (isset($_SESSION["permission"])) {
         header("location: ../Pages/Perfil_usuario.php?permission=".$_SESSION["permission"]);
@@ -45,8 +45,9 @@ if (isset($_POST["ajax_update_profile"])) {
     $bPicture = $_POST["bPic"];
     $userType = $_POST["permission"];
 
-    $user = new UserControler($idUser, $nickname, $email, $pwd, $name, $phoneNumber, $pPicture, $bPicture, $userType);
-    $user->updateUserSelf();
+    UserControler::withUpdatedByThySelf($idUser, $nickname, $email, $pwd, $name, $phoneNumber, $pPicture, $bPicture, $userType)->updateUser();
+    // $user = new UserControler($idUser, $nickname, $email, $pwd, $name, $phoneNumber, $pPicture, $bPicture, $userType);
+    // $user->updateUserSelf();
 
     echo'Se logro c:';
 
@@ -55,8 +56,9 @@ if (isset($_POST["ajax_update_profile"])) {
 if (isset($_POST["ajax_deactivate_profile"])) {
     $idUser = $_POST["idUser"];    
 
-    $user = new UserControler($idUser, 0, 0, 0, 0, 0, 0, 0, 0);
-    $user->deleteUserSelf();
+    UserControler::withUpdatedByThySelf($idUser, 0, 0, 0, 0, 0, 0, 0, 0)->deleteUser();
+    // $user = new UserControler($idUser, 0, 0, 0, 0, 0, 0, 0, 0);
+    // $user->deleteUserSelf();
 
     //header("location: ../Pages/Login.php");
 
@@ -64,4 +66,25 @@ if (isset($_POST["ajax_deactivate_profile"])) {
     
 }
 
+//Convertir en usuario registrado mediante ajax
+if (isset($_POST["ajax_set_registered_user"])) {
+    $idUser = $_POST["idUser"];    
+    session_start();  
+    $updated_by = $_SESSION["user"]["ID_USER"];
+
+    UserControler::withUpdatedBy($idUser, 0, 0, 0, 0, 0, 0, 0, 0, $updated_by)->setRegisteredUser();
+    
+    echo"Exito";
+}
+
+//Converitr en reportero mediante ajax
+if (isset($_POST["ajax_set_journalist"])) {
+    $idUser = $_POST["idUser"];  
+    session_start();  
+    $updated_by = $_SESSION["user"]["ID_USER"];
+
+    UserControler::withUpdatedBy($idUser, 0, 0, 0, 0, 0, 0, 0, 0, $updated_by)->setJournalist();
+    echo"Exito";
+    
+}
 

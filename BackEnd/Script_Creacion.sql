@@ -88,7 +88,7 @@ CREATE TABLE `GOOD_OLD_TIMES_DB`.`USERS` (
     `PARENT_ID` INT COMMENT "Nos indica si otro ID de la tabla de NEWS_COMMENT se respondio con este mensaje",
     `CREATION_DATE` DATETIME NOT NULL COMMENT "Fecha de creacion del registro",
     `ACTIVE` BOOLEAN DEFAULT TRUE NOT NULL COMMENT "Indica si el registro esta activo en la base de datos",
-    PRIMARY KEY (COMMENT_ID,REPORT_ID),
+    PRIMARY KEY (COMMENT_ID, REPORT_ID),
     INDEX (PARENT_ID)
 );
   

@@ -282,7 +282,7 @@ WHERE
     /*#######################################
 		CONVERTIR EN USUARIO REGISTRADO
     ########################################*/
-	IF Oper = 'TR'
+	IF Oper = 'TRU'
 	THEN
 		START TRANSACTION;
 			UPDATE USERS 

@@ -54,14 +54,14 @@ session_start();
         $style = 'background-image: url(' . $imageB . ')';
       ?>
         <div class="perfil-usuario-portada" id="banner_pic" style="<?php echo $style; ?>">
-      <?php
-         } else {
-            $hasBPicture = false;
-      ?>
+        <?php
+      } else {
+        $hasBPicture = false;
+        ?>
           <div class="perfil-usuario-portada" id="banner_pic">
-      <?php
-          }
-      ?>
+          <?php
+        }
+          ?>
           <div class="perfil-usuario-avatar">
             <?php
             if (isset($_SESSION['user']) && $_SESSION['user']['PROFILE_PICTURE'] != null) {
@@ -324,52 +324,59 @@ session_start();
   <main class="container">
     <div class="my-3 p-3 bg-dark rounded shadow-sm">
       <h6 id="before_journalist" class="text-light border-bottom pb-2 mb-0">Reporteros</h6>
-      <div class="d-flex text-muted pt-3">
-        <svg class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 32x32" preserveAspectRatio="xMidYMid slice" focusable="false">
-          <title>Placeholder</title>
-          <rect width="100%" height="100%" fill="#007bff" /><text x="50%" y="50%" fill="#007bff" dy=".3em">32x32</text>
-        </svg>
 
-        <div class="pb-3 mb-0 small lh-sm border-bottom w-100">
-          <div class="d-flex justify-content-between">
-            <strong class="text-gray-dark">Chafana del Jesus Tremendo Socorro</strong>
-            <a href="javascript:VentanamodReportero()" class="text-danger"><i class="fas fa-trash-alt"></i></a>
+      <div id="journalist_list">
+        <div class="d-flex text-muted pt-3">
+          <svg class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 32x32" preserveAspectRatio="xMidYMid slice" focusable="false">
+            <title>Placeholder</title>
+            <rect width="100%" height="100%" fill="#007bff" /><text x="50%" y="50%" fill="#007bff" dy=".3em">32x32</text>
+          </svg>
+
+          <div class="pb-3 mb-0 small lh-sm border-bottom w-100">
+            <div class="d-flex justify-content-between">
+              <strong class="text-gray-dark">Chafana del Jesus Tremendo Socorro</strong>
+              <a href="javascript:VentanaBajaReportero()" class="text-danger"><i class="fas fa-trash-alt"></i></a>
+            </div>
+            <span class="d-block">@ChavisconC</span>
           </div>
-          <span class="d-block">@ChavisconC</span>
+        </div>
+
+        <div class="d-flex text-muted pt-3">
+          <svg class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 32x32" preserveAspectRatio="xMidYMid slice" focusable="false">
+            <title>Placeholder</title>
+            <rect width="100%" height="100%" fill="#007bff" /><text x="50%" y="50%" fill="#007bff" dy=".3em">32x32</text>
+          </svg>
+
+          <div class="pb-3 mb-0 small lh-sm border-bottom w-100">
+            <div class="d-flex justify-content-between">
+              <strong class="text-gray-dark">Jazmin sin J Arroyo Villarreal</strong>
+              <a href="javascript:VentanaBajaReportero()" class="text-danger"><i class="fas fa-trash-alt"></i></a>
+            </div>
+            <span class="d-block">@JazminconJ</span>
+          </div>
+        </div>
+
+        <div class="d-flex text-muted pt-3">
+          <svg class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 32x32" preserveAspectRatio="xMidYMid slice" focusable="false">
+            <title>Placeholder</title>
+            <rect width="100%" height="100%" fill="#007bff" /><text x="50%" y="50%" fill="#007bff" dy=".3em">32x32</text>
+          </svg>
+
+          <div class="pb-3 mb-0 small lh-sm border-bottom w-100">
+            <div class="d-flex justify-content-between">
+              <strong class="text-gray-dark">Konan el barbaro Gutierrez Pequeño</strong>
+              <a href="javascript:VentanaBajaReportero()" class="text-danger"><i class="fas fa-trash-alt"></i></a>
+            </div>
+            <span class="d-block">@KonanBigOfficial</span>
+          </div>
         </div>
       </div>
-      <div class="d-flex text-muted pt-3">
-        <svg class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 32x32" preserveAspectRatio="xMidYMid slice" focusable="false">
-          <title>Placeholder</title>
-          <rect width="100%" height="100%" fill="#007bff" /><text x="50%" y="50%" fill="#007bff" dy=".3em">32x32</text>
-        </svg>
 
-        <div class="pb-3 mb-0 small lh-sm border-bottom w-100">
-          <div class="d-flex justify-content-between">
-            <strong class="text-gray-dark">Jazmin sin J Arroyo Villarreal</strong>
-            <a href="javascript:VentanamodReportero()" class="text-danger"><i class="fas fa-trash-alt"></i></a>
-          </div>
-          <span class="d-block">@JazminconJ</span>
-        </div>
-      </div>
-      <div class="d-flex text-muted pt-3">
-        <svg class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 32x32" preserveAspectRatio="xMidYMid slice" focusable="false">
-          <title>Placeholder</title>
-          <rect width="100%" height="100%" fill="#007bff" /><text x="50%" y="50%" fill="#007bff" dy=".3em">32x32</text>
-        </svg>
 
-        <div class="pb-3 mb-0 small lh-sm border-bottom w-100">
-          <div class="d-flex justify-content-between">
-            <strong class="text-gray-dark">Konan el barbaro Gutierrez Pequeño</strong>
-            <a href="javascript:VentanamodReportero()" class="text-danger"><i class="fas fa-trash-alt"></i></a>
-          </div>
-          <span class="d-block">@KonanBigOfficial</span>
-        </div>
-      </div>
       <small class="d-block text-end mt-3">
-        <a class="text-success" href="#">Añadir</a>
+        <li id="btn_add_journalist" style="display: none"><button class="btn-outline-success"  onclick="VentanaAltaReportero()" type="button">Añadir reportero</button></li>
         <select class="form-select" id="state" required>
-          <option value='N'>Añade un Reportero...</option>
+          <option value='N'>Selecciona un Reportero...</option>
           <option>Mafer Chavana</option>
         </select>
       </small>
@@ -447,9 +454,10 @@ session_start();
 
 
   <script>
-    function VentanamodReportero() {
+    function VentanaBajaReportero(id_journalist) {
+      var journalist = $("#reportero_"+id_journalist);
       Swal.fire({
-        title: '¿Estas segur@ de quitar el rol de reportero a este usuario?',
+        title: '¿Estas segur@ de quitar el rol de reportero al usuario ' + journalist.html() + '?',
         text: "¡Este proceso no se revertira!",
         icon: 'warning',
         showCancelButton: true,
@@ -458,10 +466,33 @@ session_start();
         confirmButtonText: 'Si, ¡Quitar rol!'
       }).then((result) => {
         if (result.isConfirmed) {
+          setToRegisteredUser(id_journalist);
           Swal.fire(
             '¡Eliminado!',
             'Se le a quitado el rol a este Usuario',
-            'Exito!'
+            'success'
+          )
+        }
+      })
+    }
+
+    function VentanaAltaReportero() {
+      var valor = $("#state option:selected");
+      Swal.fire({
+        title: '¿Estas segur@ de añadir el rol de reportero al usuario ' + valor.text() + '?',
+        text: "¡Este proceso no se revertira!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, ¡Darle el rol!'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          setToJournalist();
+          Swal.fire(
+            '¡Nuevo reporter@!',
+            'Se le ha asignado el rol a este usuario',
+            'success'
           )
         }
       })
