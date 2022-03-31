@@ -69,18 +69,18 @@
                     "media/img/GustavoCerati.jpg"
                     ),
                     array(
-                    "LLueve Bien Gacho We jaja nmms wtf",
+                    "LLueve Bien Gacho Y Mucha gente se cayo",
                     "26/02/2022",
-                    "LLovio y me parti mi madre we",
+                    "Se rompieron la maceta",
                     "media/img/huracan.jpg"
                     ),
                     array(
                     "LLEga el Coronavirus 3 La Venganza de los Sith",
                     "24/02/2022",
-                    "JSJSJ NMMS MEJOR MATENME NO???",
+                    "Todos Vamos A Morir Dicen los reporteros",
                     "media/img/Corona.jpg"
                     ),
-                 );
+                    );
                 ?>
                 
                 <?php
