@@ -114,14 +114,18 @@ session_start();
             <ul class="lista-datos list_mod" style="display: none">
               <li hidden="true"><input id="exampleid" hidden="true" type="text" name="idUser" id="idUser" value="<?php echo $_SESSION["user"]["ID_USER"] ?>" class="input-100"></li>
               <li><input id="exampleusername" type="text" name="Nombre" placeholder="Nombre de Usuario" value="<?php echo $_SESSION["user"]["USER_ALIAS"] ?>" class="Nombre-usuario"></li>
+
               <?php
               if (isset($_SESSION["error"]) && $_SESSION["error"] == "userChecked") {
                 $_SESSION["error"] = "none";
               ?>
+              
                 <div class="alert"> Error: El correo no está disponible </div>
+                
               <?php
               }
               ?>
+
               <li><input id="examplecorreo" type="email" name="Correo" placeholder="Correo" value="<?php echo $_SESSION["user"]["EMAIL"] ?>" class="input-100"></li>
               <li><input id="examplecontra" type="password" name="Contraseña" placeholder="Contraseña" value="<?php echo $_SESSION["HASH_CRED"] ?>" class="input-cont"></li>
               <li><input id="exampleconfirmar" type="password" name="ContraseñaConfirmar" placeholder="Confirmar Contraseña" value="<?php echo $_SESSION["HASH_CRED"] ?>" class="input-cont"></li>

@@ -171,7 +171,7 @@ function updateProfile() {
         success: function (response) {
             console.log(response);
             $('#displayFullName').html(name);
-            $('#displayPhone').html('<i class="fas fa-phone-alt"></i> Telefono: +52' + phoneNumber);
+            $('#displayPhone').html('<i class="fas fa-phone-alt"></i> Telefono: +52 ' + phoneNumber);
             $('#displayEmail').html('<i class="fas fa-envelope"></i> Email: ' + email);
             $('#displayAlias').html('<i class="fad fa-user-alt"></i> @' + nickname);
         },

@@ -9,6 +9,7 @@ class Register extends Dbh
     {
         //PREPARAMOS LA LLAMADA AL STORED PROCEDURE PARA INSERTAR EL USUARIO
         $stmt = $this->connect()->prepare('CALL sp_User("I", NULL, ?, ?, ?, ?, NULL, NULL, NULL, NULL, ?, 0);');
+        //Codificamos la contraseña para la seguridad de su almacenamiento
         $hashPwd = password_hash($password, PASSWORD_DEFAULT);
 
         if (!$stmt->execute(array($name, $hashPwd, $name, $email, $user_type))) {
