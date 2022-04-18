@@ -120,4 +120,11 @@
   .blog-footer p:last-child {
     margin-bottom: 0;
   }
+
+  .columna .calend{
+   background-color: #dedcdc;
+   border-radius: 4px;
+   margin-right: 3px;
+   
+  }
   

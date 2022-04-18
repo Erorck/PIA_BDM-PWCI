@@ -19,6 +19,9 @@ session_start();
   <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/spectrum-colorpicker2/dist/spectrum.min.css">
   <link rel="stylesheet" href="../../CSS/lightslider.css">
 
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 
   <link rel="canonical" href="https://getbootstrap.com/docs/5.1/examples/navbar-fixed/">
   <link rel="canonical" href="https://getbootstrap.com/docs/5.1/examples/offcanvas-navbar/">
@@ -33,6 +36,8 @@ session_start();
   <link href="../..//bootstrap-5.1.3-examples/offcanvas-navbar/offcanvas.css" rel="stylesheet">
   <link href="../../CSS/form-validation.css" rel="stylesheet">
   <link href="../../CSS/Estilo_Perfil_editor.css" rel="stylesheet">
+
+    
 
 </head>
 
@@ -386,6 +391,82 @@ session_start();
       </small>
     </div>
   </main>
+
+
+<main class="container"> 
+  <form action="" id="seccionval">
+  <div class="my-3 p-3 bg-body-light rounded shadow-sm ">
+    <h6 class="border-bottom pb-2 mb-0">Reporte - Noticias mas buscadas</h6>
+    <div class="d-flex text-muted pt-3">
+      <svg class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 32x32" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#007bff"/><text x="50%" y="50%" fill="#007bff" dy=".3em">32x32</text></svg>
+      <div class="pb-3 mb-0 small lh-sm border-bottom w-100">
+        <div class="d-flex justify-content-between">
+            <label for="Tipo" class="form-label">Noticia o Sección</label>
+            <select class="form-select" id="Tipo">
+              <option value="">Noticia</option>
+              <option>Sección</option>
+            </select>
+        </div>
+      </div>
+    </div>
+    <div class="d-flex text-muted pt-3">
+      <svg class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 32x32" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#007bff"/><text x="50%" y="50%" fill="#007bff" dy=".3em">32x32</text></svg>
+      <div class="pb-3 mb-0 small lh-sm border-bottom w-100">
+        <div class="d-flex justify-content-between">
+            <label for="seccion" class="form-label">Secciónes</label>
+            <select class="form-select" id="seccion">
+              <option value="">Todas</option>
+              <option>Sección 01</option>
+              <option>Sección 02</option>
+            </select>
+        </div>
+      </div>
+    </div>
+    <div class="d-flex text-muted pt-3">
+      <svg class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 32x32" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#007bff"/><text x="50%" y="50%" fill="#007bff" dy=".3em">32x32</text></svg>
+      <div class="pb-3 mb-0 small lh-sm border-bottom w-100">
+        <div class="d-flex justify-content-between">
+            <label for="country" class="form-label">Fechas</label>
+      <div class="row gy-3">
+        <div class="col-md-6 columna">
+          <input type="text" name="daterange" value="Fecha" class="calend"/>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+  <small class="d-block text-dark mt-3">
+    <button class="text-dark text-decoration-none" id="CrearReporte" type="submit">Crear Reporte</button>
+  </small>
+  </div>
+</form>
+
+<table class="reporte" id="tablareporte">
+<thead>
+<tr>
+    <th>Sección</th><th>Fecha</th><th>Noticia</th><th>Likes</th><th>Numero Comentarios</th>
+</tr>
+</thead>
+<tr>
+<td>Farandula</td><td>30/SEP/2022</td><td>Alfredo Adame...</td><td>300 </td><td>30</td>
+</tr>
+<tr>
+<td>Deportes</td><td>10/DIC/2022</td><td>Big Neurosis gana...</td><td>301</td><td>200</td>
+</tr>
+<tr>
+<td>Internacional</td><td>20/DIC/2022</td><td>Mafer Chavana World Tour</td><td>2300</td><td>10</td>
+</tr>
+<tr>
+<td>Clima</td><td>1/ENE/2022</td><td>¡Se viene la llovina!</td><td>90</td><td>405</td>
+</tr>
+</table>
+<br>
+<br>
+
+</main>
+
+
+
 
   <footer class="blog-footer">
     <a href="#">Regresar a la parte superior</a>

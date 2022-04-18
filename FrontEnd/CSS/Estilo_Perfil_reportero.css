@@ -502,3 +502,9 @@ width:  300px;
   position: absolute;
   z-index: -1;
 }
+
+.calend{
+  background-color: #dedcdc;
+  border-radius: 4px;
+  margin-right: 3px;
+}
