@@ -16,18 +16,25 @@
 
 <body>
     <?php
-    $LoggedUser = 1; /* Si es 0 es que no se loggeo, si es 1 es usuario si es 2 es Reportero y si es 3 es Editor */
-    $UserName = "LeoPoldinXDUchiha2002";
-    //$UserPfpPath = "imageurl";
+    session_start();
+    require 'connection.php';
+    require 'User.php';
+    $datarray = []; 
+    $Categorias =[];
+    if(connection::GetCategories($datarray)){
+        foreach($datarray as $cat){
+        $categ = new Categoria($cat);
+        array_push($Categorias,$categ);
+        }
+    }
     ?>
     <div class="Contenedor-base">
         <div class ="topAnclado">
             <div class = "sidenav" id="catBar">
                 <h3 class="Categ" style="background-color:#2264a5;">Principal</h3>
                 <?php
-                $Categ = array("Deportes"=>"#e0b21b", "Salud"=>"#b03838", "Negocios"=>"#38b062", "Entretenimiento"=>"#c730a6");
-                foreach ($Categ as $x => $x_value) {
-                    echo '<h3 class="Categ" style="background-color:'.$x_value.';">' . $x . '</h3>';
+                foreach ($Categorias as $x ) {
+                    echo '<h3 class="Categ" style="background-color:#'.$x->color.';">' . $x->name . '</h3>';
                   };
                 ?>
             </div>

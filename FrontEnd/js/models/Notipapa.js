@@ -3,19 +3,20 @@
 // Validaciones 
 function validar(){
 
+	var Informacion_Usuario = "";
 	var Crear_Cuenta = document.F_Crear_Cuenta
 	let error = {
 		details: ""
 	};
 	//Validar Campos Vacios
 
-	if(Crear_Cuenta.Nombre_de_usuario.value == 0 ||
+	if(Crear_Cuenta.uname.value == 0 ||
 	Crear_Cuenta.Nombre.value == 0 ||
-	Crear_Cuenta.Apellido_P.value == 0 ||
-	Crear_Cuenta.Apellido_M.value == 0 ||
+	Crear_Cuenta.Apat.value == 0 ||
+	Crear_Cuenta.Amat.value == 0 ||
 	Crear_Cuenta.direccionemail.value == 0 ||
-	Crear_Cuenta.Contraseña.value == 0 ||
-	Crear_Cuenta.Contraseña_Confirm.value == 0){
+	Crear_Cuenta.pass.value == 0 ||
+	Crear_Cuenta.passconf.value == 0){
 		Swal.fire('Alguno o varios de los campos estan vacios','','warning')
 		Informacion_Usuario.value ="";
 		Informacion_Usuario.focus();
@@ -32,7 +33,7 @@ function validar(){
 	}
 
 	//Contraseña
-	if(!validatePass(Crear_Cuenta.Contraseña.value,Crear_Cuenta.Contraseña_Confirm.value,error)){
+	if(!validatePass(Crear_Cuenta.pass.value,Crear_Cuenta.passconf.value,error)){
 		Swal.fire('Contraseña Invalida',error.details,'warning')
 		Informacion_Usuario.value ="";
 		Informacion_Usuario.focus();

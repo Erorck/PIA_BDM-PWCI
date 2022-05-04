@@ -11,7 +11,49 @@
       <script  type="text/javascript" src="js/libs/jquery-3.6.0.min.js" ></script>
       <script  type="text/javascript" src="js/models/validations.js" ></script>
       <script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
-      
+      <script type="text/javascript">
+    $(document).ready(function() {
+        $('#loginForm').submit(function(e) {
+            e.preventDefault();
+            $.ajax({
+                type: "POST",
+                url: 'LoginScript.php',
+                data: $(this).serialize(),
+                success: function(response)
+                {
+                    var jsonData = JSON.parse(response);
+    
+                    // user is logged in successfully in the back-end
+                    // let's redirect
+                    if (jsonData.success == "1")
+                    {
+                        //swal.fire('LOGIN EXITOSO','','success')
+                        let timerInterval
+                        Swal.fire({
+                        title: 'LoginSuccessful!',
+                        timer: 2000,
+                        timerProgressBar: true,
+                        showCancelButton: false,
+                        showConfirmButton: false,
+                        willClose: () => {
+                            clearInterval(timerInterval)
+                        }
+                        }).then((result) => {
+                        /* Read more about handling dismissals below */
+                        if (result.dismiss === Swal.DismissReason.timer) {
+                            location.href = 'Main.php';
+                        }
+                        })  
+                    }
+                    else
+                    {
+                        swal.fire('USUARIO O CONTRASEÑA ERRONEOS','','error')
+                    }
+            }
+        });
+        });
+    });
+    </script>
 </head>
 
 <body>
@@ -25,11 +67,11 @@
         <div class="mainContenedor">
             <div class="Login">
                 <h1  style="color:#F5F5F5; font-family:sans-serif; font-weight:bolder;" >Iniciar Sesion</h1>
-                <form action="" method="POST" class="Formulario" name ="F_Login">
+                <form id="loginForm" method="post" class="Formulario" name ="F_Login">
                 <input class="form-control" type="text" id="usernameIt" name="uname" placeholder="Nombre de Usuario">
                 <input class="form-control" type="password" id="pass" name="pass" placeholder="Contraseña">
                 <br>
-                <button class ="btn btn-danger" type="submit" id="btnReg" onclick="validar();"> Ingresar </button>
+                <input type="submit"class="btn btn-danger" name="loginBtn" id="loginBtn" value="Ingresar" />
                 <br>
                 <a href="Register.php" style="color:#F5F5F5; font-size: 150%;">¿No tienes cuenta?, ¡Registraté!</a>  
                 </form>
@@ -41,6 +83,7 @@
         <div class="Informacion"> Informacion Compañia | Privacion y Politica | Terminos y Condiciones </div>
     </footer>
     </div>
+    
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="js\models\Notipapa.js"></script>
 </body>

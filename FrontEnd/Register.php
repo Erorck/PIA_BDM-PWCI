@@ -15,13 +15,49 @@
     <script src="js\models\Notipapa.js"></script>
     <script type="text/javascript">
         $(document).ready(function(){
-                    
-            $("#btnReg").click(function(){
+
+            //Ajax Validacion y Registro
+            $('#RegisterForm').submit(function(e) {
+                e.preventDefault();
                 if(validar()){
-                    swal.fire('¡¡ ESTA USTED REGISTRADO !!','','success')
+                    $.ajax({
+                        type: "POST",
+                        url: 'RegisterScript.php',
+                        data: $(this).serialize(),
+                        success: function(response)
+                        {
+                            var jsonData = JSON.parse(response);
+            
+                            // user is logged in successfully in the back-end
+                            // let's redirect
+                            if (jsonData.success == "1")
+                            {
+                                //swal.fire('LOGIN EXITOSO','','success')
+                                let timerInterval
+                                Swal.fire({
+                                title: 'Singin Succsesful!',
+                                timer: 2000,
+                                timerProgressBar: true,
+                                showCancelButton: false,
+                                showConfirmButton: false,
+                                willClose: () => {
+                                    clearInterval(timerInterval)
+                                }
+                                }).then((result) => {
+                                /* Read more about handling dismissals below */
+                                if (result.dismiss === Swal.DismissReason.timer) {
+                                    location.href = 'Main.php';
+                                }
+                                })  
+                            }
+                            else
+                            {
+                                swal.fire('Algo Fallo en el Registro XD','','failure')
+                            }
+                        }
+                    });
                 }
-            })
-             
+            });
              
         });
     </script>
@@ -39,18 +75,19 @@
         <div class="mainContenedor">
             <div class="Login">
                 <h1  style="color:#F5F5F5; font-family:sans-serif; font-weight:bolder;" >Crear cuenta</h1>
-                <form action="" method="POST" class="Formulario" name ="F_Crear_Cuenta">
-                <input class="form-control" type="text" id="usernameIt" name="Nombre_de_usuario" placeholder="Nombre de Usuario">
+                <form action="" method="POST" class="Formulario" name ="F_Crear_Cuenta" id="RegisterForm">
+                <input class="form-control" type="text" id="usernameIt" name="uname" placeholder="Nombre de Usuario">
                 <input class="form-control" type="text" id="nombreIt" name="Nombre" placeholder="Nombre(s)">
-                <input class="form-control" type="text" id="apellPIt" name="Apellido_P" placeholder="Apellido Paterno">
-                <input class="form-control" type="text" id="apellMIt" name="Apellido_M" placeholder="Apellido Materno">
+                <input class="form-control" type="text" id="apellPIt" name="Apat" placeholder="Apellido Paterno">
+                <input class="form-control" type="text" id="apellMIt" name="Amat" placeholder="Apellido Materno">
                 <h5 style="font-family:sans-serif; color:#F5F5F5; font-weight:bolder;">Fecha de nacimiento</h5>
-                <input class="form-control" type="date" id="f_NacIt" name="Fecha de nacimiento" >
+                <input class="form-control" type="date" id="f_NacIt" name="bdate" >
                 <input class="form-control" type="email" id="emailIt" name="direccionemail" placeholder="Ej.: usuario@servidor.com">
-                <input class="form-control" type="password" id="clave_1It" name="Contraseña" placeholder="Contraseña">
-                <input class="form-control" type="password" id="clave_2It" name="Contraseña_Confirm" placeholder="Verificacion de contraseña">
+                <input class="form-control" type="text" id="PhoneIt" name="phone" placeholder="Num.Telefono Ej.:81345678">
+                <input class="form-control" type="password" id="clave_1It" name="pass" placeholder="Contraseña">
+                <input class="form-control" type="password" id="clave_2It" name="passconf" placeholder="Verificacion de contraseña">
                 <br>
-                <button class ="btn btn-danger" type="button" id="btnReg"> Registrarse </button>
+                <input type="submit"class="btn btn-danger" name="RegBtn" id="RegBtn" value="Registrarse" />
                 <br>
                 <a href="Login.php" style="color:#F5F5F5; font-size: 150%;">¿Ya tienes cuenta?, ¡Inicia sesión!</a>  
                 </form>
