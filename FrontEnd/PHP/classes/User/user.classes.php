@@ -73,7 +73,7 @@ class User extends Dbh{
         }else{
             $check = false;
         }
-        echo "$check";
+        //echo "$check";
         return $check;
     }
 

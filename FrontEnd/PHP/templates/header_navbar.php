@@ -1,9 +1,17 @@
 
 
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+    <!--<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>-->
     <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+
+    <style>
+      #datePickerContainer{
+        display: flex;
+        align-items: center;
+        flex-direction: center;
+      }
+    </style>
 
 <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
     <div class="container-fluid">
@@ -12,7 +20,7 @@
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarCollapse">
-        <ul class="navbar-nav me-auto mb-2 mb-md-0">
+        <ul id="section_list_navb" class="navbar-nav me-auto mb-2 mb-md-0">
 
           <li class="nav-item">
             <a class="nav-link text-primary" href="#">Internacional</a>
@@ -30,7 +38,7 @@
         <form class="d-flex" action="../includes/nav_bar_inc.php"> 
 
       <div class="row gy-3">
-        <div class="col-md-6 columna">
+        <div id="datePickerContainer" class="col-md-6 columna">
           <input type="text" name="daterange" value="Fecha" class="calend"/>
         </div>
       </div>
@@ -53,6 +61,7 @@
     </div>
   </nav>
 
+  <script src="../../JS/Scripts_Navbar.js"></script>
 
   <script>
   $(function() {

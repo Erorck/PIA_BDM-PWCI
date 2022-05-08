@@ -28,6 +28,7 @@ session_start();
   <script type="text/javascript" src="../../JS/script.js"></script>
 
 
+
   <link href="../../bootstrap-5.1.3-examples/assets/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="../..//bootstrap-5.1.3-examples/offcanvas-navbar/offcanvas.css" rel="stylesheet">
   <link href="../../CSS/form-validation.css" rel="stylesheet">

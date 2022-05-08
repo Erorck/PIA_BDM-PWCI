@@ -33,6 +33,7 @@ if (isset($_POST["btn_update_profile"])) {
         header("location: ../Pages/Inicio.php?permission=none");
     }
 }
+
 //Actualizacion de perfil mediante ajax
 if (isset($_POST["ajax_update_profile"])) {
     $idUser = $_POST["idUser"];
@@ -45,13 +46,20 @@ if (isset($_POST["ajax_update_profile"])) {
     $bPicture = $_POST["bPic"];
     $userType = $_POST["permission"];
 
-    UserControler::withUpdatedByThySelf($idUser, $nickname, $email, $pwd, $name, $phoneNumber, $pPicture, $bPicture, $userType)->updateUser();
+    $userTemp =  UserControler::withUpdatedByThySelf($idUser, $nickname, $email, $pwd, $name, $phoneNumber, $pPicture, $bPicture, $userType);
+    if($userTemp->emailIsAvailable()){
+        $userTemp->updateUser();
+        echo'Se logro c:';
+    }
+    else{
+        echo'emailNotAvailable';
+    }
+
     // $user = new UserControler($idUser, $nickname, $email, $pwd, $name, $phoneNumber, $pPicture, $bPicture, $userType);
     // $user->updateUserSelf();
 
-    echo'Se logro c:';
-
 }
+
 //Baja de usuario mediante ajax
 if (isset($_POST["ajax_deactivate_profile"])) {
     $idUser = $_POST["idUser"];    

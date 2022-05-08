@@ -42,5 +42,42 @@ class Consults extends Dbh{
         return $users;
     }
 
+    protected function getAllActiveSections(){
+        $stmt = $this->connect()->prepare('CALL sp_Section("SAA", NULL, NULL, NULL, NULL, NULL);');
+        if(!$stmt->execute()){
+            $stmt = null;
+            header("location: ../Pages/Perfil_Editor.php?error=stmtFailed");
+            exit();
+        }
+        if($stmt->rowCount()>0){
+            session_start();
+            $sections = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            $_SESSION["a_sections"] = $sections;
+        }else{
+            return 0;
+        }
+       
+        return $sections;
+    
+    }
+    protected function getAllEliminatedSections(){
+        $stmt = $this->connect()->prepare('CALL sp_Section("SAE", NULL, NULL, NULL, NULL, NULL);');
+        if(!$stmt->execute()){
+            $stmt = null;
+            header("location: ../Pages/Perfil_Editor.php?error=stmtFailed");
+            exit();
+        }
+        if($stmt->rowCount()>0){
+            session_start();
+            $sections = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            $_SESSION["e_sections"] = $sections;
+        }else{
+            return 0;
+        }
+       
+        return $sections;
+    }
 
 }

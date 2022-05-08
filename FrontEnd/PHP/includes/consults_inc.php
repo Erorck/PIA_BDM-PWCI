@@ -16,3 +16,17 @@ if (isset($_POST["ajax_get_users"])) {
     $users= $consult->getAllRUsers();
     echo json_encode($users);
 }
+
+if (isset($_POST["ajax_get_active_sections_PE"])) {
+
+    $consult = new ConsultsControler();
+    $activeSections= $consult->getASections();
+    echo json_encode($activeSections);
+}
+
+if (isset($_POST["ajax_get_deleted_sections_PE"])) {
+
+    $consult = new ConsultsControler();
+    $deletedSections= $consult->getESections();
+    echo json_encode($deletedSections);
+}

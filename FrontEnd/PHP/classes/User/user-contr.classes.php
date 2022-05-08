@@ -63,12 +63,21 @@ include"user.classes.php";
         public function updateUser(){
 
            // TODO:
-            if($this->checkUpdatedEmail($this->idUser, $this->email)){
+            /*if($this->checkUpdatedEmail($this->idUser, $this->email)){
                 header("location: ../Pages/Perfil_usuario.php?error=userChecked");
                 exit();
-            }
+            }*/
 
             $this->Update($this->idUser, $this->nickname, $this->name, $this->pwd, $this->email, $this->phoneNumber, $this->pPicture, $this->bPicture, $this->user_type, $this->updated_by);
+        }
+
+        public function emailIsAvailable(){
+            if(!$this->checkUpdatedEmail($this->idUser, $this->email)){
+               return true;
+            }else{
+                return false;
+            }
+        
         }
 
         public function deleteUser(){ 

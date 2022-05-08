@@ -6,7 +6,7 @@ USE GOOD_OLD_TIMES_DB;
 -- CALL sp_Usuario('U', 4, 'Mascaporonga12', NULL, NULL, NULL, NULL, NULL, NULL, null);
 -- CALL sp_Usuario('U', 3, 'Mascaporonga12', NULL,'KARIM', 'CHAPARRO', NULL, 'karim@live.com', '1999-12-08', null);
 -- CALL sp_User('SA', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
--- SELECT * FROM usuario;
+-- SELECT * FROM users;
 
 DELIMITER //
 DROP PROCEDURE IF EXISTS sp_User//
