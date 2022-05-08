@@ -1,4 +1,7 @@
-<!DOCTYPE html>
+<?php
+    require 'User.php';
+    session_start();
+?><!DOCTYPE html>
 <html>
 <head>
     <script  type="text/javascript" src="js/libs/jquery-3.6.0.min.js" ></script>
@@ -28,8 +31,6 @@
 </head>
 <body>
     <?php
-    require 'User.php';
-    session_start();
     if(isset($_SESSION['islogged']) && $_SESSION['islogged']){
         echo "<p>".$_SESSION['DataUser']->USER_ALIAS."</p>";
         echo "<p>".$_SESSION['DataUser']->NAME."</p>";

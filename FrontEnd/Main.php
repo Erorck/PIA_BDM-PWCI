@@ -1,3 +1,22 @@
+<?php
+    require 'connection.php';
+    require 'User.php';
+    session_start();
+    $datarray = []; 
+    $Categorias =[];
+    $Perfil = null;
+    $LoggedUser = false;
+    if(connection::GetCategories($datarray)){
+        foreach($datarray as $cat){
+        $categ = new Categoria($cat);
+        array_push($Categorias,$categ);
+        }
+    }
+    if(isset($_SESSION['islogged']) && $_SESSION['islogged'] ){
+        $LoggedUser = true;
+        $Perfil = $_SESSION['DataUser'];
+    }
+    ?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,23 +30,31 @@
       <script  type="text/javascript" src="js/libs/jquery-3.6.0.min.js" ></script>
       <script  type="text/javascript" src="js/models/validations.js" ></script>
       <script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
+      <script type="text/javascript">
+        $(document).ready(function() {
+            $('#Account').on('click','#logout',function() {
+                $.ajax({
+                    type: "POST",
+                    url: "LogOut.php",
+                    data: "action=logout",
+                    success: function(msg){
+                        if(msg == "success"){
+                            swal.fire('Se Ha Cerrado La sesion','','success')
+                        }else{
+                            //failed
+                        }
+                    },
+                    error: function(msg){
+                        alert('Error: cannot load page.');
+                    }
+                });
+            });
+        });
+    </script>
       
 </head>
 
 <body>
-    <?php
-    session_start();
-    require 'connection.php';
-    require 'User.php';
-    $datarray = []; 
-    $Categorias =[];
-    if(connection::GetCategories($datarray)){
-        foreach($datarray as $cat){
-        $categ = new Categoria($cat);
-        array_push($Categorias,$categ);
-        }
-    }
-    ?>
     <div class="Contenedor-base">
         <div class ="topAnclado">
             <div class = "sidenav" id="catBar">
@@ -47,7 +74,7 @@
                 <button class ="btn btn-danger"type="submit"><i class="fa fa-search" aria-hidden="true"></i></button> 
                 </form>
                 <?php
-                if($LoggedUser <1){
+                if(!$LoggedUser){
                 echo'
                 <div id="accountHyperlinks">
                 <a href="Login.php">Ingresar</a>
@@ -56,9 +83,8 @@
                 }
                 else{
                     echo '<div id="Account">
-                    <h3>'.$UserName.'</h3>
-                    <h3>'.$LoggedUser.'</h3>
-                    <a  id ="logout" href="Main.php"> Cerrar sesion </a>
+                    <h3><a href="Perfil.php">'.$Perfil->USER_ALIAS.'</a></h3>
+                    <a id ="logout" href="">Cerrar sesion</a>
                     </div>';
                 }
                 ?>

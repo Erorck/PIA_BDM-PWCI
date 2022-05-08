@@ -1,7 +1,5 @@
 <?php
-
 include 'MyPdo.php';
-
 class connection {
 
     function function_alert($message) {
@@ -78,7 +76,6 @@ class connection {
             $stmt->execute($data);
             $conn->commit();
             if ($stmt->rowCount() > 0) {
-                $x = 1;
                 $resultao = true;
                 //validacion esta chida
             } 
@@ -127,6 +124,38 @@ class connection {
         return $resultao;
     }
 
+    public static function GetUserId($uname, &$idref)
+    {
+        $resultao= false;
+        try {
+            $conn = new MyPDO();
+            $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $sql = "CALL sp_GetUserId(:usuario)";
+            $stmt = $conn->prepare($sql);
+            $stmt->bindParam(':usuario', $uname, PDO::PARAM_STR);
+            $stmt->execute();
+            if ($stmt->rowCount() > 0) {
+                $stmt->setFetchMode(PDO::FETCH_ASSOC);
+                while($rows = $stmt->fetchAll()) {   
+                    foreach ($rows as $row) {
+                        $idref = $row['ID_USER'];
+                    }
+                }
+                $resultao = true;
+            } 
+            else {
+                $resultao = false;
+                $Errmessage = "PDOStatement::errorCode(): ". $stmt->errorCode();
+                //validacion no esta chida
+            }
+        }
+        catch(PDOException $e) {
+            echo "Connection failed" . $e->getMessage();
+        }
+
+        return $resultao;
+    }
+
     public static function GetCategories(&$CategArray)
     {
         $resultao= false;
@@ -146,6 +175,75 @@ class connection {
             else {
                 $resultao = false;
                 $Errmessage = "PDOStatement::errorCode(): ". $stmt->errorCode();
+                //validacion no esta chida
+            }
+        }
+        catch(PDOException $e) {
+            echo "Connection failed" . $e->getMessage();
+        }
+
+        return $resultao;
+    }
+
+    public static function AddCategory($CName,$Color,$AdId)
+    {
+        $data = [
+            'Nombre' => $CName,
+            'Color' => $Color,
+            'AdId' => $AdId,
+        ];
+        $resultao= false;
+        try {
+            $conn = new MyPDO();
+            $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $sql = "CALL sp_Insert_Categories(:Nombre,:Color,:AdId)";
+            $conn->beginTransaction();
+            $stmt = $conn->prepare($sql);
+            $stmt->execute($data);
+            $conn->commit();
+            if ($stmt->rowCount() > 0) {
+                $resultao = true;
+                //validacion esta chida
+            } 
+            else {
+                $resultao = false;
+                $Errmessage = "PDOStatement::errorCode(): ". $stmt->errorCode();
+                //validacion no esta chida
+            }
+        }
+        catch(PDOException $e) {
+            echo "Connection failed" . $e->getMessage();
+        }
+
+        return $resultao;
+    }
+
+    public static function SetCategOrder($CName,$NewOrder)
+    {
+        $data = [
+            'Nombre' => $CName,
+            'Orden' => $NewOrder, 
+        ];
+        $resultao= false;
+        try {
+            $conn = new MyPDO();
+            $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $sql = "CALL sp_SetCategOrder(:Nombre,:Orden)";
+            $conn->beginTransaction();
+            $stmt = $conn->prepare($sql);
+            $stmt->execute($data);
+            $done = $stmt !== false ? true : false;
+            $conn->commit();
+            if ($stmt->rowCount() > 0) {
+                $resultao = true;
+                //validacion esta chida
+            } 
+            else {
+                if($done == false){
+                $resultao = false;
+                $Errmessage = "PDOStatement::errorCode(): ". $stmt->errorCode();
+                }
+                else $resultao = true;
                 //validacion no esta chida
             }
         }

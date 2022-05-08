@@ -21,6 +21,7 @@
                 data: $(this).serialize(),
                 success: function(response)
                 {
+                    debugger;
                     var jsonData = JSON.parse(response);
     
                     // user is logged in successfully in the back-end

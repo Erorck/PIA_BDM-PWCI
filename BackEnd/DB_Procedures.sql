@@ -44,10 +44,78 @@ $$
 DELIMITER ;
 
 DELIMITER $$
+drop procedure if exists sp_Insert_Categories$$
+CREATE PROCEDURE sp_Insert_Categories(in par_name varchar(200),in par_color char(6),in par_creator int)
+    BEGIN
+		SET @lastorder := (SELECT `ORDER` FROM LastCategInQ);
+        set @ordertoinsert = @lastorder+1;
+        insert into categories(`ORDER`, CATEGORY_NAME,COLOR,CREATED_BY,LAST_UPDATED_BY)
+        values(@ordertoinsert,par_name,par_color,par_creator,par_creator);
+    END
+$$
+DELIMITER ;
+DELIMITER $$
+drop procedure if exists sp_Delete_Categories_Order$$
+CREATE PROCEDURE sp_Delete_Categories_Order(in par_Order int)
+    BEGIN
+		SET SQL_SAFE_UPDATES = 0;
+		DELETE FROM categories where `ORDER` = par_Order;
+		SET SQL_SAFE_UPDATES = 1;
+    END
+$$
+DELIMITER ;
+DELIMITER $$
 drop procedure if exists sp_Get_Categories$$
 CREATE PROCEDURE sp_Get_Categories( )
     BEGIN
         SELECT * FROM CategONC;
+    END
+$$
+DELIMITER ;
+DELIMITER $$
+drop procedure if exists sp_SwapCategOrder$$
+CREATE PROCEDURE sp_SwapCategOrder(in param_a int, in param_b int )
+    BEGIN
+    SET SQL_SAFE_UPDATES = 0;
+       SET @auxcateg=(select CATEGORY_NAME from categories where `ORDER`= param_b limit 1);
+		UPDATE categories SET `ORDER`= param_b where `ORDER`= param_a ;
+        UPDATE categories SET `ORDER`= param_a where CATEGORY_NAME = @auxcateg ;
+    SET SQL_SAFE_UPDATES = 1;
+    END
+$$
+DELIMITER ;
+DELIMITER $$
+drop procedure if exists sp_SetCategOrder$$
+CREATE PROCEDURE sp_SetCategOrder(in param_Categ varchar(200), in param_Order int )
+    BEGIN
+		UPDATE categories SET `ORDER`= param_Order where CATEGORY_NAME = param_Categ;
+    END
+$$
+DELIMITER ;
+DELIMITER $$
+drop procedure if exists sp_UpdateCategOrder$$
+CREATE PROCEDURE sp_UpdateCategOrder( )
+    BEGIN
+    SET SQL_SAFE_UPDATES = 0;
+       SET @neworder=-1;
+		UPDATE categories SET `ORDER`=(@neworder:=@neworder+1) ORDER BY `ORDER` ASC;
+      SET SQL_SAFE_UPDATES = 1;
+    END
+$$
+DELIMITER ;
+DELIMITER $$
+drop procedure if exists sp_Get_LastCateg$$
+CREATE PROCEDURE sp_Get_LastCateg( )
+    BEGIN
+        SELECT * FROM LastCategInQ;
+    END
+$$
+DELIMITER ;
+DELIMITER $$
+drop procedure if exists sp_GetUserId$$
+CREATE PROCEDURE sp_GetUserId(in param_alias varchar(200) )
+    BEGIN
+        SELECT ID_USER FROM activeusers where USER_ALIAS = param_alias and USER_STATUS = 'A' limit 1;
     END
 $$
 DELIMITER ;

@@ -1,3 +1,18 @@
+<?php
+    require 'connection.php';
+    require 'User.php';
+    session_start();
+    $datarray = []; 
+    $Perfil = null;
+    $LoggedUser = false;
+    if($_SESSION['islogged']){
+        $LoggedUser = true;
+        $Perfil = $_SESSION['DataUser'];
+    }
+    else{
+        header('Location: '.'403.html');
+    }
+    ?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,7 +28,6 @@
       <script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
       
 </head>
-
 <body>
     <div class="Contenedor-base">
         <div class = "Barra-navegacion">

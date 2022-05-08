@@ -1,3 +1,48 @@
+<?php
+require 'connection.php';
+require 'User.php';
+session_start();
+$datarray = []; 
+$Categorias =[];
+$Perfil = null;
+$LoggedUser = false;
+if(connection::GetCategories($datarray)){
+    foreach($datarray as $cat){
+    $categ = new Categoria($cat);
+    array_push($Categorias,$categ);
+    }
+}
+if($_SESSION['islogged']){
+    $LoggedUser = true;
+    $Perfil = $_SESSION['DataUser'];
+    if(strcmp($Perfil->USER_TYPE,'RE')!==0){
+        header('Location: '.'403.html');
+    }
+}
+else{
+    header('Location: '.'403.html');
+}
+$Articulos = array(
+    array(
+    "Revive Gustavo Cerati ",
+    "25/02/2022",
+    "\"Che Que loco Revivi Fua xdxd\" Exclamo el cantante argentino",
+    "media/img/GustavoCerati.jpg"
+    ),
+    array(
+    "LLueve Bien Gacho Y Mucha gente se cayo",
+    "26/02/2022",
+    "Se rompieron la maceta",
+    "media/img/huracan.jpg"
+    ),
+    array(
+    "LLEga el Coronavirus 3 La Venganza de los Sith",
+    "24/02/2022",
+    "Todos Vamos A Morir Dicen los reporteros",
+    "media/img/Corona.jpg"
+    ),
+);
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,48 +60,17 @@
 </head>
 
 <body>
-    <?php
-    // Load Data
-        $LoggedUser = 1; /* Si es 0 es que no se loggeo, si es 1 es usuario si es 2 es Reportero y si es 3 es Editor */
-        $User = array(
-            "MariReportera",
-            "Maria Hernandez Ortega",
-            "HomeroMiPastor123@hotmail.com",
-            "16/06/1996",
-            "media/img/img_Usuarios/girl2.jpg"
-        );
-        $Articulos = array(
-        array(
-        "Revive Gustavo Cerati ",
-        "25/02/2022",
-        "\"Che Que loco Revivi Fua xdxd\" Exclamo el cantante argentino",
-        "media/img/GustavoCerati.jpg"
-        ),
-        array(
-        "LLueve Bien Gacho Y Mucha gente se cayo",
-        "26/02/2022",
-        "Se rompieron la maceta",
-        "media/img/huracan.jpg"
-        ),
-        array(
-        "LLEga el Coronavirus 3 La Venganza de los Sith",
-        "24/02/2022",
-        "Todos Vamos A Morir Dicen los reporteros",
-        "media/img/Corona.jpg"
-        ),
-        );
-    ?>  
     <div class="Contenedor-base">
     <div class ="topAnclado">
             <div class = "sidenav" id="EditorSideNav">
                 <?php
-                 echo'
-                 <hr>
-                 <img  src="'.$User[4].'" alt="UserImg" style="height 300px"> <br>
-                 <strong>'.$User[0]. '</strong> <br>
-                 <hr>
-                 ';
-             ?>
+                echo'
+                <hr>
+                <img  src="media/img/defProfPic.png" alt="UserImg" style="height 300px"> <br>
+                <strong>'.$Perfil->USER_ALIAS. '</strong> <br>
+                <hr>
+                ';
+                ?>
             </div>
             <div class = "Barra-navegacion">
                 <h3 class="Logo-web">Noticias</h3>
@@ -67,7 +81,7 @@
                 <button class ="btn btn-danger"type="submit"><i class="fa fa-search" aria-hidden="true"></i></button> 
                 </form>
                 <?php
-                if($LoggedUser <1){
+                if(!$LoggedUser){
                 echo'
                 <div id="accountHyperlinks">
                 <a href="Login.php">Ingresar</a>
@@ -76,9 +90,7 @@
                 }
                 else{
                     echo '<div id="Account">
-                    <h3>'.$User[0].'</h3>
-                    <h3>'.$LoggedUser.'</h3>
-                    <a  id ="logout" href="Main.php"> Salir </a>
+                    <h3><a href="Perfil.php">'.$Perfil->USER_ALIAS.'</a></h3>
                     </div>';
                 }
                 ?>
@@ -90,7 +102,7 @@
             <div class="ZonaFeedPortal">
                 <hr>
                 <div id="E_Portal_PendArticles_Div">
-                <h2 > MIS NOTICIAS PENDIENTES DE REVISION:</h2>
+                <h2 >NOTICIAS PENDIENTES DE REVISION:</h2>
                 <?php
                     for ($row = 0; $row < count($Articulos); $row++) {
                         echo "<div class='ZonaNoticia'>";

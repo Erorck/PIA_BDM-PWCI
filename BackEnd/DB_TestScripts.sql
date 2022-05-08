@@ -28,6 +28,13 @@ select* from users;
 select * from categories;
 
 
+call sp_Insert_Categories('VIDEOJUEGOS','bd9e7b',1);
+delete from categories where CATEGORY_NAME = 'negocios';
+select * from categonc;
+call sp_UpdateCategOrder();
+call sp_swapCategOrder(0,2);
+
+
 SET FOREIGN_KEY_CHECKS = 0; 
 TRUNCATE table articles; 
 SET FOREIGN_KEY_CHECKS = 1;
@@ -36,3 +43,5 @@ select*from categories;
 select * from Articles;
 
 call sp_Get_DatosUsuario('ElGoblino');
+call sp_GetUserId('LaCreaTura');
+call sp_SetCategOrder('CIENCIAS',13);

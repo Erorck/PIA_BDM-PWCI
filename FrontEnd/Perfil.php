@@ -1,3 +1,18 @@
+<?php
+    require 'connection.php';
+    require 'User.php';
+    session_start();
+    $datarray = []; 
+    $Perfil = null;
+    $LoggedUser = false;
+    if($_SESSION['islogged']){
+        $LoggedUser = true;
+        $Perfil = $_SESSION['DataUser'];
+    }
+    else{
+        header('Location: '.'403.html');
+    }
+    ?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -30,25 +45,16 @@
             <Button class="BtnEditProfile" style="font-size:xx-large;"><i class="fa fa-pencil" aria-hidden="true"></i></Button>
             <div class="ZonaFeedProfile">
             <?php
-            $User = array(
-                "LeoPoldinXDUchiha2002",
-                "Leopoldo Martinez Guerrero",
-                "ItachiModoSenin2002@hotmail.com",
-                "21/02/2002",
-                "media/img/img_Usuarios/portrait.jpg"
-            );
                 echo'
-                <img class="profpic" src="'.$User[4].'" alt="UserImg" style="height 300px"> <br>
-                <strong>'.$User[0]. '</strong> <br>
-                <strong>'.$User[1]. '</strong> <br>
-                <strong>'.$User[2]. '</strong> <br>
-                <strong>'.$User[3]. '</strong> <br>
+                <img class="profpic" src="media/img/img_Usuarios/portrait.jpg" alt="UserImg" style="height 300px"> <br>
+                <strong>'.$Perfil->USER_ALIAS. '</strong> <br>
+                <strong>'.$Perfil->NAME.' '.$Perfil->FIRST_LAST_NAME.' '.$Perfil->SECOND_LAST_NAME.'</strong> <br>
+                <strong>'.$Perfil->EMAIL. '</strong> <br>
+                <strong>'.$Perfil->BIRTHDAY. '</strong> <br>
                 ';
             ?>
-            
             </div>
         </div>
-
         <footer>
         <div class="Derechos"> 2021 Todos los derechos reservados </div>
         <div class="Contactos"> Contacto: Tel:8118047600 Correo:Unote@gmail.com </div>

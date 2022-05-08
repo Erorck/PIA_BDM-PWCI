@@ -8,6 +8,15 @@
     --Celestito:#86afb6;
 }
 
+body {
+    -ms-overflow-style: none; /* for Internet Explorer, Edge */
+    scrollbar-width: none; /* for Firefox */
+    overflow-y: scroll; 
+}
+
+body::-webkit-scrollbar {
+    display: none; /* for Chrome, Safari, and Opera */
+}
 
 body {
   background: #13212f;
@@ -257,6 +266,17 @@ footer {
     color:  var(--Blanquito);
 }
 
+.CoolWhiteText{
+    text-shadow: 0px 4px 3px rgba(0,0,0,0.4),
+    0px 8px 13px rgba(0,0,0,0.1),
+    0px 18px 23px rgba(0,0,0,0.1);
+    font-family: sans-serif;
+    font-weight:bolder;
+    font-stretch: condensed;
+    color:  var(--Blanquito);
+    background-color: var(--AzulDarks);
+}
+
 .ZonaFeed{
       width: 98%;
       height: 100%;
@@ -375,6 +395,18 @@ box-shadow: 10px 0 0 #F0F0F0, 20px 0 0 #000, 30px 0 0 #F0F0F0, 0 10px 0 #F0F0F0,
     border:none;
     transition: 0.3s;
 }
+.btn_saveNcateg{
+    background-Color:transparent;
+    color:rgb(80, 225, 80); 
+    border:none;
+    transition: 0.3s;
+}
+.btn_cancelCateg{
+    background-Color:transparent;
+    color:rgb(197, 50, 40); 
+    border:none;
+    transition: 0.3s;
+}
 
 .btn_editCateg:hover {transform: scale(1.2)}
 
@@ -409,3 +441,20 @@ box-shadow: 10px 0 0 #F0F0F0, 20px 0 0 #000, 30px 0 0 #F0F0F0, 0 10px 0 #F0F0F0,
     border-radius: 10%;
     Border: solid 5px var(--Celestito);
 }
+
+#reorderzone{
+    border: dashed 3px var(--AzulDarks);
+}
+
+#sortable { list-style-type: none; margin: 1vh; padding: 1vh; width: 100%; background-color: #ffffff;  }
+#sortable li { margin: 0 3px 3px 3px; padding: 0.4em; padding-left: 1.5em; font-size: 1.4em; height: fit-content; }
+#sortable li{
+    text-shadow: 0px 4px 3px rgba(0,0,0,0.4),
+    0px 8px 13px rgba(0,0,0,0.1),
+    0px 18px 23px rgba(0,0,0,0.1);
+    font-family: sans-serif;
+    font-weight:bolder;
+    font-stretch: condensed;
+    color:  var(--Blanquito);
+}
+#sortable li span { position: absolute; margin-left: -1.3em; }

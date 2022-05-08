@@ -3,6 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <title>NOTIPAPA Noticias Para tu Papa Diaria</title>
+        <script src="js/libs/jscolor.min.js"></script>
     </head>
     <body>
         <h1>indice del proyecto que muestra varias ventanas en cada hipervinculo.</h1>
@@ -16,6 +17,7 @@
         <li><a href="Portal_Reportero.php"> Seccion Particular del Reportero </a></li>
         <li><a href="Portal_Editor.php"> Seccion Particular del Editor </a></li>
         <li><a href="Plantilla.html"> Plantilla Vacia pa la wea xd</a></li>
+        <input data-jscolor="{}" value="#3399FF">
         </ul>
         <p>Este indice sera cambiado por la ventana principal cuando el sitio este funcionando.</p>
     </body>
