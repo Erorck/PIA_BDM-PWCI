@@ -1,17 +1,9 @@
 
 
-    <!--<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>-->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
-
-    <style>
-      #datePickerContainer{
-        display: flex;
-        align-items: center;
-        flex-direction: center;
-      }
-    </style>
 
 <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
     <div class="container-fluid">
@@ -20,7 +12,7 @@
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarCollapse">
-        <ul id="section_list_navb" class="navbar-nav me-auto mb-2 mb-md-0">
+        <ul class="navbar-nav me-auto mb-2 mb-md-0">
 
           <li class="nav-item">
             <a class="nav-link text-primary" href="#">Internacional</a>
@@ -35,41 +27,72 @@
             <a class="nav-link text-danger" href="#">Farandula</a>
           </li>
         </ul>
-        <form class="d-flex" action="../includes/nav_bar_inc.php"> 
+        <form class="d-flex" id="form1" name="form" action="ResultadosBusqueda.php" method="POST"> 
 
       <div class="row gy-3">
-        <div id="datePickerContainer" class="col-md-6 columna">
-          <input type="text" name="daterange" value="Fecha" class="calend"/>
+        <div class="col-md-6 columna">
+          <input type="date" name="fechaMin" class="calend">
+          <input type="date" name="fechaMax" class="calend">
         </div>
       </div>
 
           <?php
              if (isset($_SESSION["user_name"])) {
           ?>
-             <input class="form-control me-2" type="search" placeholder= <?php echo '¿Buscamos_algo_'.$_SESSION["user_name"].'?' ?> aria-label="Search">
+             <input class="form-control me-2" type="search" placeholder= <?php echo '¿Buscamos_algo_'.$_SESSION["user_name"].'?' ?> aria-label="Search" name="buscarpalabra">
           <?php
              } else {
           ?>
-             <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search">
+             <input class="form-control me-2" type="search"  placeholder="Buscar" aria-label="Search" name="buscarpalabra">
           <?php
              }
           ?>
           <button class="btn btn-outline-light" type="submit" ><i class="fas fa-search"></i></button>
-          <button class="btn btn-link" type="submit" name="profile" method="get"><i class="fas fa-user"></i></button>
+          <button class="btn btn-link" type="submit" name="profile"><i class="fas fa-user"></i></button>
         </form>
       </div>
     </div>
   </nav>
 
-  <script src="../../JS/Scripts_Navbar.js"></script>
 
+
+  <?php 
+     
+/*
+  if($_POST['buscarpalabra'] == ''){$_POST['buscarpalabra']=' ';}
+  $aKeyword = explode(" ", $_POST['buscarpalabra']);
+
+  if($_POST["buscarpalabra"] == '' AND $_POST["fechas"]){
+    $query = "SELECT * FROM " ;
+  }else{
+    $query = "SELECT * FROM " ;
+
+    if($_POST["buscarpalabra"] != ''){
+      $query .= "WHERE (  LIKE LOWER{ '%".$aKeyword[0]."%'} OR LIKE LOWER {'%" .$aKeyword[0]. "%'})";
+      
+      for($i = 1; $i < count($aKeyword); $i++){
+        if(!empty($aKeyword[$i])){
+          $query .= " OR LIKE '%". $aKeyword[$i] . "%' OR LIKE '%" . $aKeyword[$i] . "%'";
+        }
+      }
+    }
+
+    if ($_POST["fechas"] != ''){
+      $query .= " AND BETWEEN  '". $_POST["fechas"]. "' AND '" .$_POST["fechas"]."' ";
+    }
+  }
+
+*/
+
+  ?>
+<!-- 
   <script>
   $(function() {
-    $('input[name="daterange"]').daterangepicker({
+    $('input[name="fechas"]').daterangepicker({
       opens: 'left'
     }, function(start, end, label) {
       console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
     });
   });
-  </script>
+  </script> -->
     
