@@ -45,19 +45,21 @@ CREATE TABLE `NOTIPAPA_DB`.`USERS` (
   `LOCATION_STREET` VARCHAR(100) COMMENT 'Calle en la que ocurrio la nota',
   `LOCATION_NEIGHB` VARCHAR(70) COMMENT 'Colonia en la que ocurrio la nota',
   `LOCATION_CITY` VARCHAR(80) NOT NULL COMMENT 'Ciudad en la que ocurrio la nota',
+   `LOCATION_STATE` VARCHAR(50) NOT NULL COMMENT 'Estado en la que ocurrio la nota',
   `LOCATION_COUNTRY` VARCHAR(50) NOT NULL COMMENT 'Pais en la que ocurrio la nota',
   `EVENT_DATE` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Fecha en la que ocurrio el suceso',
-  `PUBLICATION_DATE` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Fecha en la que publico la nota en el portal',
+  `PUBLICATION_DATE` DATETIME NOT NULL DEFAULT '9999-12-31 23:59:59' COMMENT 'Fecha en la que publico la nota en el portal',
   `ARTICLE_HEADER` VARCHAR(80) NOT NULL COMMENT 'Encabezado de la nota',
   `ARTICLE_DESCRIPTION` VARCHAR(100) COMMENT 'Descripción breve de la nota',
   `ARTICLE_CONTENT` TEXT NOT NULL COMMENT 'Contenido de la nota',
   `LIKES` INT NOT NULL DEFAULT 0 COMMENT 'Numero de likes que ha recibido la nota',
   `THUMBNAIL` MEDIUMBLOB NOT NULL COMMENT 'Miniatura con la que la nota se muestra',
+  `THUMBNAIL_MIME` varchar(200) NOT NULL COMMENT 'tipo mime de la miniatura con la que la nota se muestra',
   `CREATION_DATE` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Fecha de creacion de la nota',
   `CREATED_BY` INT NOT NULL COMMENT 'Usuario que creo la nota',
   `LAST_UPDATE_DATE` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Última fecha de modificación de la nota',
   `LAST_UPDATED_BY` INT NOT NULL COMMENT 'Ultimo usuario que modifico la nota',
-  `ARTICLE_STATUS` CHAR(2) NOT NULL DEFAULT 'RR' COMMENT 'Estado actual de la noticia [P-Publicada  E-Eliminada  RA-En revision por administrador  RR-En revision por reportero]',
+  `ARTICLE_STATUS` CHAR(2) NOT NULL DEFAULT 'RR' COMMENT 'Estado actual de la noticia [PU-Publicada  EL-Eliminada  RA- revisada por el admin pendiente de aprovacion  RR-subida por el reportero, pendiente de revision]',
   PRIMARY KEY (`ARTICLE_ID`));
   
   DROP TABLE IF EXISTS COMMENTS;
@@ -105,12 +107,14 @@ CREATE TABLE IF NOT EXISTS NEWS_FEEDBACKS(
     INDEX (`PARENT_ID`)
 );
 
+
 DROP TABLE IF EXISTS IMAGES;
   CREATE TABLE `NOTIPAPA_DB`.`IMAGES` (
   `ID_IMAGE` INT NOT NULL AUTO_INCREMENT COMMENT 'Llave primaria de la tabla IMAGES',
   `DESCRIPTION` VARCHAR(200) NOT NULL COMMENT 'Breve descripcion del contenido del archivo',
   `CONTENT` MEDIUMBLOB NOT NULL COMMENT 'Datos de la imagen',
-  `ROUTE` VARCHAR(1000) NOT NULL COMMENT 'Ruta del archivo',
+  `MIME` VARCHAR(200) NOT NULL COMMENT 'formato de la imagen',
+  `ROUTE` text NOT NULL COMMENT 'Ruta del archivo',
   `UPLOAD_DATE` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Fecha de subida del material',
   `IMAGE_STATUS` CHAR(2) NOT NULL DEFAULT 'P' COMMENT 'Estado actual del material [P-Publico  E-Eliminado]',
   `ARTICLE_ID` INT NOT NULL COMMENT 'Id de la noticia a la que pertence el material',
@@ -121,7 +125,8 @@ DROP TABLE IF EXISTS IMAGES;
   `ID_VIDEO` INT NOT NULL AUTO_INCREMENT COMMENT 'Llave primaria de la tabla VIDEOS',
   `DESCRIPTION` VARCHAR(200) NOT NULL COMMENT 'Breve descripcion del contenido del archivo',
   `CONTENT` MEDIUMBLOB NOT NULL COMMENT 'Datos deL video',
-  `ROUTE` VARCHAR(1000) NOT NULL COMMENT 'Ruta del archivo',
+   `MIME` VARCHAR(200) NOT NULL COMMENT 'formato del video',
+  `ROUTE` text NOT NULL COMMENT 'Ruta del archivo',
   `UPLOAD_DATE` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Fecha de subida del material',
   `VIDEO_STATUS` CHAR(2) NOT NULL DEFAULT 'P' COMMENT 'Estado actual del material [P-Publico  E-Eliminado]',
   `ARTICLE_ID` INT NOT NULL COMMENT 'Id de la noticia a la que pertence el material',

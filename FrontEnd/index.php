@@ -17,6 +17,9 @@
         <li><a href="Portal_Reportero.php"> Seccion Particular del Reportero </a></li>
         <li><a href="Portal_Editor.php"> Seccion Particular del Editor </a></li>
         <li><a href="Plantilla.html"> Plantilla Vacia pa la wea xd</a></li>
+        <li><a href="NuevaNoticia.php"> Pagina donde se añaden mas noticias</a></li>
+        <li><a href="ImageViewer.php">Pagina para visualizar imagenes y testear blobs</a></li>
+        <li><a href="VideoViewer.php">Pagina para visualizar videos y testear blobs</a></li>
         <input data-jscolor="{}" value="#3399FF">
         </ul>
         <p>Este indice sera cambiado por la ventana principal cuando el sitio este funcionando.</p>

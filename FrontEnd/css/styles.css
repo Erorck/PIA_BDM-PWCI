@@ -48,13 +48,18 @@ ul a{
     background-color:   var(--AzulDarks);
     display: flex;
     justify-content: left;
+    align-content: space-around;
     padding: 1%;
+    padding-top: 0.7%;
     align-items: center;
     white-space: nowrap
 }
 
+.Barra-navegacion > form{
+    width: fit-content;
+}
 .Barra-navegacion #Barra { 
-    width: 100%;
+    width: 50vw;
     height: 100%;
 }
 .Barra-navegacion #Barra input{ 
@@ -93,11 +98,17 @@ ul a{
     color:  var(--Blanquito);
 }
 .Barra-navegacion button{
-font-size: 100%;
+font-size: 1.5vh;
 background-color: #ee9960;
 border: 0px;
 box-shadow: rgba(0, 0, 0, 0.1) 0px -50px 36px -28px inset;
+text-align: center;
+align-content: center;
+justify-content: center;
+width: fit-content;
+height: fit-content;
 }
+
 .Barra-navegacion #logout{
     font-size: 120%;
 }
@@ -108,7 +119,6 @@ box-shadow: rgba(0, 0, 0, 0.1) 0px -50px 36px -28px inset;
     text-align: center;
     white-space: nowrap;
     height: 100%;
-    width: 100%;
 }
 
 .Barra-navegacion .SearchBarForm input{
@@ -118,19 +128,30 @@ box-shadow: rgba(0, 0, 0, 0.1) 0px -50px 36px -28px inset;
     color: var(--AzulDarks)
 }
 
+.Barra-navegacion #Account{
+    margin-left: auto;
+    font-family: sans-serif;
+    font-weight: bolder;
+    font-size: 70%;
+    font-stretch: condensed;
+    color: var(--Blanquito);
+}
+
 .Barra-navegacion #Account, .Barra-navegacion #accountHyperlinks {
     flex-wrap: nowrap;
-    font-size: 40%;
-    margin-left: auto;
-    margin-right: 1%;;
     display: flex;
-    justify-content: left;
+    justify-content: center;
     align-items: center;
     width: fit-content;
-    width: fit-content;
 }
-.Barra-navegacion div a, .Barra-navegacion div h3 {
-    margin: 5%;
+.Barra-navegacion div h3 {
+    margin-inline: 20%;
+}
+.Barra-navegacion div > a {
+    margin-inline: 20%;
+}
+.Barra-navegacion div > div > h3 {
+    margin-inline: 20%;
 }
 
 #catBar{
@@ -289,6 +310,10 @@ footer {
     border-radius: 5px;
 }
 
+#NNcontainer > .ZonaFeed{
+    width: 70%;
+}
+
 .ZonaNoticia{
     padding: 2%;
     text-decoration: none;
@@ -348,9 +373,14 @@ box-shadow: 10px 0 0 #F0F0F0, 20px 0 0 #000, 30px 0 0 #F0F0F0, 0 10px 0 #F0F0F0,
     color: var(--Blanquito);
     height: 5%;
     width: fit-content;
-    border: none;
-    box-shadow: none;
+    border: solid 5px white;
+    box-shadow: 0px 10px 13px -7px #000000, 5px 5px 15px 5px rgba(0,0,0,0);
     transition:.4s;
+}
+
+.BtnEditProfile > a{
+    text-decoration: none;
+    color: #13212f;
 }
 
 .BtnEditProfile:hover{ transform: scale(1.2)}
@@ -458,3 +488,125 @@ box-shadow: 10px 0 0 #F0F0F0, 20px 0 0 #000, 30px 0 0 #F0F0F0, 0 10px 0 #F0F0F0,
     color:  var(--Blanquito);
 }
 #sortable li span { position: absolute; margin-left: -1.3em; }
+
+.NewArticle > h1{
+    text-align: center;
+    color: var(--AzulDarks);
+    text-shadow: 2px 2px 0 #bcbcbc, 4px 4px 0 #9c9c9c;
+}
+
+#ArticleForm{
+    display: flex;
+    text-align: center;
+    width: 100%;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 0px;
+}
+
+#ArticleForm > #DirArt{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  flex-direction: row;
+}
+
+#ArticleForm > input{
+    font-family: sans-serif;
+    font-weight:bolder;
+    font-stretch: condensed;
+    text-align: center;
+    width: 100%;
+    height: 100%;
+    cursor: text;   
+    margin-bottom: 2%; 
+    text-transform:uppercase;
+}
+#DirArt > input{
+    width: 24%;
+    margin-bottom: 1%; 
+    margin-left:1%;
+    margin-right: 1%;
+    text-transform:uppercase;
+}
+#DirArt > select{
+    width: 20%;
+}
+
+#ArticleForm > select{
+    width: 20%;
+    margin-bottom: 2%;
+}
+
+#ArticleForm > label{
+    font-family: sans-serif;
+    font-weight:bolder;
+    font-stretch: condensed;
+    color: var(--AzulDarks);
+    
+}
+
+#ArticleForm > textarea{
+    font-family: sans-serif;
+    text-align: center;
+    margin-bottom: 2%; 
+} 
+#ArtTh{
+    width: 30%;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    margin-bottom: 2%; 
+}
+.preview{
+    display: block;
+    border: dashed var(--AzulDarks) 2px;
+    margin: auto;
+    margin-top: 2vh;
+    margin-bottom: 2vh;
+    width: 10vw;
+    height: 10vw;
+    
+}
+#ArticleForm > #sign {
+    text-transform:none;
+    width: 30%;
+}
+
+#ArticleForm>#FileAddDiv>img{
+    border: dashed var(--AzulDarks) 2px;
+    margin: auto;
+    margin-top: 2vh;
+    margin-bottom: 2vh;
+    width: 10vw;
+    height: 10vw;
+}
+
+.notify-container {
+    margin-top: 10px;
+}
+  
+.notify-bubble {
+    top: -10px;
+    right: 0px;
+    padding: 2px 5px 2px 6px;
+    background-color: Red;
+    color: white;
+    font-size: 1vh;
+    border-radius: 50%;
+    box-shadow: 1px 1px 1px gray;
+    display: none;
+}
+
+#profilemenu{
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    flex-wrap: nowrap;
+}
+
+#profilemenu .notify-bubble {
+    font-size: 2vh;
+}

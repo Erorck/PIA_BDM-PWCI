@@ -1,4 +1,42 @@
 
+const b64toBlob = (b64Data, contentType='', sliceSize=512) => {
+  const byteCharacters = atob(b64Data);
+  const byteArrays = [];
+
+  for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+    const slice = byteCharacters.slice(offset, offset + sliceSize);
+
+    const byteNumbers = new Array(slice.length);
+    for (let i = 0; i < slice.length; i++) {
+      byteNumbers[i] = slice.charCodeAt(i);
+    }
+
+    const byteArray = new Uint8Array(byteNumbers);
+    byteArrays.push(byteArray);
+  }
+
+  const blob = new Blob(byteArrays, {type: contentType});
+  return blob;
+}
+
+function validarArticulos(arr){
+	var Errormsg ="";
+	let ok = false;
+	if(!arr['categ'] != "")Errormsg = Errormsg.concat(" ",    "Porfavor, introduzca la categoria.\n");
+	if(!arr['date'] != "")Errormsg = Errormsg.concat(" ",     "Porfavor, introduzca la fecha.\n");
+	if(!arr['street'] != "")Errormsg = Errormsg.concat(" ",   "Porfavor, introduzca la calle.\n");
+	if(!arr['colon']!= "")Errormsg = Errormsg.concat(" ",     "Porfavor, introduzca la colonia.\n");
+	if(!arr['city']!= "")Errormsg = Errormsg.concat(" ",      "Porfavor, introduzca la ciudad/municipio.\n");
+	if(!arr['state']!= "")Errormsg = Errormsg.concat(" ",     "Porfavor, introduzca el estado.\n");
+	if(!arr['country']!= "")Errormsg = Errormsg.concat(" ",   "Porfavor, introduzca el pais.\n");
+	if(!arr['header']!= "")Errormsg = Errormsg.concat(" ",    "Porfavor, introduzca el Encabezado del Articulo.\n");
+	if(!arr['desc'] != "")Errormsg = Errormsg.concat(" ",     "Porfavor, introduzca el Subtitulo/descripcion del Articulo.\n");
+	if(!arr['content']!= "")Errormsg = Errormsg.concat(" ",   "Porfavor, introduzca el cuerpo del articulo.\n");
+	if(!arr['sign'] != "")Errormsg = Errormsg.concat(" ",     "Porfavor, introduzca su firma.\n");
+	Errormsg === "" ? (ok = true) : (ok = false);
+	if(!ok) Swal.fire('Te Faltan Datos!!!',Errormsg,'warning');
+	return ok;
+}
 
 // Validaciones 
 function validar(){

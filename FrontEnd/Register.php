@@ -75,7 +75,7 @@
         <div class="mainContenedor">
             <div class="Login">
                 <h1  style="color:#F5F5F5; font-family:sans-serif; font-weight:bolder;" >Crear cuenta</h1>
-                <form action="" method="POST" class="Formulario" name ="F_Crear_Cuenta" id="RegisterForm">
+                <form action="" method="POST" class="Formulario" name ="F_Crear_Cuenta" id="RegisterForm" autocomplete="off">
                 <input class="form-control" type="text" id="usernameIt" name="uname" placeholder="Nombre de Usuario">
                 <input class="form-control" type="text" id="nombreIt" name="Nombre" placeholder="Nombre(s)">
                 <input class="form-control" type="text" id="apellPIt" name="Apat" placeholder="Apellido Paterno">

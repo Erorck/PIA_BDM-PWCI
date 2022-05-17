@@ -6,6 +6,9 @@
     $Categorias =[];
     $Perfil = null;
     $LoggedUser = false;
+    $numArticles = $numRRArticles = $numRAArticles = $numPUArticles = 0;
+    $ArticlesExist = $ArticlesRRExist = $ArticlesRAExist = $ArticlesPUExist = false;
+    $ArticulosRR = [];
     if(connection::GetCategories($datarray)){
         foreach($datarray as $cat){
         $categ = new Categoria($cat);
@@ -22,26 +25,21 @@
     else{
         header('Location: '.'403.html');
     }
-    $Articulos = array(
-        array(
-        "Revive Gustavo Cerati ",
-        "25/02/2022",
-        "\"Che Que loco Revivi Fua xdxd\" Exclamo el cantante argentino",
-        "media/img/GustavoCerati.jpg"
-        ),
-        array(
-        "LLueve Bien Gacho Y Mucha gente se cayo",
-        "26/02/2022",
-        "Se rompieron la maceta",
-        "media/img/huracan.jpg"
-        ),
-        array(
-        "LLEga el Coronavirus 3 La Venganza de los Sith",
-        "24/02/2022",
-        "Todos Vamos A Morir Dicen los reporteros",
-        "media/img/Corona.jpg"
-        ),
-        );
+    if(connection::GetCountArticles($numArticles,"XD")) $ArticlesExist = true;
+    if(connection::GetCountArticles($numRRArticles,"RR")) $ArticlesRRExist = true;
+    if(connection::GetCountArticles($numRAArticles,"RA")) $ArticlesRAExist = true;
+    if(connection::GetCountArticles($numPUArticles,"PU")) $ArticlesPUExist = true;
+    if($ArticlesRRExist)
+    {
+        if(connection::GetArticles($datarray)){
+            foreach($datarray as $art){
+            $arti = new Articulo($art);
+            if($arti->ARTICLE_STATUS === 'RR')array_push($ArticulosRR,$arti);
+            }
+        }
+        // para ponerlos en la lista de articulos pendientes de revision paps
+    }
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -59,14 +57,21 @@
     <script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
     <script src="js/libs/jscolor.min.js"></script>
     <script type="text/javascript">
-
-
         $(document).ready(function() {
             var nCategCap = 0; // para que no se pueda añadir/editar mas de una categoria a la vez
             var shouldReorder = false; //para validar el reorder de las cosas
-            $( "#sortable" ).sortable(); //para esconder el ui del reorder
-            $("#reorderzone").hide();
+            $( "#sortable" ).sortable(); //para activar el ui del sortable del reorder  
+            $("#reorderzone").hide(); //para esconder el ui del reorder
+            var auxCategEdit = null; //auxiliar para guardar el Elemento de la categoria como texto, si se va a editar
+            var auxCategEditId = null;
+            var Editing = false; //booleano para saber si actualmente estamos editando una categoria o no
 
+            //utilidades
+            const rgb2hex = (rgb) => `#${rgb.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/).slice(1).map(n => parseInt(n, 10).toString(16).padStart(2, '0')).join('')}`
+
+            ////////////////////////////////////
+            //        Editar Orden Categorías
+            ////////////////////////////////////
             $('.ChBox_EditOrder').click(function(){
                 let dynbtnAdderA = '<button style="background-color: #000000;" class="btn_saveNcateg" id="btn_ReorderConfirm"><i class="fa fa-floppy-o" aria-hidden="true">Guardar</i></button>';
                 let dynbtnAdderB = '<button style="background-color: #000000;" class="btn_cancelCateg" id="btn_ReorderCancel"><i class="fa fa-times-circle" aria-hidden="true">Cancelar</i></button>';
@@ -118,10 +123,11 @@
                                 success: function(response){
                                     var jsonData = JSON.parse(response);
                                     if (jsonData.success == "1")
-                                    {alert('ok');
+                                    {
+                                        swal.fire('OrdenActualizado');
                                         location.href = 'Portal_Editor.php';
                                     }
-                                    else{ alert('notok')}
+                                    else{ alert('Error de algun tipo')}
                                 }
                             });
                         }
@@ -140,7 +146,9 @@
                 $( "#btn_ReorderConfirm" ).remove();
                 $( "#btn_ReorderCancel" ).remove();
             });
-
+            ////////////////////////////////////
+            //        Añadir  Categorías
+            ////////////////////////////////////
             $('#btnAddCateg').click(function() {
                 $('.ChBox_EditOrder').toggle();
                 $('#btnAddCateg').toggle();
@@ -179,6 +187,7 @@
                     data: $(this).serialize(),
                     success: function(response)
                     {
+                        debugger;
                         var jsonData = JSON.parse(response);
                         // user is logged in successfully in the back-end
                         // let's redirect
@@ -198,6 +207,76 @@
                         }
                     }
                 });
+            });
+            ////////////////////////////////////
+            //        Editar Categoría
+            ////////////////////////////////////
+            $('#CategsToShow').on('click','.btn_editCateg',function(){
+                $('.ChBox_EditOrder').toggle();
+                $('#btnAddCateg').toggle();
+                if(!Editing){
+                    var Categ = $(this).parent();
+                    auxCategEdit = Categ.prop('outerHTML');
+                    auxCategEditId = Categ.attr('id')
+                    Editing = true;
+                    let color = Categ.css('background-color');
+                    let hexcolor = rgb2hex(color);
+                    let name = Categ.attr('id')
+                    let dynCategAdderA = '<h3 class="Categ" id="EditCategH3" style="background-color:' + hexcolor.toString() + '">';
+                    let dynCategAdderB = '<input type="text" style="text-transform:uppercase"  id="CategNameIn" name="CategName" value="'+ name +'">';
+                    let dynCategAdderC = 'COLOR: <input data-jscolor="{}" value="' + hexcolor.toString() + '" id="CategColorIn" name="CategColor">';
+                    let dynCategAdderD = '<button type="button" class="btn_confirmEditcateg" id="btn_confirmEditcateg"><i class="fa fa-floppy-o" aria-hidden="true">Guardar</i></button>';
+                    let dynCategAdderY = '<button class="btn_cancelEditCateg" id="btn_cancelEditCateg"><i class="fa fa-times-circle" aria-hidden="true">Cancelar</i></button>';
+                    let dynCategAdderE = '</h3>';
+                    let finalstring = dynCategAdderA.concat(dynCategAdderB,dynCategAdderC,dynCategAdderD,dynCategAdderY,dynCategAdderE);
+                    Categ.replaceWith(finalstring);
+                    jscolor.install(); 
+                }
+                else{
+                    Swal.fire('Porfavor termine de editar la Categoria o cancele su edicion antes de editar otra');
+                }
+            });
+
+            $('#CategsToShow').on('click','#btn_cancelEditCateg',function(e){
+                e.preventDefault();
+                $(this).parent().replaceWith(auxCategEdit);
+                Editing = false;
+                auxCategEdit = null;
+                auxCategEditId = null;
+                $('.ChBox_EditOrder').toggle();
+                $('#btnAddCateg').toggle();
+            });
+
+            $('#CategsToShow').on('click','#btn_confirmEditcateg',function(e){
+                e.preventDefault();
+                if(Editing){
+                    var Cat = $(this).parent();
+                    let CatEdited ={};
+                    CatEdited['clave'] = auxCategEditId;
+                    CatEdited['nombre'] = Cat.children('#CategNameIn').val().toString();
+                    CatEdited['color'] = Cat.children('#CategColorIn').val().toString();
+                    if(!(CatEdited['nombre'] == "" && CatEdited['color'] != " "))
+                    {
+                    //do ajax shit here
+                        var jsonString = JSON.stringify(CatEdited);
+                        $.ajax({
+                            type: "POST",
+                            url: "EditCategScript.php",
+                            data: {data : jsonString}, 
+                            cache: false,
+                            success: function(response){
+                                debugger;
+                                var jsonData = JSON.parse(response);
+                                if (jsonData.success == "1")
+                                {
+                                    swal.fire('Orden Actualizado');
+                                    location.href = 'Portal_Editor.php';
+                                }
+                                else{ alert('Error de Algun Tipo')}
+                            }
+                        });
+                    } else Swal.fire('Inserte un nombre valido para la categoría');
+                }
             });
 
         });
@@ -257,7 +336,7 @@
                         <?php
                         if(count($Categorias)>0){
                          foreach ($Categorias as $x ) {
-                            echo '<h3 class="Categ" style="background-color:#'.$x->color.';">' . $x->name . '<button class="btn_editCateg"><i class="fa fa-pencil" aria-hidden="true"></i></button>  </h3>';
+                            echo '<h3 class="Categ" id="' . $x->name . '" style="background-color:#'.$x->color.';">' . $x->name . '<button class="btn_editCateg"><i class="fa fa-pencil" aria-hidden="true"></i></button>  </h3>';
                         }
                         }
                         else{
@@ -272,19 +351,45 @@
                 <hr>
                 <div id="E_Portal_PendArticles_Div">
                 <h2 >NOTICIAS PENDIENTES DE REVISION:</h2>
+                
                 <?php
-                    for ($row = 0; $row < count($Articulos); $row++) {
+                if(!$ArticlesRRExist) echo'<h3>No hay noticias pendientes</h3>';
+                else{
+                    $ImgBlob = Null;
+                    echo'<h4>Hay <span style="background-color: #9d0e28; color:white;" >'.$numRRArticles.'</span> Articulos pendientes de Revision</h4>';
+                    for($i=0;$i<(count($ArticulosRR));$i++){
+                        //display Article
                         echo "<div class='ZonaNoticia'>";
-                        echo'<div class="imgZone"> <img src="'.$Articulos[$row][3].'" alt="ImagenNoticia"></div>
-                            <div class="TxtZone">
-                            <h1 class="txtTitulo">'.$Articulos[$row][0].'</h1>
-                            <p class="txtFecha">'.$Articulos[$row][1].'<p>
+                        if(connection::GetImageArticle($ArticulosRR[$i]->ARTICLE_ID,$ImgBlob)){
+                            echo'<div class="imgZone"> 
+                            
+                            <img src="data:'.$ImgBlob['mime'].';base64,'.base64_encode($ImgBlob['data']).'" alt="thumbnail">
+                            </div>';
+                        }
+                        echo'<div class="TxtZone">
+                            <h1 class="txtTitulo">'.$ArticulosRR[$i]->ARTICLE_HEADER.'</h1>
+                            <p class="txtFecha">'.$ArticulosRR[$i]->EVENT_DATE.'<p>
                             <p class="txtDesc">
-                            '.$Articulos[$row][2].'
+                            '.$ArticulosRR[$i]->ARTICLE_DESCRIPTION.'
+                            </p>
+                            </div>';
+                        echo "</div>";
+                    }
+                }
+                /* DEPRECATED DEMO CODE.
+                    for ($row = 0; $row < count($ArticulosRR); $row++) {
+                        echo "<div class='ZonaNoticia'>";
+                        echo'<div class="imgZone"> <img src="'.$ArticulosRR[$row][3].'" alt="ImagenNoticia"></div>
+                            <div class="TxtZone">
+                            <h1 class="txtTitulo">'.$ArticulosRR[$row][0].'</h1>
+                            <p class="txtFecha">'.$ArticulosRR[$row][1].'<p>
+                            <p class="txtDesc">
+                            '.$ArticulosRR[$row][2].'
                             </p>
                             </div>';
                         echo "</div>";
                       }
+                      */
                 ?>  
                 </div>
             </div>

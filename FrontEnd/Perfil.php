@@ -5,6 +5,8 @@
     $datarray = []; 
     $Perfil = null;
     $LoggedUser = false;
+    $numArticles = $numRRArticles = $numRAArticles = $numPUArticles = 0;
+    $ArticlesExist = $ArticlesRRExist = $ArticlesRAExist = $ArticlesPUExist = false;
     if($_SESSION['islogged']){
         $LoggedUser = true;
         $Perfil = $_SESSION['DataUser'];
@@ -12,6 +14,10 @@
     else{
         header('Location: '.'403.html');
     }
+    if(connection::GetCountArticles($numArticles,"XD")) $ArticlesExist = true;
+    if(connection::GetCountArticles($numRRArticles,"RR")) $ArticlesRRExist = true;
+    if(connection::GetCountArticles($numRAArticles,"RA")) $ArticlesRAExist = true;
+    if(connection::GetCountArticles($numPUArticles,"PU")) $ArticlesPUExist = true;
     ?>
 <!DOCTYPE html>
 <html>
@@ -26,7 +32,13 @@
       <script  type="text/javascript" src="js/libs/jquery-3.6.0.min.js" ></script>
       <script  type="text/javascript" src="js/models/validations.js" ></script>
       <script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
-      
+      <script type="text/javascript">
+        $(document).ready(function() {
+            if($('.notify-bubble').attr("notifications") > 0){
+                $('.notify-bubble').show(400);
+            }
+         });
+    </script>
 </head>
 
 <body>
@@ -42,7 +54,12 @@
         </div>
 
         <div class="mainContenedor">
-            <Button class="BtnEditProfile" style="font-size:xx-large;"><i class="fa fa-pencil" aria-hidden="true"></i></Button>
+            <div id="profilemenu">
+            <Button class="BtnEditProfile" style="font-size:xx-large;"><a href="EditarPerfil.php"><i class="fa fa-pencil" aria-hidden="true"></i></a></Button> 
+            <div class="notify-container">
+                <Button class="BtnEditProfile" style="font-size:xx-large;"><a href="Portal_Editor.php">Portal del Editor</a> <?php if($ArticlesRRExist) echo'<span class="notify-bubble" notifications="'.$numRRArticles.'">'.$numRRArticles.'</span>'?></Button>
+            </div>
+            </div>
             <div class="ZonaFeedProfile">
             <?php
                 echo'

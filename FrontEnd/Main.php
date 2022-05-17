@@ -6,6 +6,8 @@
     $Categorias =[];
     $Perfil = null;
     $LoggedUser = false;
+    $numArticles = $numRRArticles = $numRAArticles = $numPUArticles = 0;
+    $ArticlesExist = $ArticlesRRExist = $ArticlesRAExist = $ArticlesPUExist = false;
     if(connection::GetCategories($datarray)){
         foreach($datarray as $cat){
         $categ = new Categoria($cat);
@@ -16,7 +18,11 @@
         $LoggedUser = true;
         $Perfil = $_SESSION['DataUser'];
     }
-    ?>
+    if(connection::GetCountArticles($numArticles,"XD")) $ArticlesExist = true;
+    if(connection::GetCountArticles($numRRArticles,"RR")) $ArticlesRRExist = true;
+    if(connection::GetCountArticles($numRAArticles,"RA")) $ArticlesRAExist = true;
+    if(connection::GetCountArticles($numPUArticles,"PU")) $ArticlesPUExist = true;
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -32,6 +38,9 @@
       <script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
       <script type="text/javascript">
         $(document).ready(function() {
+            if($('.notify-bubble').attr("notifications") > 0){
+                $('.notify-bubble').show(400);
+            }
             $('#Account').on('click','#logout',function() {
                 $.ajax({
                     type: "POST",
@@ -83,7 +92,18 @@
                 }
                 else{
                     echo '<div id="Account">
-                    <h3><a href="Perfil.php">'.$Perfil->USER_ALIAS.'</a></h3>
+                    <div class="notify-container">';
+                    echo'<h3><a href="Perfil.php">'.$Perfil->USER_ALIAS.'';
+                    switch($Perfil->USER_TYPE){
+                        case 'AD':
+                          if($ArticlesRRExist) echo'<span class="notify-bubble" notifications="'.$numRRArticles.'">'.$numRRArticles.'</span>';
+                        break;
+                        case 'RE':
+                            if($ArticlesRAExist) echo'<span class="notify-bubble" notifications="'.$numRAArticles.'">'.$numRAArticles.'</span>';
+                          break;
+                    }
+                    echo'</a></h3>
+                    </div>
                     <a id ="logout" href="">Cerrar sesion</a>
                     </div>';
                 }
