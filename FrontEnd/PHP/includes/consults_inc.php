@@ -30,3 +30,10 @@ if (isset($_POST["ajax_get_deleted_sections_PE"])) {
     $deletedSections= $consult->getESections();
     echo json_encode($deletedSections);
 }
+
+if (isset($_POST["ajax_get_active_tags"])) {
+
+    $consult = new ConsultsControler();
+    $activeTags = $consult->getATags();
+    echo json_encode($activeTags);
+}

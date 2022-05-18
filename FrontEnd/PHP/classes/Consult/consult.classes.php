@@ -61,6 +61,7 @@ class Consults extends Dbh{
         return $sections;
     
     }
+
     protected function getAllEliminatedSections(){
         $stmt = $this->connect()->prepare('CALL sp_Section("SAE", NULL, NULL, NULL, NULL, NULL);');
         if(!$stmt->execute()){
@@ -78,6 +79,25 @@ class Consults extends Dbh{
         }
        
         return $sections;
+    }
+
+    protected function getAllTags(){
+        $stmt = $this->connect()->prepare('CALL sp_Tags("SAA", NULL);');
+        if(!$stmt->execute()){
+            $stmt = null;
+            header("location: ../Pages/Crear_noticia.php?error=stmtFailed");
+            exit();
+        }
+        if($stmt->rowCount()>0){
+            session_start();
+            $tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            $_SESSION["a_tags"] = $tags;
+        }else{
+            return 0;
+        }
+       
+        return $tags;
     }
 
 }

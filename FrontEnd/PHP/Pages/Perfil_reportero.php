@@ -146,16 +146,18 @@ session_start();
 
   <!--  AÑADIR NOTICIA  -->
   <main class="container">
-    <div class="my-3 p-3 bg-body rounded shadow-sm">
+    <div class="my-3 p-3 bg-dark rounded shadow-sm">
       <div class="d-flex text-muted pt-3">
-        <svg class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 32x32" preserveAspectRatio="xMidYMid slice" focusable="false">
+        <svg class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="32" height="32"
+          xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 32x32"
+          preserveAspectRatio="xMidYMid slice" focusable="false">
           <title>Placeholder</title>
           <rect width="100%" height="100%" fill="#9e9e9e" /><text x="50%" y="50%" fill="#9e9e9e" dy=".3em">32x32</text>
         </svg>
         <div class="pb-3 mb-0 small lh-sm border-bottom w-100">
           <div class="d-flex justify-content-between">
             <strong class="text-white">Crear nueva noticia</strong>
-            <a href="#" class="text-white"><i class="fas fa-plus-circle"></i></a>
+            <a href="Crear_noticia.php" class="text-white"><i class="fas fa-plus-circle"></i></a>
           </div>
         </div>
       </div>
@@ -174,7 +176,8 @@ session_start();
 
         <body>
           <div class="contenedor_recuadros">
-            <ul id="autoWidth" class="cs-hidden">
+            <ul id="autoWidth" class="cs-hidden" id="newsContainer">
+
               <!-- 1  ---------------------------------------- -->
               <li class="item-a">
                 <div class="caja_cursos">
@@ -259,7 +262,7 @@ session_start();
                 </div>
               </li>
 
-            </ul>
+            </ul>       
           </div>
         </body>
       </div>

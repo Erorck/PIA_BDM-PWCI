@@ -1,0 +1,96 @@
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+      }
+
+      .contenido{
+        background-color: rgba(241, 234, 241, 0.753);
+        border-radius: 10px;
+      }
+
+      .contenido_text{
+        margin-left: 10%;
+      }
+
+      .boton_final{
+        margin-bottom: 3%;
+      }
+      .calendario{
+        margin-bottom: 5%;
+      }
+
+      .alert{
+            display: block;
+            padding: 12px 20px;
+            background: #f8d7da;
+            color: #721c24;
+            margin-bottom: 10px;
+            border: 1px solid #f5c6cb; 
+        }
+
+        .extra_img_container {
+          position:relative;          
+          margin:0 auto;   
+        }
+
+      .extra_img_container > .bottom {
+        position: absolute;               
+        -webkit-transition: opacity 1s ease-in-out;
+        -moz-transition: opacity 1s ease-in-out;
+        -o-transition: opacity 1s ease-in-out;
+        transition: opacity 1s ease-in-out;
+      }
+
+      .extra_img_container img.top:hover {
+        opacity:0.5;
+      }
+
+      .extra_img_container > img{
+        width:auto; height: 150px;
+      }
+
+      .extra_img_container > .delete-icon{
+        height: 30px;
+        padding-top: 10px;
+        padding-left: 10px;
+        cursor:pointer;
+      }
+
+
+
+      .extra_vid_container {
+        position:relative;          
+        margin:0 auto;   
+      }
+
+    .extra_vid_container > .bottom {
+      position: absolute;               
+      -webkit-transition: opacity 0.5s ease-in-out;
+      -moz-transition: opacity 0.5s ease-in-out;
+      -o-transition: opacity 0.5s ease-in-out;
+      transition: opacity 0.5s ease-in-out;
+    }
+
+    .extra_vid_container img.top:hover {
+      opacity:0.5;
+    }
+
+    .extra_vid_container > video{
+       height: 150px; cursor:pointer;
+    }
+
+    .extra_vid_container > .delete-icon{
+      height: 30px;
+      padding-top: 10px;
+      padding-left: 10px;
+      cursor:pointer;
+    }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }

@@ -10,6 +10,9 @@ session_start();
 
   <title>Good Old Times - Inicio</title>
 
+  <script type="text/javascript" src="../../JS/JQuery3.3.1.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+
   <link rel="canonical" href="https://getbootstrap.com/docs/5.1/examples/blog/">
   <link rel="canonical" href="https://getbootstrap.com/docs/5.1/examples/album-rtl/">
   <link rel="canonical" href="https://getbootstrap.com/docs/5.1/examples/navbar-fixed/">
@@ -22,6 +25,7 @@ session_start();
   <link rel="shortcut icon" href="../../Elementos/Good Old Times-ICON.2.png" type="image/x-icon">
   <link href="../../bootstrap-5.1.3-examples/assets/dist/css/bootstrap.min.css" rel="stylesheet">
 
+  
 
   <style>
     .bd-placeholder-img {

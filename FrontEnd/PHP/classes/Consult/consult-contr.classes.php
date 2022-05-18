@@ -12,13 +12,17 @@ include"consult.classes.php";
              return $this->getRUsers();
          }
 
-         public function getASections(){ 
-             return $this->getAllActiveSections();
-         
-            }
-         public function getESections(){ 
+        public function getASections(){ 
+             return $this->getAllActiveSections();         
+        }
+
+        public function getESections(){ 
              return $this->getAllEliminatedSections();
-         }
+        }
+
+        public function getATags(){ 
+            return $this->getAllTags();         
+        }
 
     }
 ?>

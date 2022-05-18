@@ -17,19 +17,22 @@ session_start();
 
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
   <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/spectrum-colorpicker2/dist/spectrum.min.css">
-  <link rel="stylesheet" href="../../CSS/lightslider.css">
 
-<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+  <!--  <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />-->
 
   <link rel="canonical" href="https://getbootstrap.com/docs/5.1/examples/navbar-fixed/">
   <link rel="canonical" href="https://getbootstrap.com/docs/5.1/examples/offcanvas-navbar/">
   <link rel="canonical" href="https://getbootstrap.com/docs/5.1/examples/checkout/">
+  <script src="../..//JS/offcanvas.js"></script>
+
 
   <script type="text/javascript" src="../../JS/JQuery3.3.1.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
   <script type="text/javascript" src="../../JS/lightslider.js"></script>
   <script type="text/javascript" src="../../JS/script.js"></script>
+  <link rel="stylesheet" href="../../CSS/lightslider.css">
 
 
   <link href="../../bootstrap-5.1.3-examples/assets/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -37,7 +40,7 @@ session_start();
   <link href="../../CSS/form-validation.css" rel="stylesheet">
   <link href="../../CSS/Estilo_Perfil_editor.css" rel="stylesheet">
 
-    
+
 
 </head>
 
@@ -124,9 +127,9 @@ session_start();
               if (isset($_SESSION["error"]) && $_SESSION["error"] == "userChecked") {
                 $_SESSION["error"] = "none";
               ?>
-              
+
                 <div class="alert"> Error: El correo no está disponible </div>
-                
+
               <?php
               }
               ?>
@@ -141,7 +144,7 @@ session_start();
               <li><input id="exampletel" type="tel" name="telefono" placeholder="Telefono" value="<?php echo $_SESSION["user"]["PHONE_NUMBER"] ?>" class="input-100"></li>
               <li hidden="true"><input id="examplePPic" name="pPic" value=<?php if ($hasPPicture) echo $imageP ?>></li>
               <li hidden="true"><input id="exampleBPic" name="bPic" value=<?php if ($hasBPicture) echo $imageB ?>></li>
-              <a href="javascript:VentanamodUPDATE()">
+              <a href="javascript:VentanaModPerfil()">
                 <li><button class="btn-outline-success" id="btn_change" type="button">Guardar cambios</button></li>
               </a>
             </ul>
@@ -248,6 +251,7 @@ session_start();
       </div>
     </div>
 
+    <!-- SECCIONES -->
   </section>
   <main class="container" id="Edit_secok">
     <div class="my-3 p-3 bg-dark rounded shadow-sm">
@@ -258,21 +262,26 @@ session_start();
         </div>
       </div>
       <div class="d-flex text-muted pt-3">
-        <select class="form-select" id="country" required>
-          <option value="">Elige la posición a colocar...</option>
-          <option>1</option>
-          <option>2</option>
-          <option>3</option>
-          <option>4</option>
-          <option>5</option>
+        <select id="cbOrder" class="form-select" id="country" required>
+          <option value="N">Posición de la sección...</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+          <option value="6">6</option>
+          <option value="7">7</option>
+          <option value="8">8</option>
+          <option value="9">9</option>
+          <option value="10">10</option>
         </select>
       </div>
       <small class="d-block text-end mt-3">
-        <select class="form-select" id="country" required>
-          <option value="">Elige la seccion a Editar...</option>
+        <select id="cbSection" class="form-select" id="country" required>
+          <option value="N">Elige la seccion a Editar...</option>
           <option>Internacional</option>
         </select>
-        <button class="btn_seccok"><i class="fas fa-check"></i></button>
+        <button style="display: none" id="btn_update_section" onclick="VentanaModAttrSeccion()" class="btn_seccok"><i class="fas fa-check"></i></button>
       </small>
     </div>
   </main>
@@ -281,55 +290,60 @@ session_start();
     <form action="" id="seccionval">
       <div class="my-3 p-3 bg-body-light rounded shadow-sm ">
         <h6 class="border-bottom pb-2 mb-0">Secciones</h6>
-        <div class="d-flex text-muted pt-3">
-          <svg class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 32x32" preserveAspectRatio="xMidYMid slice" focusable="false">
-            <title>Placeholder</title>
-            <rect width="100%" height="100%" fill="#007bff" /><text x="50%" y="50%" fill="#007bff" dy=".3em">32x32</text>
-          </svg>
 
-          <div class="pb-3 mb-0 small lh-sm border-bottom w-100">
-            <div class="d-flex justify-content-between">
-              <strong class="text-gray-dark">Internacional</strong>
-              <a href="javascript:VentanamodSeccion()" class="text-danger"><i class="fas fa-trash-alt"></i></a>
+        <div id="sections_list">
+          <div class="d-flex text-muted pt-3">
+            <svg class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 32x32" preserveAspectRatio="xMidYMid slice" focusable="false">
+              <title>Placeholder</title>
+              <rect width="100%" height="100%" fill="#007bff" /><text x="50%" y="50%" fill="#007bff" dy=".3em">32x32</text>
+            </svg>
+            <div class="pb-3 mb-0 small lh-sm border-bottom w-100">
+              <div class="d-flex justify-content-between">
+                <strong class="text-gray-dark">Internacional</strong>
+                <a href="javascript:VentanaBajaSeccion()" class="text-danger"><i class="fas fa-trash-alt"></i></a>
+              </div>
+              <a href="javascript:VentanaModNameSeccion()" class="lapiz"><i class="fas fa-pen"></i></a>
             </div>
-            <a href="javascript:ModifSeccion()" class="lapiz"><i class="fas fa-pen"></i></a>
           </div>
-        </div>
-        <div class="d-flex text-muted pt-3">
-          <svg class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 32x32" preserveAspectRatio="xMidYMid slice" focusable="false">
-            <title>Placeholder</title>
-            <rect width="100%" height="100%" fill="#007bff" /><text x="50%" y="50%" fill="#007bff" dy=".3em">32x32</text>
-          </svg>
-          <div class="pb-3 mb-0 small lh-sm border-bottom w-100">
-            <div class="d-flex justify-content-between">
-              <strong class="text-gray-dark">Negocios</strong>
-              <a href="javascript:VentanamodSeccion()" class="text-danger"><i class="fas fa-trash-alt"></i></a>
-            </div>
-            <a href="javascript:ModifSeccion()" class="lapiz"><i class="fas fa-pen"></i></a>
-          </div>
-        </div>
-        <div class="d-flex text-muted pt-3">
-          <svg class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 32x32" preserveAspectRatio="xMidYMid slice" focusable="false">
-            <title>Placeholder</title>
-            <rect width="100%" height="100%" fill="#007bff" /><text x="50%" y="50%" fill="#007bff" dy=".3em">32x32</text>
-          </svg>
 
-          <div class="pb-3 mb-0 small lh-sm border-bottom w-100">
-            <div class="d-flex justify-content-between">
-              <strong class="text-gray-dark">Tecnologia</strong>
-              <a href="javascript:VentanamodSeccion()" class="text-danger"><i class="fas fa-trash-alt"></i></a>
+          <div class="d-flex text-muted pt-3">
+            <svg class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 32x32" preserveAspectRatio="xMidYMid slice" focusable="false">
+              <title>Placeholder</title>
+              <rect width="100%" height="100%" fill="#007bff" /><text x="50%" y="50%" fill="#007bff" dy=".3em">32x32</text>
+            </svg>
+            <div class="pb-3 mb-0 small lh-sm border-bottom w-100">
+              <div class="d-flex justify-content-between">
+                <strong class="text-gray-dark">Negocios</strong>
+                <a href="javascript:VentanaBajaSeccion()" class="text-danger"><i class="fas fa-trash-alt"></i></a>
+              </div>
+              <a href="javascript:VentanaModNameSeccion()" class="lapiz"><i class="fas fa-pen"></i></a>
             </div>
-            <a href="javascript:ModifSeccion()" class="lapiz"><i class="fas fa-pen"></i></a>
+          </div>
+
+          <div class="d-flex text-muted pt-3">
+            <svg class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 32x32" preserveAspectRatio="xMidYMid slice" focusable="false">
+              <title>Placeholder</title>
+              <rect width="100%" height="100%" fill="#007bff" /><text x="50%" y="50%" fill="#007bff" dy=".3em">32x32</text>
+            </svg>
+            <div class="pb-3 mb-0 small lh-sm border-bottom w-100">
+              <div class="d-flex justify-content-between">
+                <strong class="text-gray-dark">Tecnologia</strong>
+                <a href="javascript:VentanaBajaSeccion()" class="text-danger"><i class="fas fa-trash-alt"></i></a>
+              </div>
+              <a href="javascript:VentanaModNameSeccion()" class="lapiz"><i class="fas fa-pen"></i></a>
+            </div>
           </div>
         </div>
+
         <small class="d-block text-dark mt-3">
-          <input id="SeccionAlta" class="form-control" type="text" name="sec" placeholder="Farandula...">
-          <button class="text-dark text-decoration-none" id="añadirsecc" type="submit">Añadir Sección</button>
+          <input id="SeccionAlta" class="form-control" type="text" name="sec" placeholder="Farándula...">
+          <button class="text-dark text-decoration-none" id="btn_add_section" onclick="VentanaAltaSeccion()" type="button">Añadir Sección</button>
         </small>
       </div>
     </form>
   </main>
 
+  <!-- REPORTEROS -->
   <main class="container">
     <div class="my-3 p-3 bg-dark rounded shadow-sm">
       <h6 id="before_journalist" class="text-light border-bottom pb-2 mb-0">Reporteros</h6>
@@ -383,8 +397,8 @@ session_start();
 
 
       <small class="d-block text-end mt-3">
-        <li id="btn_add_journalist" style="display: none"><button class="btn-outline-success"  onclick="VentanaAltaReportero()" type="button">Añadir reportero</button></li>
-        <select class="form-select" id="state" required>
+        <li id="btn_add_journalist" style="display: none"><button class="btn-outline-success" onclick="VentanaAltaReportero()" type="button">Añadir reportero</button></li>
+        <select class="form-select" id="cbJournalist" required>
           <option value='N'>Selecciona un Reportero...</option>
           <option>Mafer Chavana</option>
         </select>
@@ -392,78 +406,107 @@ session_start();
     </div>
   </main>
 
-
-<main class="container"> 
-  <form action="" id="seccionval">
-  <div class="my-3 p-3 bg-body-light rounded shadow-sm ">
-    <h6 class="border-bottom pb-2 mb-0">Reporte - Noticias mas buscadas</h6>
-    <div class="d-flex text-muted pt-3">
-      <svg class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 32x32" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#007bff"/><text x="50%" y="50%" fill="#007bff" dy=".3em">32x32</text></svg>
-      <div class="pb-3 mb-0 small lh-sm border-bottom w-100">
-        <div class="d-flex justify-content-between">
-            <label for="Tipo" class="form-label">Noticia o Sección</label>
-            <select class="form-select" id="Tipo">
-              <option value="">Noticia</option>
-              <option>Sección</option>
-            </select>
+  <!-- REPORTE NOTICIAS -->
+  <main class="container">
+    <form action="">
+      <div class="my-3 p-3 bg-body-light rounded shadow-sm ">
+        <h6 class="border-bottom pb-2 mb-0">Reporte - Noticias mas buscadas</h6>
+        <div class="d-flex text-muted pt-3">
+          <svg class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 32x32" preserveAspectRatio="xMidYMid slice" focusable="false">
+            <title>Placeholder</title>
+            <rect width="100%" height="100%" fill="#007bff" /><text x="50%" y="50%" fill="#007bff" dy=".3em">32x32</text>
+          </svg>
+          <div class="pb-3 mb-0 small lh-sm border-bottom w-100">
+            <div class="d-flex justify-content-between">
+              <label for="Tipo" class="form-label">Noticia o Sección</label>
+              <select class="form-select" id="Tipo">
+                <option value="">Noticia</option>
+                <option>Sección</option>
+              </select>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
-    <div class="d-flex text-muted pt-3">
-      <svg class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 32x32" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#007bff"/><text x="50%" y="50%" fill="#007bff" dy=".3em">32x32</text></svg>
-      <div class="pb-3 mb-0 small lh-sm border-bottom w-100">
-        <div class="d-flex justify-content-between">
-            <label for="seccion" class="form-label">Secciónes</label>
-            <select class="form-select" id="seccion">
-              <option value="">Todas</option>
-              <option>Sección 01</option>
-              <option>Sección 02</option>
-            </select>
+        <div class="d-flex text-muted pt-3">
+          <svg class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 32x32" preserveAspectRatio="xMidYMid slice" focusable="false">
+            <title>Placeholder</title>
+            <rect width="100%" height="100%" fill="#007bff" /><text x="50%" y="50%" fill="#007bff" dy=".3em">32x32</text>
+          </svg>
+          <div class="pb-3 mb-0 small lh-sm border-bottom w-100">
+            <div class="d-flex justify-content-between">
+              <label for="seccion" class="form-label">Secciónes</label>
+              <select class="form-select" id="seccion">
+                <option value="">Todas</option>
+                <option>Sección 01</option>
+                <option>Sección 02</option>
+              </select>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
-    <div class="d-flex text-muted pt-3">
-      <svg class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 32x32" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#007bff"/><text x="50%" y="50%" fill="#007bff" dy=".3em">32x32</text></svg>
-      <div class="pb-3 mb-0 small lh-sm border-bottom w-100">
-        <div class="d-flex justify-content-between">
-            <label for="country" class="form-label">Fechas</label>
-      <div class="row gy-3">
-        <div class="col-md-6 columna">
-          <input type="date" name="daterange" value="Fecha" class="calend"/>
+        <div class="d-flex text-muted pt-3">
+          <svg class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 32x32" preserveAspectRatio="xMidYMid slice" focusable="false">
+            <title>Placeholder</title>
+            <rect width="100%" height="100%" fill="#007bff" /><text x="50%" y="50%" fill="#007bff" dy=".3em">32x32</text>
+          </svg>
+          <div class="pb-3 mb-0 small lh-sm border-bottom w-100">
+            <div class="d-flex justify-content-between">
+              <label for="country" class="form-label">Fechas</label>
+              <div class="row gy-3">
+                <div class="col-md-6 columna">
+                  <input type="text" name="daterange" value="Fecha" class="calend" />
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
+        <small class="d-block text-dark mt-3">
+          <button class="text-dark text-decoration-none" id="CrearReporte" type="submit">Crear Reporte</button>
+        </small>
       </div>
-    </div>
-  </div>
-</div>
-  <small class="d-block text-dark mt-3">
-    <button class="text-dark text-decoration-none" id="CrearReporte" type="submit">Crear Reporte</button>
-  </small>
-  </div>
-</form>
+    </form>
 
-<table class="reporte" id="tablareporte">
-<thead>
-<tr>
-    <th>Sección</th><th>Fecha</th><th>Noticia</th><th>Likes</th><th>Numero Comentarios</th>
-</tr>
-</thead>
-<tr>
-<td>Farandula</td><td>30/SEP/2022</td><td>Alfredo Adame...</td><td>300 </td><td>30</td>
-</tr>
-<tr>
-<td>Deportes</td><td>10/DIC/2022</td><td>Big Neurosis gana...</td><td>301</td><td>200</td>
-</tr>
-<tr>
-<td>Internacional</td><td>20/DIC/2022</td><td>Mafer Chavana World Tour</td><td>2300</td><td>10</td>
-</tr>
-<tr>
-<td>Clima</td><td>1/ENE/2022</td><td>¡Se viene la llovina!</td><td>90</td><td>405</td>
-</tr>
-</table>
-<br>
-<br>
+    <table class="reporte" id="tablareporte">
+      <thead>
+        <tr>
+          <th>Sección</th>
+          <th>Fecha</th>
+          <th>Noticia</th>
+          <th>Likes</th>
+          <th>Numero Comentarios</th>
+        </tr>
+      </thead>
+      <tr>
+        <td>Farandula</td>
+        <td>30/SEP/2022</td>
+        <td>Alfredo Adame...</td>
+        <td>300 </td>
+        <td>30</td>
+      </tr>
+      <tr>
+        <td>Deportes</td>
+        <td>10/DIC/2022</td>
+        <td>Big Neurosis gana...</td>
+        <td>301</td>
+        <td>200</td>
+      </tr>
+      <tr>
+        <td>Internacional</td>
+        <td>20/DIC/2022</td>
+        <td>Mafer Chavana World Tour</td>
+        <td>2300</td>
+        <td>10</td>
+      </tr>
+      <tr>
+        <td>Clima</td>
+        <td>1/ENE/2022</td>
+        <td>¡Se viene la llovina!</td>
+        <td>90</td>
+        <td>405</td>
+      </tr>
+    </table>
+    <br>
+    <br>
 
-</main>
+  </main>
 
 
 
@@ -477,7 +520,6 @@ session_start();
 
   <script src="../../JS/bootstrap.bundle.min.js"></script>
   <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  <script src="../..//JS/offcanvas.js"></script>
   <script src="../../JS/form-validation.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/spectrum-colorpicker2/dist/spectrum.min.js"></script>
   <script src="../../JS/Validacion_PerfilEdit.js"></script>
@@ -492,6 +534,7 @@ session_start();
     }
   </script>
 
+  <!-- SCRIPTS REVISIÓN NOTICIAS -->
   <script>
     function Ventanamod() {
       Swal.fire({
@@ -514,11 +557,14 @@ session_start();
     }
   </script>
 
+  <!-- SCRIPTS ABC SECCIONES -->
   <script>
-    function VentanamodSeccion() {
+    function VentanaBajaSeccion(id_section) {
+      var section = $("#seccion_" + id_section);
+
       Swal.fire({
-        title: '¿Estas segur@ de eliminar la sección?',
-        text: "¡Este proceso no se revertira!",
+        title: '¿Estas segur@ de eliminar la sección "' + section.html() + '"?',
+        text: "Este proceso puede revertirse en el futuro",
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
@@ -526,21 +572,137 @@ session_start();
         confirmButtonText: 'Si, ¡Eliminarla!'
       }).then((result) => {
         if (result.isConfirmed) {
-          Swal.fire(
-            '¡Eliminada!',
-            'La seccion a sido eliminada',
-            'Exito!'
-          )
+          if (modSectionStatus(id_section, 'E')) {
+            Swal.fire(
+              '¡Eliminada!',
+              'La seccion a sido eliminada',
+              'success'
+            )
+          } 
+          //TODO
+          // else {
+          //   Swal.fire(
+          //     'Ha ocurrido un problema',
+          //     'No se ha sido posible eliminar la sección',
+          //     'error'
+          //   )
+          // }
         }
       })
+    }
+
+    function VentanaReactivarSeccion(id_section) {
+      var section = $("#seccion_" + id_section);
+
+      Swal.fire({
+        title: '¿Estas segur@ de reactivar la sección "' + section.html() + '"?',
+        text: "Todas sus noticias volveran a aparecer en el portal",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, ¡Reactivala!'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          if (modSectionStatus(id_section, 'H')) {
+            Swal.fire(
+              '¡Eliminada!',
+              'La seccion a sido reactivada',
+              'success'
+            )
+          } 
+          //TODO
+          // else {
+          //   Swal.fire(
+          //     'Ha ocurrido un problema',
+          //     'No se ha sido posible reactivar la sección',
+          //     'error'
+          //   )
+          // }
+        }
+      })
+    }
+
+    function VentanaModNameSeccion(id_section) {
+      var section = $("#seccion_" + id_section);
+
+      Swal.fire({
+        title: 'Editar nombre de sección',
+        input: 'text',
+        inputValue: section.html(),
+        inputAttributes: {
+          autocapitalize: 'off'
+        },
+        showCancelButton: true,
+        confirmButtonText: 'Editar',
+        inputValidator: (value) => {
+          if (!value) {
+            return '¡Escribe un nombre valido!';
+          }
+          var lenght = /^[a-zA-ZÀ-ÿ\s]{1,40}$/;
+          if (!lenght.test(value)) {
+            return '¡Solo utiliza letras!';
+          }
+        }
+      }).then((result) => {
+        if (result.isConfirmed) {
+          if (updateSectionName(id_section, section.html())) {
+            //TODO
+            Swal.fire(
+              '¡Listo!',
+              'Se ha cambiado el nombre de la categoria',
+              'success'
+            )
+          } else {
+            inputValidator: 'Nombre ocupado por otra seccion';
+          }
+        }
+      })
+    }
+
+    function VentanaModAttrSeccion() {
+      let section = $("#cbSection option:selected");
+      Swal.fire({
+        title: '¿Desea actualizar la categoria "' + section.html() + '"?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, guardar los cambios'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          if (updateSectionAttr(section.val())) {
+            Swal.fire(
+              '¡Listo!',
+              'La categoria se ha actualizado',
+              'success'
+            )
+          }
+        }
+      })
+    }
+
+    function VentanaAltaSeccion() {
+      let newSection = $('#SeccionAlta').val();
+      if (newSection == "")
+        newSection = "Seccion nueva";
+      if (validarSECCIONALTA()) {
+        if (insertSection(newSection)) {
+          Swal.fire(
+            '¡Seccion añadida!',
+            newSection,
+            'success'
+          )
+        }
+      }
     }
   </script>
 
 
-
+  <!-- SCRIPTS ABC REPORTEROS -->
   <script>
     function VentanaBajaReportero(id_journalist) {
-      var journalist = $("#reportero_"+id_journalist);
+      var journalist = $("#reportero_" + id_journalist);
       Swal.fire({
         title: '¿Estas segur@ de quitar el rol de reportero al usuario ' + journalist.html() + '?',
         text: "¡Este proceso no se revertira!",
@@ -562,7 +724,7 @@ session_start();
     }
 
     function VentanaAltaReportero() {
-      var valor = $("#state option:selected");
+      var valor = $("#cbJournalist option:selected");
       Swal.fire({
         title: '¿Estas segur@ de añadir el rol de reportero al usuario ' + valor.text() + '?',
         text: "¡Este proceso no se revertira!",
@@ -582,8 +744,11 @@ session_start();
         }
       })
     }
+  </script>
 
-    function VentanamodUPDATE() {
+  <!-- SCRIPTS EDICIÓN PERFIL -->
+  <script>
+    function VentanaModPerfil() {
       if (validarFormularioUsuario()) {
         Swal.fire({
           title: '¿Quieres guardar los cambios a tu perfil?',
@@ -594,37 +759,20 @@ session_start();
           confirmButtonText: 'Si, guardar los cambios'
         }).then((result) => {
           if (result.isConfirmed) {
-            updateProfile()
-            Swal.fire(
-              '¡Listo!',
-              'Tu perfil se ha actualizado',
-              'success'
-            )
+            if (updateProfile()) {
+              Swal.fire(
+                '¡Listo!',
+                'Tu perfil se ha actualizado',
+                'success'
+              )
+            }
           }
         })
       }
     }
   </script>
 
-
-
-  <script>
-    function ModifSeccion() {
-      Swal.fire({
-        title: 'Editar sección',
-        input: 'text',
-        inputAttributes: {
-          autocapitalize: 'off'
-        },
-        showCancelButton: true,
-        confirmButtonText: 'Editar',
-        showLoaderOnConfirm: true,
-
-      })
-
-    }
-  </script>
-
+  <!-- SCRIPTS COLORPICKER -->
   <script type="text/javascript">
     $(document).ready(function($) {
       $('#color-picker').spectrum({
@@ -634,9 +782,6 @@ session_start();
       });
     });
   </script>
-
-
-
 
   <script>
     $("#picker").spectrum({
@@ -672,6 +817,7 @@ session_start();
       noColorSelectedText: "string",
     });
   </script>
+
 </body>
 
 </html>

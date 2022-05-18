@@ -1,6 +1,5 @@
 
 
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
@@ -12,7 +11,7 @@
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarCollapse">
-        <ul class="navbar-nav me-auto mb-2 mb-md-0">
+        <ul id="section_list_navb" class="navbar-nav me-auto mb-2 mb-md-0">
 
           <li class="nav-item">
             <a class="nav-link text-primary" href="#">Internacional</a>
@@ -27,7 +26,8 @@
             <a class="nav-link text-danger" href="#">Farandula</a>
           </li>
         </ul>
-        <form class="d-flex" id="form1" name="form" action="ResultadosBusqueda.php" method="POST"> 
+        <form class="d-flex" action="../includes/nav_bar_inc.php">
+        <!-- <form class="d-flex" id="form1" name="form" action="ResultadosBusqueda.php" method="POST"> -->
 
       <div class="row gy-3">
         <div class="col-md-6 columna">
@@ -48,16 +48,16 @@
              }
           ?>
           <button class="btn btn-outline-light" type="submit" ><i class="fas fa-search"></i></button>
-          <button class="btn btn-link" type="submit" name="profile"><i class="fas fa-user"></i></button>
+          <button class="btn btn-link" type="submit" name="profile" method="get"><i class="fas fa-user"></i></button>
         </form>
       </div>
     </div>
   </nav>
 
-
-
   <?php 
-     
+
+
+
 /*
   if($_POST['buscarpalabra'] == ''){$_POST['buscarpalabra']=' ';}
   $aKeyword = explode(" ", $_POST['buscarpalabra']);
@@ -85,6 +85,8 @@
 */
 
   ?>
+
+<script src="../../JS/Scripts_Navbar.js"></script>
 <!-- 
   <script>
   $(function() {
