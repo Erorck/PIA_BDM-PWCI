@@ -203,6 +203,17 @@ select ID_USER,
  Create view NumberOfArticlesEL
  as
  select COUNT(*) as num from allelarticulos;
+ 
+ drop view ChildComments;
+ create view ChildComments
+ as
+ select comments.COMMENT_ID,
+ news_comments.PARENT_ID,
+ comments.ARTICLE_ID
+ from comments inner join news_comments
+ on comments.COMMENT_ID = news_comments.COMMENT_ID;
+ 
+ select * from ChildComments;
 
 select * from CategONC;
 select * from passwordsUR;

@@ -766,6 +766,7 @@ img.news-image {
         border: var(--Celestito) dotted 2px;
         height: fit-content;
         margin-top: 1vh;
+        width: 100%;
     }
 
     .commentAuthor{

@@ -10,8 +10,10 @@
     $numArticles = $numRRArticles = $numRAArticles = $numPUArticles = 0;
     $ArticlesExist = $ArticlesRRExist = $ArticlesRAExist = $ArticlesPUExist = false;
     $commentsarr=[];
+    $childCommentsarr =[];
     $hasComments=false;
     $numComments=0;
+    $hasChildComments = false;
     $numFeedbacks = 0;
     $hasfeedbacks = false;
     $Articulo = null;
@@ -32,6 +34,7 @@
     if(connection::GetCountArticles($numRRArticles,"RR")) $ArticlesRRExist = true;
     if(connection::GetCountArticles($numRAArticles,"RA")) $ArticlesRAExist = true;
     if(connection::GetCountArticles($numPUArticles,"PU")) $ArticlesPUExist = true;
+    
     if($ArticlesRRExist)
     {
         if(connection::GetArticles($datarray)){
@@ -60,6 +63,10 @@
         $vBlobarr['Name'] = [];
         $vBlobarr['Data'] = [];
         $vBlobarr['Mime'] = [];
+        $childComments =[];
+        if(connection::GetChildCommentsArticle($Articulo->ARTICLE_ID,$childComments)){
+            $hasChildComments = true;
+        }
        
         if(connection::GetMediaImage($Articulo->ARTICLE_ID,$ImgBlobarr)){
             $hasimages = true;
@@ -67,9 +74,28 @@
         if(connection::GetMediaVideo($Articulo->ARTICLE_ID,$vBlobarr)){
             $hasvideos = true;
         }
-        //get Comments
-        if(connection::GetCommentsArticle($Articulo->ARTICLE_ID,$commentsarr)){
-            $hasComments = true;
+        //get Child Comments and then comments that arent childs
+        if($hasChildComments){
+            $auxcommarr = [];
+            if(connection::GetCommentsArticle($Articulo->ARTICLE_ID,$auxcommarr)){
+                $hasComments = true;
+                for($i=0;$i<count($childComments);$i++){
+                    for($j=0;$j<count($auxcommarr);$j++){
+                        if($childComments[$i]['COMMENT_ID'] == $auxcommarr[$j]['COMMENT_ID']){
+                            array_push($childCommentsarr,$auxcommarr[$j]);
+                            \array_splice($auxcommarr, $j, 1);
+                        }
+                    }
+                }
+                $commentsarr = $auxcommarr;
+
+            }
+        }
+        else{
+            if(connection::GetCommentsArticle($Articulo->ARTICLE_ID,$commentsarr)){
+                $hasComments = true;
+
+            }
         }
     }
 ?>
@@ -88,11 +114,50 @@
       <script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
       <script type="text/javascript">
             $(document).ready(function() {
+                $('.answerComment').click(function(){
+                    debugger;
+                    let pid = $(this).parent().parent().attr('id')
+                    let me= $('#commentdata').attr('by');
+                    let aid =$('#commentdata').attr('aid');
+                    $(this).replaceWith('<input type="hidden" id="answerdata"by="'+me+'" aid="'+aid+'" pid="'+pid+'">'
+                    +'<textarea style="display:inline;float:left;resize:none;width: 90%;" class="commentContent" placeholder="Comentario..."id="answerContent" name="answerContent" rows="4" cols="60"></textarea>'+
+                    '<button id="sendAnswer" style="transition:none;width:100%;textalign:center;">Enviar</button>');
+                });
                 $('#sendComment').click(function(){
                     let data = {};
                     data['text']=$('#commentContent').val();
                     data['by']=$('#commentdata').attr('by');
                     data['aid']=$('#commentdata').attr('aid');
+                    data['child']=false;
+                    debugger;
+                    if(data['text']!=""){ //there is actual comment
+                        var jsonString = JSON.stringify(data);
+                        $.ajax({
+                            type: "POST",
+                            url: "SendCommentScript.php",
+                            data: {data : jsonString}, 
+                            cache: false,
+                            success: function(response){
+                                debugger;
+                                var jsonData = JSON.parse(response);
+                                if (jsonData.success == "1")
+                                {
+                                    swal.fire('Comentario Añadido');
+                                    setTimeout(function(){location.reload();}, 0001);
+                                }
+                                else{ alert('Error de algun tipo')}
+                            }
+                        });
+                    }
+                });
+                $('.comment').on('click','#sendAnswer',function(){
+                    debugger;
+                    let data = {};
+                    data['text']=$('#answerContent').val();
+                    data['by']=$('#answerdata').attr('by');
+                    data['aid']=$('#answerdata').attr('aid');
+                    data['pid']=$('#answerdata').attr('pid');
+                    data['child']=true;
                     debugger;
                     if(data['text']!=""){ //there is actual comment
                         var jsonString = JSON.stringify(data);
@@ -231,60 +296,59 @@
                     ?>
                     </div>
                     <?php
-                    if($hasComments){
-                        foreach($commentsarr as $comment){
-                            $author = "";
+                    function lookforchild($comment,$childsarray,$childinfoarray,$LoggedUser){
+                        //search if current comment has child
+                        $childfound=false;
+                        $thechild=null;
+                        foreach($childinfoarray as $child){
+                            if($comment['COMMENT_ID']==$child['PARENT_ID']){
+                            $thechildaux = null;
+                            foreach($childsarray as $actualchild){
+                                if($actualchild['COMMENT_ID']==$child['COMMENT_ID']){
+                                    $thechildaux=$actualchild;
+                                    break;
+                                }
+                            }
+                            $thechild = $thechildaux;
+                            $childfound=true;
+                            break;
+                            }
+                        }
+                        if($childfound){
+                            //print comment
                             if(connection::GetUname($comment['CREATED_BY'],$author)){
                                 echo'<div class="comment" by="'.$comment['CREATED_BY'].'"id="'.$comment['COMMENT_ID'].'"aid="'.$comment['ARTICLE_ID'].'">
                                 <div class="commentAuthor">
                                 <img class="commentPfp" src="media\img\defProfPic.png" alt="profpic">
                                 <h6>'.$author.'</h6>
                                 </div>
-                                <p class="commentContent"><span class="fecha">'.$comment['CREATION_DATE'].'<br></span>'.$comment['COMMENT_TEXT'].'<br>
-                                <button id="answerComment">Responder</button></p>
-                                </div>';
+                                <p class="commentContent"><span class="fecha">'.$comment['CREATION_DATE'].'<br></span>'.$comment['COMMENT_TEXT'].'<br>';
+                                if($LoggedUser) echo'<button class="answerComment">Responder</button>';
+                                echo'</p>';
+                                lookforchild($thechild,$childsarray,$childinfoarray,$LoggedUser);
+                                echo'</div>';   
+                            }
+                        }
+                        else{
+                            //print comment
+                            if(connection::GetUname($comment['CREATED_BY'],$author)){
+                                echo'<div class="comment child" by="'.$comment['CREATED_BY'].'"id="'.$comment['COMMENT_ID'].'"aid="'.$comment['ARTICLE_ID'].'">
+                                <div class="commentAuthor">
+                                <img class="commentPfp" src="media\img\defProfPic.png" alt="profpic">
+                                <h6>'.$author.'</h6>
+                                </div>
+                                <p class="commentContent"><span class="fecha">'.$comment['CREATION_DATE'].'<br></span>'.$comment['COMMENT_TEXT'].'<br>';
+                                if($LoggedUser) echo'<button class="answerComment">Responder</button>';
+                                echo'</p>';
+                                echo'</div>';
                             }
                         }
                     }
+                    foreach($commentsarr as $comment){
+                        lookforchild($comment,$childCommentsarr,$childComments,$LoggedUser);
+                    }
                     ?>
-                    
-                    <!-- EJEMPLO DE COMENTARIOS CON TODO E HIJOS
-                        <div class="comment">
-                        <div class="commentAuthor">
-                            <img class="commentPfp" src="media\img\defProfPic.png" alt="profpic">
-                            <h6>Nombre de usuario</h6>
-                        </div>
-                        <p class="commentContent">comentario XDDDDDDD XDDDDDDDD XDDDDDDDDD XDDDDDDDD XDDDDDDDDD XDDDDDDDcomentario XDDDDDDD XDDDDDDDD XDDDDDDDDD XDDDDDDDD XDDDDDDDDD XDDDDDDDcomentario XDDDDDDD XDDDDDDDD XDDDDDDDDD XDDDDDDDD XDDDDDDDDD XDDDDDDDcomentario XDDDDDDD XDDDDDDDD XDDDDDDDDD XDDDDDDDD XDDDDDDDDD XDDDDDDD</p>
-                    </div>
-                    <div class="comment">
-                        <div class="commentAuthor">
-                            <img class="commentPfp" src="media\img\defProfPic.png" alt="profpic">
-                            <h6>Nombre de usuario</h6>
-                        </div>
-                        <p class="commentContent">comentario XDDDDDDD XDDDDDDDD XDDDDDDDDD XDDDDDDDD XDDDDDDDDD XDDDDDDD</p>
-                        <div class="comment child">
-                            <div class="commentAuthor">
-                                <img class="commentPfp" src="media\img\defProfPic.png" alt="profpic">
-                                <h6>Nombre de usuario</h6>
-                            </div>
-                            <p class="commentContent">Hola soy un commentario hijo</p>
-                            <div class="comment child">
-                            <div class="commentAuthor">
-                                <img class="commentPfp" src="media\img\defProfPic.png" alt="profpic">
-                                <h6>Nombre de usuario</h6>
-                            </div>
-                            <p class="commentContent">Hola soy un commentario hijoHola soy un commentario hijoHola soy un commentario hijoHola soy un commentario hijoHola soy un commentario hijoHola soy un commentario hijo</p>
-                        </div>
-                        </div>
-                    </div>
-                    <div class="comment">
-                        <div class="commentAuthor">
-                            <img class="commentPfp" src="media\img\defProfPic.png" alt="profpic">
-                            <h6>Nombre de usuario</h6>
-                        </div>
-                        <p class="commentContent">comentario XDDDDDDD XDDDDDDDD XDDDDDDDDD XDDDDDDDD XDDDDDDDDD XDDDDDDD</p>
-                    </div>
-                    -->
+                
                 </div>
             </div>
         </div>

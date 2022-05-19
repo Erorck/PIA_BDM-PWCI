@@ -479,12 +479,36 @@ BEGIN
 END //
 DELIMITER ;
 DELIMITER //
+DROP PROCEDURE IF EXISTS sp_Insert_asoc_news_comments//
+CREATE PROCEDURE sp_Insert_asoc_news_comments(
+	IN par_COMMENT_TEXT varchar(1000),
+	IN par_CREATED_BY int,
+    IN par_ARTICLE_ID int,
+    IN par_PARENTID int
+)
+BEGIN
+		call sp_Insert_Comment(par_COMMENT_TEXT,par_CREATED_BY,par_ARTICLE_ID);
+        SET @Fid = LAST_INSERT_ID();
+        insert into news_comments(COMMENT_ID,ARTICLE_ID,PARENT_ID,CREATION_DATE,`ACTIVE`)
+        values(@Fid,par_ARTICLE_ID,par_PARENTID,current_timestamp(),true);
+END //
+DELIMITER ;
+DELIMITER //
 DROP PROCEDURE IF EXISTS sp_GetCommentsArticle//
 CREATE PROCEDURE sp_GetCommentsArticle(
 	IN par_aid int
 )
 BEGIN
 	select * from comments where ARTICLE_ID = par_aid;
+END //
+DELIMITER ;
+DELIMITER //
+DROP PROCEDURE IF EXISTS sp_GetChildCommentsArticle//
+CREATE PROCEDURE sp_GetChildCommentsArticle(
+	IN par_aid int
+)
+BEGIN
+	select * from ChildComments where ARTICLE_ID = par_aid;
 END //
 DELIMITER ;
 -- ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

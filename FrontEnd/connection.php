@@ -992,6 +992,34 @@ class connection {
         return $resultao;
     }
 
+    public static function AddComentChild($data)
+    {
+        $resultao= false;
+        try {
+            $conn = new MyPDO();
+            $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $sql = "CALL sp_Insert_asoc_news_comments(:text,:by,:aid,:pid)";
+            $conn->beginTransaction();
+            $stmt = $conn->prepare($sql);
+            $stmt->execute($data);
+            $conn->commit();
+            if ($stmt->rowCount() > 0) {
+                $resultao = true;
+                //validacion esta chida
+            } 
+            else {
+                $resultao = false;
+                $Errmessage = "PDOStatement::errorCode(): ". $stmt->errorCode();
+                //validacion no esta chida
+            }
+        }
+        catch(PDOException $e) {
+            echo "Connection failed" . $e->getMessage();
+        }
+
+        return $resultao;
+    }
+
     public static function GetCommentsArticle($Aid,&$commentarr)
     {
         $resultao= false;
@@ -999,6 +1027,38 @@ class connection {
             $conn = new MyPDO();
             $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $sql = "CALL sp_GetCommentsArticle(:aid)";
+            $stmt = $conn->prepare($sql);
+            $stmt->bindParam(':aid', $Aid, PDO::PARAM_INT);
+            $stmt->execute();
+            if ($stmt->rowCount() > 0) {
+                $stmt->setFetchMode(PDO::FETCH_ASSOC);
+                while($rows = $stmt->fetchAll()) {   
+                    foreach ($rows as $row) {
+                        array_push($commentarr,$row);
+                    }
+                }
+                $resultao = true;
+            } 
+            else {
+                $resultao = false;
+                $Errmessage = "PDOStatement::errorCode(): ". $stmt->errorCode();
+                //validacion no esta chida
+            }
+        }
+        catch(PDOException $e) {
+            echo "Connection failed" . $e->getMessage();
+        }
+
+        return $resultao;
+    }
+
+    public static function GetChildCommentsArticle($Aid,&$commentarr)
+    {
+        $resultao= false;
+        try {
+            $conn = new MyPDO();
+            $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $sql = "CALL sp_GetChildCommentsArticle(:aid)";
             $stmt = $conn->prepare($sql);
             $stmt->bindParam(':aid', $Aid, PDO::PARAM_INT);
             $stmt->execute();
