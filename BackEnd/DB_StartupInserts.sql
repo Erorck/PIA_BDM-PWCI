@@ -14,14 +14,25 @@ SET SQL_SAFE_UPDATES = 1;
 SET SQL_SAFE_UPDATES = 0;
 DELETE FROM videos ;
 DELETE FROM images ;
+DELETE FROM news_feedbacks;
+DELETE FROM feedbacks;
+DELETE FROM news_comments;
+DELETE FROM comments;
+DELETE FROM news_categories;
 DELETE FROM articles ;
 SET SQL_SAFE_UPDATES = 1;
 ALTER TABLE videos AUTO_INCREMENT = 1;
 ALTER TABLE images AUTO_INCREMENT = 1;
+ALTER TABLE news_feedbacks AUTO_INCREMENT = 1;
+ALTER TABLE feedbacks AUTO_INCREMENT = 1;
+ALTER TABLE news_comments AUTO_INCREMENT = 1;
+ALTER TABLE comments AUTO_INCREMENT = 1;
+ALTER TABLE news_categories AUTO_INCREMENT = 1;
 ALTER TABLE articles AUTO_INCREMENT = 1;
 
+
 -- selects De todas las tablas para comprobar la info 
-select *from articles; 
+select * from articles; 
 select *from categories; 
 select *from comments; 
 select *from feedbacks; 

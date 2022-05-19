@@ -41,6 +41,14 @@ CREATE PROCEDURE sp_Get_DatosUsuario( IN param_uname varchar(100))
 $$
 DELIMITER ;
 DELIMITER $$
+drop procedure if exists sp_Get_Uname$$
+CREATE PROCEDURE sp_Get_Uname( IN par_uid int)
+    BEGIN
+        SELECT USER_ALIAS FROM users WHERE ID_USER = par_uid Limit 1;
+    END
+$$
+DELIMITER ;
+DELIMITER $$
 drop procedure if exists sp_GetUserId$$
 CREATE PROCEDURE sp_GetUserId(in param_alias varchar(200) )
     BEGIN
@@ -190,6 +198,47 @@ BEGIN
 END //
 DELIMITER ;
 DELIMITER //
+DROP PROCEDURE IF EXISTS sp_Update_Article//
+CREATE PROCEDURE sp_Update_Article(
+	in par_aid int,
+    IN par_updater INT,
+	IN par_Sign VARCHAR(100),
+	IN par_locstrt CHAR(100),
+    IN par_locnghb VARCHAR(70),
+    IN par_loccity varchar(80),
+    IN par_locstate VARCHAR(50),
+    IN par_locntry VARCHAR(50),
+	IN par_eventdate datetime,
+	IN par_header VARCHAR(80),
+	IN par_descr VARCHAR(100),
+	IN par_content text,
+	IN par_thumbnail MEDIUMBLOB,
+    in par_thumbnail_mime varchar(200),
+    IN par_categ varchar (200)
+)
+BEGIN
+		update articles
+        set 
+        `SIGN` = par_Sign,
+        `LAST_UPDATED_BY`=par_updater,
+        `LOCATION_STREET`=par_locstrt,
+        `LOCATION_NEIGHB`=par_locnghb,
+        `LOCATION_CITY`=par_loccity,
+        `LOCATION_STATE`=par_locstate,
+        `LOCATION_COUNTRY`=par_locntry,
+        `EVENT_DATE`=par_eventdate,
+        `ARTICLE_HEADER`=par_header,
+        `ARTICLE_DESCRIPTION`=par_descr,
+        `ARTICLE_CONTENT`=par_content,
+        `THUMBNAIL`=par_thumbnail,
+		 THUMBNAIL_MIME=par_thumbnail_mime
+		where ARTICLE_ID=par_aid;
+        update news_categories
+        set CATEGORY=par_categ
+        where ARTICLE_ID=par_aid;
+END //
+DELIMITER ;
+DELIMITER //
 DROP PROCEDURE IF EXISTS sp_GetArticleImg//
 CREATE PROCEDURE sp_GetArticleImg(
 	IN par_id int
@@ -249,6 +298,30 @@ BEGIN
 	select ARTICLE_ID  from AllArticulos where EVENT_DATE = par_EventDate and ARTICLE_HEADER=par_Header and CREATED_BY =par_CreatedBy limit 1;
 END //
 DELIMITER ;
+DELIMITER //
+DROP PROCEDURE IF EXISTS sp_ChangeArticleStatus//
+CREATE PROCEDURE sp_ChangeArticleStatus(
+in par_id int,
+in par_status char(2)
+)
+BEGIN
+	update articles 
+    set ARTICLE_STATUS = par_status
+    where ARTICLE_ID = par_id;
+END //
+DELIMITER ;
+DELIMITER //
+DROP PROCEDURE IF EXISTS sp_ChangeArticlePubDate//
+CREATE PROCEDURE sp_ChangeArticlePubDate(
+in par_id int,
+in par_pubDate datetime
+)
+BEGIN
+	update articles 
+    set PUBLICATION_DATE = par_pubDate
+    where ARTICLE_ID = par_id;
+END //
+DELIMITER ;
 -- ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 -- //////////////////////////////////////////////////// VIDEOS AND IMAGES /////////////////////////////////////////////////////////////////////////////////////
 -- ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -286,7 +359,7 @@ CREATE PROCEDURE sp_GetImage(
 	IN par_id int
 )
 BEGIN
-	select CONTENT,MIME from images where ID_IMAGE = par_id limit 1;
+	select `DESCRIPTION`,CONTENT,MIME from images where ARTICLE_ID = par_id;
 END //
 DELIMITER ;
 DELIMITER //
@@ -295,7 +368,146 @@ CREATE PROCEDURE sp_GetVideo(
 	IN par_id int
 )
 BEGIN
-	select CONTENT,MIME from videos where ID_VIDEO = par_id limit 1;
+	select `DESCRIPTION`,CONTENT,MIME from videos where ARTICLE_ID = par_id;
 END //
 DELIMITER ;
-
+DELIMITER //
+DROP PROCEDURE IF EXISTS sp_Delete_MediaFromArticle//
+CREATE PROCEDURE sp_Delete_MediaFromArticle(
+	IN par_aid int
+)
+BEGIN
+	SET SQL_SAFE_UPDATES = 0;
+		DELETE FROM videos where ARTICLE_ID = par_aid;
+		DELETE FROM images where ARTICLE_ID = par_aid;
+	SET SQL_SAFE_UPDATES = 1;
+END //
+DELIMITER ;
+-- ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-- //////////////////////////////////////////////////// Feedbacks//////////////////////////////////////////////////////////////////////////////////////////////
+-- ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+DELIMITER //
+DROP PROCEDURE IF EXISTS sp_Insert_Feedbacks//
+CREATE PROCEDURE sp_Insert_Feedbacks(
+	IN par_FEEDBACK_TEXT varchar(1000),
+	IN par_FEEDBACK_BY int,
+    IN par_FEEDBACK_FOR int,
+    IN par_ARTICLE_ID int
+)
+BEGIN
+		Insert into feedbacks(FEEDBACK_TEXT,FEEDBACK_BY,FEEDBACK_FOR,ARTICLE_ID,LAST_UPDATED_BY)
+        values(par_FEEDBACK_TEXT,par_FEEDBACK_BY,par_FEEDBACK_FOR,par_ARTICLE_ID,par_FEEDBACK_BY);
+END //
+DELIMITER ;
+DELIMITER //
+DROP PROCEDURE IF EXISTS sp_Insert_Feedbacks_Children//
+CREATE PROCEDURE sp_Insert_Feedbacks_Children(
+	IN par_FEEDBACK_TEXT varchar(1000),
+	IN par_FEEDBACK_BY int,
+    IN par_FEEDBACK_FOR int,
+    IN par_ARTICLE_ID int,
+    iN par_PARENTID int
+)
+BEGIN
+		call sp_Insert_Feedbacks(par_FEEDBACK_TEXT,par_FEEDBACK_BY,par_FEEDBACK_FOR,par_ARTICLE_ID);
+        SET @Fid = LAST_INSERT_ID();
+        insert into news_feedbacks(FEEDBACK_ID,ARTICLE_ID,PARENT_ID,`ACTIVE`)
+        values(@Fid,par_ARTICLE_ID,par_PARENTID,true);
+END //
+DELIMITER ;
+DELIMITER //
+DROP PROCEDURE IF EXISTS sp_GetFeedbackId//
+CREATE PROCEDURE sp_GetFeedbackId(
+	IN par_by int,
+    IN par_for int,
+    IN par_Date int
+)
+BEGIN
+	select * from feedbacks where
+    FEEDBACK_BY = par_by and FEEDBACK_FOR = par_for and CREATION_DATE = par_Date;
+END //
+DELIMITER ;
+DELIMITER //
+DROP PROCEDURE IF EXISTS sp_GetFeedbacks//
+CREATE PROCEDURE sp_GetFeedbacks(
+	IN par_id int
+)
+BEGIN
+	select * from feedbacks where FEEDBACK_ID = par_id;
+END //
+DELIMITER ;
+DELIMITER //
+DROP PROCEDURE IF EXISTS sp_GetFeedbacksFor//
+CREATE PROCEDURE sp_GetFeedbacksFor(
+	IN par_for int
+)
+BEGIN
+	select * from feedbacks where FEEDBACK_FOR = par_for;
+END //
+DELIMITER ;
+DELIMITER //
+DROP PROCEDURE IF EXISTS sp_GetFeedbacksBy//
+CREATE PROCEDURE sp_GetFeedbacksBy(
+	IN par_for int
+)
+BEGIN
+	select * from feedbacks where FEEDBACK_BY = par_for;
+END //
+DELIMITER ;
+DELIMITER //
+DROP PROCEDURE IF EXISTS sp_GetFeedbacksArticle//
+CREATE PROCEDURE sp_GetFeedbacksArticle(
+	IN par_aid int
+)
+BEGIN
+	select * from feedbacks where ARTICLE_ID = par_aid;
+END //
+DELIMITER ;
+-- ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-- //////////////////////////////////////////////////// comments//////////////////////////////////////////////////////////////////////////////////////////////
+-- ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+DELIMITER //
+DROP PROCEDURE IF EXISTS sp_Insert_Comment//
+CREATE PROCEDURE sp_Insert_Comment(
+	IN par_COMMENT_TEXT varchar(1000),
+	IN par_CREATED_BY int,
+    IN par_ARTICLE_ID int
+)
+BEGIN
+		Insert into comments(COMMENT_TEXT,CREATED_BY,LAST_UPDATED_BY,ARTICLE_ID)
+        values(par_COMMENT_TEXT,par_CREATED_BY,par_CREATED_BY,par_ARTICLE_ID);
+END //
+DELIMITER ;
+DELIMITER //
+DROP PROCEDURE IF EXISTS sp_GetCommentsArticle//
+CREATE PROCEDURE sp_GetCommentsArticle(
+	IN par_aid int
+)
+BEGIN
+	select * from comments where ARTICLE_ID = par_aid;
+END //
+DELIMITER ;
+-- ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-- //////////////////////////////////////////////////// Asosiativas////////////////////////////////////////////////////////////////////////////////////////////
+-- ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+DELIMITER //
+DROP PROCEDURE IF EXISTS sp_Insert_asoc_news_categories//
+CREATE PROCEDURE sp_Insert_asoc_news_categories(
+	IN par_aid int,
+    IN par_categ varchar(200),
+    IN par_creator int
+)
+BEGIN
+		Insert into news_categories(ARTICLE_ID,CATEGORY,CREATED_BY)
+        values(par_aid,par_categ,par_creator);
+END //
+DELIMITER ;
+DELIMITER //
+DROP PROCEDURE IF EXISTS sp_GetCategOfArticle//
+CREATE PROCEDURE sp_GetCategOfArticle(
+	IN par_aid int
+)
+BEGIN
+	select CATEGORY from news_categories where ARTICLE_ID = par_aid;
+END //
+DELIMITER ;

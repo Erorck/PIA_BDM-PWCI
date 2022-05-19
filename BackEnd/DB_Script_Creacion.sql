@@ -96,12 +96,13 @@ CREATE TABLE `NOTIPAPA_DB`.`USERS` (
   `FEEDBACK_STATUS` CHAR(2) NOT NULL DEFAULT 'P' COMMENT 'Estado actual del comentario [A-Aprobado P-Pendiente de aprobacion  E-Eliminado]',
   `ARTICLE_ID` INT NOT NULL COMMENT 'Id de la noticia a la que pertence el FeedBack',
   PRIMARY KEY (`FEEDBACK_ID`));
-
+  
+ 
 CREATE TABLE IF NOT EXISTS NEWS_FEEDBACKS(
     `FEEDBACK_ID` INT NOT NULL AUTO_INCREMENT COMMENT "Llave primaria de la tabla NEWS_FEEDBACKS",
     `ARTICLE_ID` INT NOT NULL COMMENT "Llave primaria de la tabla NEWS",
     `PARENT_ID` INT COMMENT "Nos indica si otro ID de la tabla de NEWS_FEEDBACKS se respondio con este mensaje",
-    `CREATION_DATE` DATETIME NOT NULL COMMENT "Fecha de creacion del registro",
+    `CREATION_DATE` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT "Fecha de creacion del registro",
     `ACTIVE` BOOLEAN DEFAULT TRUE NOT NULL COMMENT "Indica si el registro esta activo en la base de datos",
     PRIMARY KEY (`FEEDBACK_ID`,`ARTICLE_ID`),
     INDEX (`PARENT_ID`)

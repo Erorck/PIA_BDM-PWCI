@@ -8,6 +8,7 @@
     $LoggedUser = false;
     $numArticles = $numRRArticles = $numRAArticles = $numPUArticles = 0;
     $ArticlesExist = $ArticlesRRExist = $ArticlesRAExist = $ArticlesPUExist = false;
+    $ArticulosPU=[];
     if(connection::GetCategories($datarray)){
         foreach($datarray as $cat){
         $categ = new Categoria($cat);
@@ -22,6 +23,16 @@
     if(connection::GetCountArticles($numRRArticles,"RR")) $ArticlesRRExist = true;
     if(connection::GetCountArticles($numRAArticles,"RA")) $ArticlesRAExist = true;
     if(connection::GetCountArticles($numPUArticles,"PU")) $ArticlesPUExist = true;
+    if($ArticlesPUExist)
+    {
+        if(connection::GetArticles($datarray)){
+            foreach($datarray as $art){
+            $arti = new Articulo($art);
+            if($arti->ARTICLE_STATUS === 'PU')array_push($ArticulosPU,$arti);
+            }
+        }
+        // para ponerlos en la lista de articulos pendientes de revision paps
+    }
 ?>
 <!DOCTYPE html>
 <html>
@@ -58,6 +69,9 @@
                     }
                 });
             });
+            $('.ZonaNoticia').click(function(){
+                $(this).children('.ArticleViewForm').submit();
+            });
         });
     </script>
       
@@ -76,7 +90,6 @@
             </div>
             <div class = "Barra-navegacion">
                 <h3 class="Logo-web">Noticias</h3>
-                <a href="index.php">Volver Al Indice</a>
                 <a href="Main.php"><i class="fa fa-home" aria-hidden="true"></i></a>
                 <form action="Busqueda.php" name="F_Search" class="SearchBarForm">
                 <div id="Barra"><input type = "text" name ="srchParam" placeholder="Busqueda"></div>
@@ -113,42 +126,31 @@
         </div>
         <div class="mainContenedor" id="portalcon">
             <div class="ZonaFeed">
-            <?php
-                 $Articulos = array(
-                    array(
-                    "Revive Gustavo Cerati ",
-                    "25/02/2022",
-                    "\"Che Que loco Revivi Fua xdxd\" Exclamo el cantante argentino",
-                    "media/img/GustavoCerati.jpg"
-                    ),
-                    array(
-                    "LLueve Bien Gacho Y Mucha gente se cayo",
-                    "26/02/2022",
-                    "Se rompieron la maceta",
-                    "media/img/huracan.jpg"
-                    ),
-                    array(
-                    "LLEga el Coronavirus 3 La Venganza de los Sith",
-                    "24/02/2022",
-                    "Todos Vamos A Morir Dicen los reporteros",
-                    "media/img/Corona.jpg"
-                    ),
-                    );
-                ?>
-                
                 <?php
-                for ($row = 0; $row < count($Articulos); $row++) {
-                    echo "<div class='ZonaNoticia'>";
-                    echo'<div class="imgZone"> <img src="'.$Articulos[$row][3].'" alt="ImagenNoticia"></div>
-                        <div class="TxtZone">
-                        <h1 class="txtTitulo">'.$Articulos[$row][0].'</h1>
-                        <p class="txtFecha">'.$Articulos[$row][1].'<p>
-                        <p class="txtDesc">
-                        '.$Articulos[$row][2].'
-                        </p>
-                        </div>';
-                    echo "</div>";
-                  }
+                if(!$ArticlesPUExist) echo'<h3>No hay noticias pendientes</h3>';
+                else{
+                    for($i=0;$i<(count($ArticulosPU));$i++){
+                        //display Article
+                        echo "<div class='ZonaNoticia'>";
+                        echo'<form class="ArticleViewForm" action="ArticleView.php" method="GET">
+                        <input type="hidden" id="ArticleId" name="ArticleId" value="'.$ArticulosPU[$i]->ARTICLE_ID.'">
+                        </form>';
+                        if(connection::GetImageArticle($ArticulosPU[$i]->ARTICLE_ID,$ImgBlob)){
+                            echo'<div class="imgZone"> 
+                            
+                            <img src="data:'.$ImgBlob['mime'].';base64,'.base64_encode($ImgBlob['data']).'" alt="thumbnail">
+                            </div>';
+                        }
+                        echo'<div class="TxtZone">
+                            <h1 class="txtTitulo">'.$ArticulosPU[$i]->ARTICLE_HEADER.'</h1>
+                            <p class="txtFecha">'.$ArticulosPU[$i]->EVENT_DATE.'<p>
+                            <p class="txtDesc">
+                            '.$ArticulosPU[$i]->ARTICLE_DESCRIPTION.'
+                            </p>
+                            </div>';
+                        echo "</div>";
+                    }
+                }
                 ?>
                
             </div>

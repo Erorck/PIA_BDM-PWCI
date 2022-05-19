@@ -278,6 +278,13 @@
                     } else Swal.fire('Inserte un nombre valido para la categoría');
                 }
             });
+            ////////////////////////////////////
+            //        Revisar Articulos
+            ////////////////////////////////////
+            $('.ZonaNoticia').click(function(){
+                $(this).children('.ArticleReviewForm').submit();
+            });
+            
 
         });
     </script>
@@ -287,7 +294,6 @@
     <div class ="topAnclado">
             <div class = "Barra-navegacion">
                 <h3 class="Logo-web">Noticias</h3>
-                <a href="index.php">Volver Al Indice</a>
                 <a href="Main.php"><i class="fa fa-home" aria-hidden="true"></i></a>
                 <form action="Busqueda.php" name="F_Search" class="SearchBarForm">
                 <div id="Barra"><input type = "text" name ="srchParam" placeholder="Busqueda"></div>
@@ -360,6 +366,9 @@
                     for($i=0;$i<(count($ArticulosRR));$i++){
                         //display Article
                         echo "<div class='ZonaNoticia'>";
+                        echo'<form class="ArticleReviewForm" action="ArticleReview.php" method="GET">
+                        <input type="hidden" id="ArticleId" name="ArticleId" value="'.$ArticulosRR[$i]->ARTICLE_ID.'">
+                        </form>';
                         if(connection::GetImageArticle($ArticulosRR[$i]->ARTICLE_ID,$ImgBlob)){
                             echo'<div class="imgZone"> 
                             
@@ -373,6 +382,18 @@
                             '.$ArticulosRR[$i]->ARTICLE_DESCRIPTION.'
                             </p>
                             </div>';
+                            $feedbacks = [];
+                            if(connection::GetFeedBackForArticle($ArticulosRR[$i]->ARTICLE_ID,$feedbacks)){
+                                echo'<div class="FeedbackList">';
+                                echo'<h4>Comentarios del Editor:</h4>';
+                                foreach($feedbacks as $feedback){
+                                    echo'<div>';
+                                    echo'<h7>'.$feedback['FEEDBACK_TEXT'].'</h7> <br>';
+                                    echo'<h8>revisado el:'.$feedback['CREATION_DATE'].'</h8> <br>';
+                                    echo'</div>';
+                                }
+                                echo'</div>';
+                            }
                         echo "</div>";
                     }
                 }

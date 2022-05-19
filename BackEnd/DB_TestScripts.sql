@@ -23,6 +23,9 @@ ALTER TABLE videos AUTO_INCREMENT = 1;
 ALTER TABLE articles AUTO_INCREMENT = 1;
 select * from articles;
 
+CALL `notipapa_db`.`sp_GetArticleImg`(1);
+
+
 select * from images;
 select * from videos;
  

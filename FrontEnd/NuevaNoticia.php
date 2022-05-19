@@ -37,7 +37,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!--Para aceptar todas las letras-->
-    <title>Crear cuenta</title>
+    <title>Crear Articulo</title>
     <link rel="stylesheet" href="css/styles.css" >
       <link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.min.css">
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -92,6 +92,10 @@
                 $('#FileAddDiv').append(inputStr);
                 $('#FileAddDiv').append(subPrevStr);
             } 
+
+            function jsonEscape(str)  {
+                return str.replace(/\n/g, "\\\\n").replace(/\r/g, "\\\\r").replace(/\t/g, "\\\\t");
+            }
 
             $(document).ready(function() { 
             loadDefThumbnail();
@@ -192,7 +196,6 @@
                 <form id="ArticleForm" method="post" name ="ArticleForm" autocomplete="off">
                     <label >Categoria del Articulo:</label>
                     <select class="form-control" id="SelCateg" name="SelCateg" placeholder="Categoria">
-                        <option value="PENDING">Dejar Que el Editor Decida</option>
                         <?php
                         foreach($Categorias as $Categ){
                             echo'<option class="Categ" value="'.$Categ->name.'" style="background-color:#'.$Categ->color.'">'.$Categ->name.'</option>';
@@ -232,6 +235,7 @@
                     </div>
                     <br>
                     <input type="submit"class="btn btn-warning" name="ArticleSubmit" id="ArticleSubmit" value="Enviar" /> 
+                    <input type="button"class="btn btn-warning" style="background-color:red; color:white;"name="ArticleSubmit" id="ArticleSubmit" value="Cancelar" onclick="window.history.go(-1); return false;" /> 
                 </form>
                 </div>
             </div>

@@ -41,23 +41,20 @@ else{
         //get img from files
         if(!connection::GetUserId($uname,$id)) echo json_encode(array('success' => 0));
         else{
-            $arrArticulo['author'] = $id;
             $arrArticulo['thumbnail'] = $imgData;
             $arrArticulo['mime'] = $Mime;
             $textoarea = $arrArticulo['content'];
             $textoarea2 = addslashes($arrArticulo['content']);
-            $x=1;
-            if(!connection::AddArticle($arrArticulo)) echo json_encode(array('success' => 0));
+            if(!connection::UpdateArticle($arrArticulo)) echo json_encode(array('success' => 0));
             else{
                 //if there are files do insert files in DB
                 if(isset($_POST['FilesCount']) && $_POST['FilesCount'] >0 ){
-                    //Get Article Id
-                    $idArticulo = null;
-                    if(!connection::GetIdArticleBy_DA_H_Cby($idArticulo,$arrArticulo['date'],$arrArticulo['header'],$arrArticulo['author'])) echo json_encode(array('success' => 0));
-                    else{
-                        $AdjFiles = $_FILES['Files'];
-                        $currfileok = false;
-                        for($i = 0;$i<count($AdjFiles['name']);$i++){
+                    //delete all media previously associated with this article
+                        if(!connection::DeleteMediaArticle($arrArticulo['aid'])) echo json_encode(array('success' => 0));
+                        else{
+                            $AdjFiles = $_FILES['Files'];
+                            $currfileok = false;
+                            for($i = 0;$i<count($AdjFiles['name']);$i++){
                             //check whether is vid or img
                             $curfiletype = explode('/',$AdjFiles['type'][$i])[0];
                             if($curfiletype === "video"){
@@ -76,7 +73,7 @@ else{
                                 $videoDataEncoded = base64_encode($videoData);
                                 //procedemos a pasar datos a un arreglo subir archivo a la db
                                 $videoArray = [];
-                                $videoArray['Aid'] =$idArticulo ;
+                                $videoArray['Aid'] =$arrArticulo['aid'] ;
                                 $videoArray['Desc'] =$vfile_name;
                                 $videoArray['Content']=$videoData;
                                 $videoArray['Mime']=$AdjFiles['type'][$i];
@@ -100,7 +97,7 @@ else{
                                 $iDataEncoded = base64_encode($iData);
                                 //procedemos a pasar datos a un arreglo subir archivo a la db
                                 $imageArray = [];
-                                $imageArray['Aid'] =$idArticulo ;
+                                $imageArray['Aid'] =$arrArticulo['aid'] ;
                                 $imageArray['Desc'] =$ifile_name;
                                 $imageArray['Content']=$iData;
                                 $imageArray['Mime']=$AdjFiles['type'][$i];
@@ -110,12 +107,11 @@ else{
                             }
                         }
                         if($currfileok||count($AdjFiles['name'])==0){
-                            //insertamos en Categ_News
-                            if(!connection::AsocNewsCateg($idArticulo,$arrArticulo['categ'],$id))echo json_encode(array('success' => 0));
-                            else echo json_encode(array('success' => 1));
+                            echo json_encode(array('success' => 1));
                         } 
                         else echo json_encode(array('success' => 0));
-                    }
+                        }
+                    
                 }
                 else echo json_encode(array('success' => 1));
             }  

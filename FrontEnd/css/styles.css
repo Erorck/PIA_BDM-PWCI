@@ -128,16 +128,13 @@ height: fit-content;
     color: var(--AzulDarks)
 }
 
-.Barra-navegacion #Account{
+.Barra-navegacion #Account, .Barra-navegacion #accountHyperlinks {
     margin-left: auto;
     font-family: sans-serif;
     font-weight: bolder;
     font-size: 70%;
     font-stretch: condensed;
     color: var(--Blanquito);
-}
-
-.Barra-navegacion #Account, .Barra-navegacion #accountHyperlinks {
     flex-wrap: nowrap;
     display: flex;
     justify-content: center;
@@ -146,6 +143,9 @@ height: fit-content;
 }
 .Barra-navegacion div h3 {
     margin-inline: 20%;
+}
+.Barra-navegacion #accountHyperlinks > a {
+    margin-inline: 5%;
 }
 .Barra-navegacion div > a {
     margin-inline: 20%;
@@ -164,7 +164,7 @@ height: fit-content;
 #catBar .Categ{
     margin: auto;
     margin-inline: 3px;
-     transition: transform .2s;
+    transition: transform .2s;
 }
 
 #catBar .Categ:hover{
@@ -323,6 +323,7 @@ footer {
     display: flex;
     justify-content: left;
     align-items: center;
+    transition: transform 0.2s;
 }
 
 .ZonaNoticia .imgZone{
@@ -348,6 +349,9 @@ footer {
 
 .ZonaNoticia .txtFecha{
     color: var(--Celestito);
+}
+.ZonaNoticia:hover{
+    transform: scale(1.02);
 }
 
 .ZonaFeedProfile{
@@ -610,3 +614,188 @@ box-shadow: 10px 0 0 #F0F0F0, 20px 0 0 #000, 30px 0 0 #F0F0F0, 0 10px 0 #F0F0F0,
 #profilemenu .notify-bubble {
     font-size: 2vh;
 }
+ 
+/*Esto de abajo es para el visualizador de Articulos*/
+
+img.news-image {
+    background: #dadada;
+    height: 50px;
+    width: 50px;
+  }
+  p.news-info {
+    margin-top: 0;
+  }
+  .news-item {
+    clear: both;
+    border-top: 1px solid #dadada;
+  }
+  .odd div.news-info {
+    float: right;
+  }
+  .odd div.news-image {
+    float: left;
+  }
+  .even div.news-info {
+    float: left;
+  }
+  .even div.news-image {
+    float: right;
+  }
+
+  #newview{
+    display: block;
+    max-width: 75vw;
+    -webkit-box-shadow: 10px 0 0 #F0F0F0, 20px 0 0 #000, 30px 0 0 #F0F0F0, 0 10px 0 #F0F0F0, 10px 10px 0 #000, 20px 10px 0 #F0F0F0, 30px 10px 0 #000, 0 20px 0 #000, 10px 20px 0 #F0F0F0, 20px 20px 0 #000, 30px 20px 0 #F0F0F0, 0 30px 0 #F0F0F0, 10px 30px 0 #000, 20px 30px 0 #F0F0F0, 30px 30px 0 #000, 5px 5px 15px 5px rgba(0,0,0,0); 
+    box-shadow: 10px 0 0 #F0F0F0, 20px 0 0 #000, 30px 0 0 #F0F0F0, 0 10px 0 #F0F0F0, 10px 10px 0 #000, 20px 10px 0 #F0F0F0, 30px 10px 0 #000, 0 20px 0 #000, 10px 20px 0 #F0F0F0, 20px 20px 0 #000, 30px 20px 0 #F0F0F0, 0 30px 0 #F0F0F0, 10px 30px 0 #000, 20px 30px 0 #F0F0F0, 30px 30px 0 #000, 5px 5px 15px 5px rgba(0,0,0,0);
+    }
+    #newview  button{
+        transition: transform .2s;
+    }
+    #newview  button:hover{
+        transform: scale(1.2);
+    }
+
+  #ZonaNew{
+    margin: auto;
+    text-align: center;
+    max-width: 90%;
+    background-color: var(--ArroBlanco);
+  }
+  #ZonaNew .Titulo{
+    font-family: sans-serif;
+    font-weight:bolder;
+    font-stretch: condensed;
+    color: var(--AzulDarkers);
+    font-size: 10vh;
+  }
+  #ZonaNew .Subtitulo{
+    font-family: sans-serif;
+    font-weight:bolder;
+    font-stretch: condensed;
+    color: var(--AzulDarkers);
+    font-size: 5vh;
+  }
+  #ZonaNew .Fecha{
+    text-shadow: 0px 4px 3px rgba(0,0,0,0.4),
+    0px 8px 13px rgba(0,0,0,0.1),
+    0px 18px 23px rgba(0,0,0,0.1);
+    font-family: sans-serif;
+    font-weight:bolder;
+    font-stretch: condensed;
+    color: var(--AzulDarks);
+    font-size: 4vh;
+  }
+  #ZonaNew .Direccion{
+    font-family: sans-serif;
+    font-weight:bolder;
+    font-stretch: condensed;
+    color: var(--AzulDarks);
+    font-size: 2.5vh;
+  }
+
+  #ZonaNew .parrafo{
+      background-color: var(--Blanquito);
+      border: var(--Blanquito) 8px dashed;
+      box-shadow: rgba(67, 71, 85, 0.27) 0px 0px 0.25em, rgba(90, 125, 188, 0.05) 0px 0.25em 1em;
+      white-space: normal;
+      word-break: break-all;
+  }
+
+  #ZonaNew .Thumbnail{
+    width: 100%;
+    max-height: 50vh;
+    box-shadow: rgba(67, 71, 85, 0.27) 0px 0px 0.25em, rgba(90, 125, 188, 0.05) 0px 0.25em 1em;box-shadow: rgba(0, 0, 0, 0.09) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px;
+  }
+  #ZonaNew  .Media{
+    max-height: 66vh;
+    width: 100%;
+  }
+
+  #ZonaNew  .MediaImg{
+      margin-bottom: 3vh;
+      max-height: 66vh;
+      width: 100%;
+      box-shadow: rgba(67, 71, 85, 0.27) 0px 0px 0.25em, rgba(90, 125, 188, 0.05) 0px 0.25em 1em; 
+    }
+
+    #ZonaNew .Aprobar, #ZonaNew .Denegar{
+        height: fit-content;
+        width: fit-content;
+        transition: transform .2s;
+        font-size: 5vh;
+    }
+
+    #ZonaNew .Aprobar:hover, #ZonaNew .Denegar:hover{
+        transform: scale(1.2);
+    }
+
+    #ZonaNew .Aprobar{background-color: rgb(149, 236, 18);}
+    #ZonaNew .Denegar{background-color: rgb(120, 20, 20); color:white}
+
+    .FeedbackList{
+        text-align: center;
+        border: #30475E 3px dashed;
+        background-color: var(--Celestito);
+        font-size: 3vh;
+        width: 50%;
+        margin-inline: auto;
+    }
+
+    .FeedbackList > div{
+        background-color: var(--Blanquito);
+        border: #808080 dotted 2px;
+    }
+
+    
+
+    #commentsDiv{
+        display: block;
+        text-align: center;
+        background-color: #dadada;
+        border: #30475E dashed 2px;
+        width: 90%;
+        margin: auto;
+        height: fit-content;
+    }
+
+    .comment{
+        display: flex;
+        white-space: nowrap;
+        flex-wrap: wrap;
+        background-color: var(--Blanquito);
+        border: var(--Celestito) dotted 2px;
+        height: fit-content;
+        margin-top: 1vh;
+    }
+
+    .commentAuthor{
+        width: 12vh;
+        height: 12vh;
+    }
+
+    .commentAuthor > h6{
+        font-size: 50%;
+    }
+
+    .commentPfp{
+        height: 75%;
+        width: 100%;
+    }
+
+   .commentContent{
+        white-space: normal;
+        width: 80%;
+    }
+
+    .comment > .child{
+        margin-inline: auto;
+        width: 90%;
+        border:none;
+        border-top: var(--grisesito) dotted 2px;
+        white-space: nowrap;
+    }
+
+    .fecha{
+        color: var(--Celestito);
+    }
+    
