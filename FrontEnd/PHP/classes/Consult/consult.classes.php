@@ -20,6 +20,7 @@ class Consults extends Dbh{
             return 0;
         }
        
+        $stmt = null;
         return $journalists;
     }
     
@@ -39,6 +40,7 @@ class Consults extends Dbh{
             return 0;
         }
        
+        $stmt = null;
         return $users;
     }
 
@@ -58,6 +60,7 @@ class Consults extends Dbh{
             return 0;
         }
        
+        $stmt = null;
         return $sections;
     
     }
@@ -76,8 +79,30 @@ class Consults extends Dbh{
             $_SESSION["e_sections"] = $sections;
         }else{
             return 0;
+        }       
+        
+        $stmt = null;
+        return $sections;
+    }
+
+    protected function retrieveAllCtgsFromReport($reportId){
+        $stmt = $this->connect()->prepare("CALL sp_News_Categories('SSR', NULL, ?, NULL)");
+        if(!$stmt->execute(array($reportId))){
+            $stmt=null;
+            header("location:../Pages/Crear_noticia.php?error=stmtfailed");
+            exit();
+        }
+      
+        if($stmt->rowCount()>0){
+            session_start();
+            $sections = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            $_SESSION["o_sections"] = $sections;
+        }else{
+            return 0;
         }
        
+        $stmt = null;
         return $sections;
     }
 
@@ -97,7 +122,75 @@ class Consults extends Dbh{
             return 0;
         }
        
+        $stmt = null;
         return $tags;
+        
+    }
+
+    protected function retrieveAllTagsFromReport($reportId){
+        $stmt = $this->connect()->prepare("CALL sp_News_Tags('STR', NULL, ?, NULL)");
+        if(!$stmt->execute(array($reportId))){
+            $stmt=null;
+            header("location:../Pages/Crear_noticia.php?error=stmtfailed");
+            exit();
+        }
+
+      
+        if($stmt->rowCount()>0){
+            session_start();
+            $tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            $_SESSION["o_tags"] = $tags;
+        }else{
+            return 0;
+        }
+       
+        $stmt = null;
+        return $tags;
+    }
+
+    protected function retrieveAllImagesFromReport($reportId){
+        $stmt = $this->connect()->prepare("CALL sp_Images('SIR', NULL, NULL, ?)");
+        if(!$stmt->execute(array($reportId))){
+            $stmt=null;
+            header("location:../Pages/Crear_noticia.php?error=stmtfailed");
+            exit();
+        }
+
+      
+        if($stmt->rowCount()>0){
+            session_start();
+            $images = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            $_SESSION["o_images"] = $images;
+        }else{
+            return 0;
+        }
+       
+        $stmt = null;
+        return $images;
+    }
+
+    protected function retrieveAllVideosFromReport($reportId){
+        $stmt = $this->connect()->prepare("CALL sp_Videos('SVR', NULL, NULL, ?)");
+        if(!$stmt->execute(array($reportId))){
+            $stmt=null;
+            header("location:../Pages/Crear_noticia.php?error=stmtfailed");
+            exit();
+        }
+
+      
+        if($stmt->rowCount()>0){
+            session_start();
+            $videos = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            $_SESSION["o_videos"] = $videos;
+        }else{
+            return 0;
+        }
+       
+        $stmt = null;
+        return $videos;
     }
 
 }

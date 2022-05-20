@@ -24,5 +24,21 @@ include"consult.classes.php";
             return $this->getAllTags();         
         }
 
+        public function getReportCtgs($reportId){ 
+            return $this->retrieveAllCtgsFromReport($reportId);         
+        }
+
+        public function getReportTags($reportId){ 
+            return $this->retrieveAllTagsFromReport($reportId);         
+        }
+
+        public function getReportVideos($reportId){ 
+            return $this->retrieveAllVideosFromReport($reportId);         
+        }
+
+        public function getReportImages($reportId){ 
+            return $this->retrieveAllImagesFromReport($reportId);         
+        }
+
     }
 ?>

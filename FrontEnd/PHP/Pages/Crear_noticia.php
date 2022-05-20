@@ -1,6 +1,10 @@
 <!doctype html>
 <html lang="en">
 
+<?php
+  session_start();
+?>
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -62,7 +66,7 @@
 
                   <div class="col-12">
                     <label for="text" class="form-label">Firma autor</label>
-                    <input type="text" class="form-control" id="firma" placeholder="@Reportero">
+                    <input type="text" class="form-control" id="firma" placeholder="@Reportero" value=<?php if (isset($_SESSION['user']) && $_SESSION['user']['USER_ALIAS'] != null) echo $_SESSION['user']['USER_ALIAS']?>>
                   </div>
 
                   <div class="col-12">
@@ -77,13 +81,18 @@
 
 
                   <div class="col-12">
+                    <label for="address" class="form-label">Calle</label>
+                    <input type="text" class="form-control" id="address" placeholder="Av. Siempre viva 201">
+                  </div>
+
+                  <div class="col-12">
                     <label for="address" class="form-label">Colonia</label>
-                    <input type="text" class="form-control" id="address" placeholder="1234 Main St">
+                    <input type="text" class="form-control" id="address2" placeholder="Main St">
                   </div>
 
                   <div class="col-12">
                     <label for="address2" class="form-label">Ciudad </label>
-                    <input type="text" class="form-control" id="address2" placeholder="Nuevo León">
+                    <input type="text" class="form-control" id="address3" placeholder="Nuevo León">
                   </div>
 
                   <div class="col-md-5">
@@ -93,6 +102,7 @@
                       <option value="México">México</option>
                       <option value="EE.UU">EE.UU</option>
                       <option value="Canadá">Canadá</option>
+                      <option value="Brasil">Brasil</option>
                     </select>
                   </div>
 
@@ -203,7 +213,7 @@
           </div>
         </div>
         <hr class="my-4">
-        <button class=" boton_final w-100 btn btn-outline-success btn-lg" type="submit">CREAR NOTICIA</button>
+        <button id="upload_report" class=" boton_final w-100 btn btn-outline-success btn-lg" type="button" >CREAR NOTICIA</button>
       </form>
 
     </main>

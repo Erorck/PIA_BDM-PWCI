@@ -1,48 +1,48 @@
 <?php
-include "image.classes.php";
+include "news_tags.classes.php";
 
-    class ImageContr extends Image{
-        private $image;
-        private $imageId;
+    class News_TagsContr extends News_Tags{
+        private $tag;
         private $reportId;
+        private $updated_by;
 
         public function __construct(){}
 
         //Pseudocostructor que crea una instancia y la llena con el id dado
-        public static function withId($imageId, $reportId){
+        public static function withId($tag, $reportId, $updated_by){
             $instance = new self();
-            $instance->fillWithId($imageId, $reportId);
+            $instance->fillWithId($tag, $reportId, $updated_by);
             return $instance;
         }
 
         //Pseudocostructor que crea una instancia y la llena con la imagen dada
-        public static function withImage($image, $reportId){
+        public static function withName($tag){
             $instance = new self();
-            $instance->fillWithImage($image, $reportId);
+            $instance->fillWithName($tag);
             return $instance;
 
         }
         
         //Asigna la el parametro al id de la imagen
-        protected function fillWithId($imageId, $reportId){
-            $this->imageId = $imageId;
+        protected function fillWithId($tag, $reportId, $updated_by){
+            $this->tag = $tag;
             $this->reportId = $reportId;
+            $this->updated_by = $updated_by;
         }
         
         //Asigna la el parametro al id de la imagen
-        protected function fillWithImage($image, $reportId){
-            $this->image = $image;
-            $this->reportId = $reportId;
+        protected function fillWithName($tag){
+            $this->tag = $tag;
         }
 
         //Llamado a la funcion de la clase Image que sube la imagen a la base de datos
         public function insert(){
-            $this->insertImage($this->image, $this->reportId);
+            $this->insertNews_Tags($this->tag, $this->reportId, $this->updated_by);
         }
 
         //Llamado a la funcion de la clase Image que elimina la imagen a la base de datos
         public function delete(){
-            $this->deleteImage($this->imageId, $this->reportId);
+            $this->deleteNewsTags($this->tag, $this->reportId);
         }
 
         

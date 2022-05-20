@@ -14,8 +14,9 @@ function validarFormularioNoticia() {
         firma = $('#firma').val(),
         descrip = $('#descrip').val(),
         text = $('#Texto').val(),
-        col = $('#address').val(),
-        city = $('#address2').val(),
+        sttr = $('#address').val(),
+        col = $('#address2').val(),
+        city = $('#address3').val(),
         pais = $("#country option:selected"),
         secc = $('#section_list_rad input[type=checkbox]:checked'),
         date = $('#Fecha').val()
@@ -51,23 +52,30 @@ function validarFormularioNoticia() {
 
     }
 
-    if (col == "" || col == null) {
+    if (sttr == "" || sttr == null) {
         cambiarColor("address");
         mostrarAlerta_Form("address", "Campo obligatorio")
         resultado = false;
 
     }
 
-    if (city == "" || city == null) {
+    if (col == "" || col == null) {
         cambiarColor("address2");
         mostrarAlerta_Form("address2", "Campo obligatorio")
+        resultado = false;
+
+    }
+
+    if (city == "" || city == null) {
+        cambiarColor("address3");
+        mostrarAlerta_Form("address3", "Campo obligatorio")
         resultado = false;
 
     } else {
         var ciud = /^[a-zA-ZÀ-ÿ\s]{1,40}$/;
         if (!ciud.test(city)) {
-            cambiarColor("address2");
-            mostrarAlerta_Form("address2", "Por favor ingrese solo letras");
+            cambiarColor("address3");
+            mostrarAlerta_Form("address3", "Por favor ingrese solo letras");
             resultado = false;
 
         }

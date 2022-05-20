@@ -4,7 +4,7 @@
 CALL sp_News_Tags('I', 'Manzana');
 CALL sp_News_Tags('I', 'Papaya');
 CALL sp_News_Tags('SAA', NULL);*/
--- CALL sp_News_Tags('E', 1, NULL, NULL, NULL, NULL);
+-- CALL sp_News_Tags('STR', NULL, 1);
 
 -- DELETE FROM categories WHERE CATEGORY_ID = 2;
 
@@ -52,7 +52,7 @@ BEGIN
     /*#######################################
 		CONSULTAR TODAS LAS DE UNA NOTICIA
     ########################################*/
-    IF Oper = 'SAR'
+    IF Oper = 'STR'
 	THEN
 		SELECT `TAG` AS TAG_NAME, `REPORT_ID` AS REPORT, `CREATION_DATE`, `CREATED_BY` AS CREATED_BY_ID
         FROM news_tags

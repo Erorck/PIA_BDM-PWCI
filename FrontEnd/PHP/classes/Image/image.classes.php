@@ -1,37 +1,25 @@
 <?php
-include"../classes/dbh.classes.php";
 
 class Image Extends Dbh{
 
-    protected function upload($image){
-        $stmt = $this->connect()->prepare("INSERT INTO BD_IMAGES(IMAGE_BLOB, CREATION_DATE) VALUES(?,sysdate());");
-        if(!$stmt->execute(array($image))){
+    protected function insertImage($image, $reportId){
+        $stmt = $this->connect()->prepare('CALL sp_Images("I", NULL, ?, ?);');
+        if(!$stmt->execute(array($image, $reportId))){
             $stmt=null;
-            header("location:../load.php?error=stmtfailed");
+            header("location:../Crear_noticia.php?error=stmtfailed");
             exit();
         }
         $stmt=null;
     }
 
-    protected function retrieve($imageId){
-        $stmt = $this->connect()->prepare("SELECT IMAGE_BLOB FROM BD_IMAGES WHERE IMAGE_ID = ?;");
-        if(!$stmt->execute(array($imageId))){
+    protected function deleteImage($image_id, $reportId){
+        $stmt = $this->connect()->prepare('CALL sp_Images("E", ?, NULL, ?);');
+        if(!$stmt->execute(array($image_id, $reportId))){
             $stmt=null;
-            header("location:../load.php?error=stmtfailed");
+            header("location:../Crear_noticia.php?error=stmtfailed");
             exit();
         }
-
-      
-        if($stmt->rowCount() == 0){
-            $stmt = null;
-            header("location:../load.php?error=imageNotFound");
-            exit();
-        }
-
-        $imageRow = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        session_start();
-        $_SESSION['IMAGE_RETRIEVE'] = $imageRow[0]["IMAGE_BLOB"];
-        $stmt = null;
+        $stmt=null;
     }
 
     protected function updateProfilePic($image, $user_Id, $editor_Id){

@@ -14,7 +14,8 @@ CREATE PROCEDURE sp_Search_News (
     IN textoT VARCHAR(180),
     IN fechaMinT DATETIME,
     IN fechaMaxT DATETIME,
-	IN categoryT INT
+	IN categoryT INT,
+    IN tagT varchar(50)
 )
 CONTAINS SQL
 `sp_Search_News`:
@@ -34,10 +35,15 @@ BEGIN
         ON NCTG.REPORT_ID = ND.REPORT_NUMBER
         JOIN categories CTG
         ON NCTG.CATEGORY = CTG.CATEGORY_ID
+        JOIN news_tags NTG
+        ON NTG.REPORT_ID = NTG.TAG_NAME
+        JOIN tags T
+        ON NTG.TAG = T.TAG_NAME
 		WHERE if(textoT IS NULL OR textoT = '', 1, HEADER LIKE concat('%', textoT,'%'))
         OR if(textoT IS NULL OR textoT = '', 1, REPORT_DESCRIPTION LIKE concat('%', textoT,'%'))
         OR if(textoT IS NULL OR textoT = '', 1, EVENT_CITY LIKE concat('%', textoT,'%'))
         OR if(textoT IS NULL OR textoT = '', 1, EVENT_COUNTRY LIKE concat('%', textoT,'%'))
+        AND if(tagT IS NULL OR tagT = 0, 1, NTG.TAG = tagT)
         AND if(categoryT IS NULL OR categoryT = 0, 1, NCTG.CATEGORY = categoryT)
 		OR if (fechaMinT IS NULL, 1, `EVENT_DATE` >=  fechaMinT)
 		AND if (fechaMaxT IS NULL, 1, `EVENT_DATE` <= fechaMaxT)
