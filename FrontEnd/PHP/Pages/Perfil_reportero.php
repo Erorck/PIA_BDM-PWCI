@@ -16,6 +16,7 @@ session_start();
   <link rel="shortcut icon" href="../../Elementos/Good Old Times-ICON.2.png" type="image/x-icon">
 
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+
   <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/spectrum-colorpicker2/dist/spectrum.min.css">
   <link rel="stylesheet" href="../../CSS/lightslider.css">
 
@@ -25,11 +26,11 @@ session_start();
 
   <script type="text/javascript" src="../../JS/JQuery3.3.1.js"></script>
   <script type="text/javascript" src="../../JS/lightslider.js"></script>
-  <script type="text/javascript" src="../../JS/script.js"></script>
+  <!--<script type="text/javascript" src="../../JS/script.js"></script>-->
 
 
   <link href="../../bootstrap-5.1.3-examples/assets/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="../..//bootstrap-5.1.3-examples/offcanvas-navbar/offcanvas.css" rel="stylesheet">
+  <link href="../../bootstrap-5.1.3-examples/offcanvas-navbar/offcanvas.css" rel="stylesheet">
   <link href="../../CSS/form-validation.css" rel="stylesheet">
   <link href="../../CSS/Estilo_Perfil_reportero.css" rel="stylesheet">
 
@@ -277,6 +278,7 @@ session_start();
   <script src="../../JS/form-validation.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/spectrum-colorpicker2/dist/spectrum.min.js"></script>
   <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="../../JS/Validacion_Revision_Noticia.js"></script>
   <script src="../../JS/Validacion_PerfilReport.js"></script>
 
 

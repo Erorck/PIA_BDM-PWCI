@@ -3,13 +3,16 @@
 
 <?php
 session_start();
+$isSelected = false;
+if (isset($_SESSION['c_report']))
+  $isSelected = true;
 ?>
 
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>Good Old Times - Creacion de Noticia</title>
+  <title>Good Old Times - Edición de Noticia</title>
 
   <link rel="canonical" href="https://getbootstrap.com/docs/5.1/examples/navbar-fixed/">
   <link rel="canonical" href="https://getbootstrap.com/docs/5.1/examples/checkout/">
@@ -26,7 +29,7 @@ session_start();
 
 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-  <link href="../../CSS/Estilo_Crear_Noticia.css" rel="stylesheet">
+  <link href="../../CSS/Estilo_Editar_Noticia.css" rel="stylesheet">
 
 
   <!-- Custom styles for this template -->
@@ -36,7 +39,7 @@ session_start();
   <link href="../../CSS/form-validation.css" rel="stylesheet">
   <link href="../../CSS/dropdowns.css" rel="stylesheet">
 
-  <script type="text/javascript" src="../../JS/Script_Crear_Noticia.js"></script>
+  <script type="text/javascript" src="../../JS/Script_Editar_Noticia.js"></script>
 
 
 </head>
@@ -50,7 +53,7 @@ session_start();
     <main>
       <div class="py-5 text-center">
         <img class="d-block mx-auto mb-4" src="../../Elementos/Good Old Times-ICON.2.png" alt="" width="80" height="80">
-        <h2>Creación de la noticia</h2>
+        <h2>Edición de noticia</h2>
       </div>
       <form action="#" id="crearNoticia">
         <div class="contenido">
@@ -59,45 +62,46 @@ session_start();
               <div class="contenido_text">
                 <h4 class="mb-3">Datos de la noticia</h4>
                 <div class="row g-3">
+                  <input type="text" class="form-control" id="reportId" placeholder="Erase una vez..." value=<?php if ($isSelected) { echo $_SESSION['c_report'][0]['REPORT_NUMBER']; } else echo 0; ?> hidden="true">              
                   <div class="col-12">
                     <label for="text" class="form-label">Titulo</label>
-                    <input type="text" class="form-control" id="titulo" placeholder="Erase una vez...">
+                    <input type="text" class="form-control" id="titulo" placeholder="Erase una vez..." value=<?php if ($isSelected) { echo $_SESSION['c_report'][0]['HEADER']; } else echo 'Orgullo Mexicano'; ?>>
                   </div>
 
                   <div class="col-12">
                     <label for="text" class="form-label">Firma autor</label>
-                    <input type="text" class="form-control" id="firma" placeholder="@Reportero" value=<?php if (isset($_SESSION['user']) && $_SESSION['user']['USER_ALIAS'] != null) echo $_SESSION['user']['USER_ALIAS'] ?>>
+                    <input type="text" class="form-control" id="firma" placeholder="@Reportero" value=<?php if ($isSelected) {echo $_SESSION['c_report'][0]['AUTOR_SIGN']; } else echo 'Autor'; ?>>
                   </div>
 
                   <div class="col-12">
                     <label for="text" class="form-label">Descripcion</label>
-                    <input type="text" class="form-control" id="descrip" placeholder="El acontecimiento sucedio...">
+                    <input type="text" class="form-control" id="descrip" placeholder="El acontecimiento sucedio..." value=<?php if ($isSelected) { echo $_SESSION['c_report'][0]['REPORT_DESCRIPTION']; } else echo 'Joven Mexicano gana beca para estudiar en la NASA ciencia aeroespacial y astrofisica'; ?>>
                   </div>
 
                   <div class="col-12">
                     <label for="text" class="form-label">Desarrollo de la noticia</label>
-                    <textarea type="text" class="form-control" id="Texto" placeholder="Esta nota acontece..."> </textarea>
+                    <textarea type="text" class="form-control" id="Texto" placeholder="Esta nota acontece..." value=<?php if ($isSelected) {   echo $_SESSION['c_report'][0]['CONTENT']; } ?>></textarea>
                   </div>
 
 
                   <div class="col-12">
                     <label for="address" class="form-label">Calle</label>
-                    <input type="text" class="form-control" id="address" placeholder="Av. Siempre viva 201">
+                    <input type="text" class="form-control" id="address" placeholder="Av. Siempre viva 201" value=<?php if ($isSelected) {    echo $_SESSION['c_report'][0]['EVENT_STREET'];  } ?>>
                   </div>
 
                   <div class="col-12">
                     <label for="address" class="form-label">Colonia</label>
-                    <input type="text" class="form-control" id="address2" placeholder="Main St">
+                    <input type="text" class="form-control" id="address2" placeholder="Main St" value=<?php if ($isSelected) { echo $_SESSION['c_report'][0]['EVENT_NEIGHBOURHOOD']; } ?>>
                   </div>
 
                   <div class="col-12">
                     <label for="address2" class="form-label">Ciudad </label>
-                    <input type="text" class="form-control" id="address3" placeholder="Nuevo León">
+                    <input type="text" class="form-control" id="address3" placeholder="Nuevo León" value=<?php if ($isSelected) { echo $_SESSION['c_report'][0]['EVENT_CITY'];} ?>>
                   </div>
 
                   <div class="col-md-5">
                     <label for="country" class="form-label">País</label>
-                    <select class="form-select" id="country">
+                    <select class="form-select" id="country" value=<?php if ($isSelected) {echo $_SESSION['c_report'][0]['EVENT_COUNTRY'];} ?>>
                       <option value="N">Elige...</option>
                       <option value="México">México</option>
                       <option value="EE.UU">EE.UU</option>
@@ -105,11 +109,11 @@ session_start();
                       <option value="Brasil">Brasil</option>
                     </select>
                   </div>
-
-
+                  
                   <div class="col-md-5" id="section_list_rad">
                     <label for="country" class="form-label">Secciones</label>
-
+                    
+                  
                     <div class="form-check">
                       <input type="checkbox" class="form-check-input" id="same-address">
                       <label class="form-check-label" for="same-address">Ultima Hora</label>
@@ -122,6 +126,8 @@ session_start();
 
                   </div>
 
+                  <div id="extra_section_array"> </div>
+
                   <div class=" contenido_multi col-md-5 col-lg-9 order-md-last">
                     <h4 class="d-flex justify-content-between align-items-center mb-3">
                       <span class="text-black">Contenido multimedia de la nota</span>
@@ -132,10 +138,9 @@ session_start();
                       <li class="list-group-item d-flex justify-content-between lh-sm mb-3">
                         <div>
                           <h6 class="Texto_Foto my-0 mb-1">Portada de Nota</h6>
-                          <img alt="Portada Pic" id="banner_pic" class="fotoCurso mb-2" style="width:auto; height: 150px;">
-                          <input id="upload_banner_pic" type="file" name="Fotografia" placeholder="Portada" class="input-foto mb-1" required>
-                          <input id="examplePPic" name="pPic" hidden="true" value=<?php //if ($hasPPicture) echo $imageP 
-                                                                                  ?>>
+                          <img alt="Portada Pic" id="banner_pic" class="fotoCurso mb-2" style="width:auto; height: 150px;" src=<?php if ($isSelected) {echo $_SESSION['c_report'][0]['THUMBNAIL'];} ?>>
+                          <input id="upload_banner_pic" value=<?php if ($isSelected) {echo $_SESSION['c_report'][0]['THUMBNAIL'];} ?> type="file" name="Fotografia" placeholder="Portada" class="input-foto mb-1">
+                          <input id="examplePPic" name="pPic" value=<?php if ($isSelected) {echo $_SESSION['c_report'][0]['THUMBNAIL'];} ?> hidden="true" required>
                         </div>
                       </li>
 
@@ -145,15 +150,6 @@ session_start();
                           <h6 class="my-0 mb-1">Imagenes extra</h6>
 
                           <div class="extra_img_list">
-
-                            <!-- <div class="extra_img_container d-flex justify-content-center align-items-center">
-                              <img src="../../Elementos/Chavis.jpg" alt="Media Cont" id="FotografiadeCurso" class=" fotoCurso bottom top mb-2" >
-                              <img src="../../Elementos/1200px-Flat_cross_icon.svg.png" class="fotoCurso delete-icon align-middle mb-2">
-                            </div>
-
-                            <div>
-                              <img alt="Media Cont" id="FotografiadeCurso" class="fotoCurso top mb-2" style="width:auto;">
-                            </div> -->
                           </div>
                           <div id="extra_img_array"> </div>
                           <input id="upload_extra_pic" type="file" name="Fotografia" placeholder="Contenido multimedia" class="input-foto mb-1">
@@ -167,11 +163,7 @@ session_start();
                           <h6 class="my-0 mb-1">Videos extra</h6>
 
                           <div class="extra_vid_list">
-                            <!-- <video class="mb-2" width="220" height="140" controls>
-                              <source src="movie.mp4" type="video/mp4">
-                              <source src="movie.ogg" type="video/ogg">
-                              Your browser does not support the video tag.
-                            </video> -->
+
                           </div>
 
                           <div id="extra_vid_array"></div>
@@ -200,12 +192,13 @@ session_start();
                   </div>
 
                 </div>
+                <div id="extra_tag_array"> </div>
                 <hr class="my-4">
 
                 <div class="row gy-3">
                   <div class="col-md-6">
                     <label for="cc-name" class="form-label">Fecha de acontecimiento</label>
-                    <input class=" calendario form-control" type="datetime-local" id="Fecha" placeholder="Selecciona la fecha del suceso">
+                    <input class=" calendario form-control" type="datetime-local" id="Fecha" placeholder="Selecciona la fecha del suceso" value=<?php if ($isSelected) {  echo $_SESSION['c_report'][0]['EVENT_DATE']; } ?>>
                   </div>
                 </div>
               </div>
@@ -213,7 +206,7 @@ session_start();
           </div>
         </div>
         <hr class="my-4">
-        <button id="upload_report" class=" boton_final w-100 btn btn-outline-success btn-lg" type="button">CREAR NOTICIA</button>
+        <button id="upload_report" class=" boton_final w-100 btn btn-outline-success btn-lg" type="button" onclick="VentanaUpdateReport()">ACTUALIZAR NOTICIA</button>
       </form>
 
     </main>
@@ -231,14 +224,14 @@ session_start();
   <!--flatpickr-->
   <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
   <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-  <script src="../../JS/Validacion_CrearNoticia.js"></script>
+  <script src="../../JS/Validacion_EditarNoticia.js"></script>
 
 
   <script>
     config = {
       enableTime: true,
       dateFormat: "Y-m-d H:i",
-      altImput: true,
+      altInput: true,
       altFormat: "F j, Y (h:i K)"
     }
 
@@ -246,6 +239,25 @@ session_start();
   </script>
 
   <script>
+    function VentanaUpdateReport() {
+    
+    Swal.fire({
+      title: '¿Quiere guardar los cambios de la noticia?',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, ¡Guardar!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        if (validarFormularioNoticia()) {
+            updateReport();
+        }
+      }
+    })
+    }
+    
+
     function VentanaBajaImagenTemp(container_id) {
 
       console.log(container_id);
@@ -281,8 +293,85 @@ session_start();
         }
       })
     }
+
+    function VentanaBajaImagen(imageIdT, container_id) {
+
+      console.log(container_id);
+
+      Swal.fire({
+        title: '¿Estas segur@ de quitar la imagen-' + container_id + '?',
+        text: 'Se desvinculará totalmente de la noticia',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, ¡Quitarla!'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          deleteImgRel(imageIdT, container_id);
+        }
+      })
+    }
+
+    function VentanaBajaVideo(videoIdT, container_id) {
+
+      console.log(container_id);
+
+      Swal.fire({
+        title: '¿Estas segur@ de quitar el video-' + container_id + '?',
+        text: 'Se desvinculará totalmente de la noticia',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, ¡Quitarla!'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          deleteVidRel(videoIdT, container_id);
+        }
+      })
+    }
   </script>
 
+<script>
+    function VentanaBajaCategoria(sectionIdT, container_id) {
+
+      Swal.fire({
+        title: '¿Estas segur@ de quitar la sección-' + sectionIdT + '?',
+        text: 'Se desvinvulara totalmente de la noticia',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, ¡Quitarla!'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          deleteSectionRel(sectionIdT);
+        }else{
+          $(container_id).prop("checked", true);
+        }
+      })
+    }
+
+    function VentanaBajaEtiqueta(tagT, container_id) {
+
+      Swal.fire({
+        title: '¿Estas segur@ de quitar la etiqueta-' + tagT + '?',
+        text: 'Se desvinvulara totalmente de la noticia',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, ¡Quitarla!'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          deleteTagRel(tagT);
+        }else{
+          $(container_id).prop("checked", true);
+        }
+      })
+      }
+  </script>
 
 </body>
 

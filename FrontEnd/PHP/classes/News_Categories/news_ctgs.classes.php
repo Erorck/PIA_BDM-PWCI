@@ -18,6 +18,7 @@ class News_Categories Extends Dbh{
         if(!$stmt->execute(array($categoryId, $reportId))){
             $stmt=null;
             header("location:../Crear_noticia.php?error=stmtfailed");
+            echo 'mal';
             exit();
         }
         $stmt=null;

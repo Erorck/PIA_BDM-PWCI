@@ -3,7 +3,7 @@
 
 USE GOOD_OLD_TIMES_DB;
 
-CALL sp_News_Categories('SSR', NULL,'13', NULL);
+-- CALL sp_News_Categories('SSR', NULL,'13', NULL);
 
 
 DELIMITER //
@@ -61,7 +61,7 @@ BEGIN
     ########################################*/
     IF NOT EXISTS(
 	SELECT * FROM news_categories
-	WHERE CATEGORY = category_idT AND  REPORT_ID = category_idT)
+	WHERE CATEGORY = category_idT AND  REPORT_ID = report_idT)
 	THEN
 		SELECT 'tabla asociativa news_categories inexistente' MSG;
 		LEAVE `sp_News_Categories`;
@@ -75,7 +75,7 @@ BEGIN
 	THEN
 		START TRANSACTION;
 			DELETE FROM news_categories 
-			WHERE CATEGORY = category_idT AND REPORT_ID = category_idT;
+			WHERE CATEGORY = category_idT AND REPORT_ID = report_idT;
             
 		IF @@error_count = 0
             THEN

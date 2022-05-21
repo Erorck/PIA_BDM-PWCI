@@ -157,12 +157,6 @@ $('#upload_extra_pic').on('change', function (evt) {
                 extraImgList.last().after(htmlExtraImg);
 
 
-            var btn_delete_width = $('.extra_img_list').children().last().children().last().css('width');
-            var btn_delete_width_func = $('.extra_img_list').children().last().children().first().width();
-            btn_delete_width_func -= btn_delete_width_func/2;
-            console.log(btn_delete_width);
-            console.log(btn_delete_width_func);
-
             htmlExtraImg = "";
             htmlExtraImg = htmlExtraImg.concat('<img src="../../Elementos/1200px-Flat_cross_icon.svg.png" style=" width:30px;" class="fotoCurso delete-icon align-middle bottom top mb-2" onclick="VentanaBajaImagenTemp(' + idImg + ')">');
             $('.extra_img_list').children().last().children().last().after(htmlExtraImg);
@@ -208,13 +202,6 @@ $('#upload_extra_vid').on('change', function (evt) {
                 $('.extra_vid_list').html(htmlExtraVid);
             } else
             extraVidList.last().after(htmlExtraVid);
-
-
-            var btn_delete_width = $('.extra_vid_list').children().last().children().last().css('width');
-            var btn_delete_width_func = $('.extra_vid_list').children().last().children().first().width();
-            btn_delete_width_func -= btn_delete_width_func/2;
-            console.log(btn_delete_width);
-            console.log(btn_delete_width_func);
 
             htmlExtraVid = "";
             htmlExtraVid = htmlExtraVid.concat('<img src="../../Elementos/1200px-Flat_cross_icon.svg.png" style=" width: 30px;" class="fotoCurso delete-icon align-top mb-2 bottom top" onclick="VentanaBajaVideoTemp(' + idVid + ')">');

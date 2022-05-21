@@ -12,6 +12,14 @@ include"consult.classes.php";
              return $this->getRUsers();
          }
 
+         public function getJournalistNews($journalistId){ 
+            return $this->getNewsFromJournalist($journalistId);         
+        }
+
+        public function getReportById($reportId){ 
+            return $this->getReport($reportId);         
+        }
+
         public function getASections(){ 
              return $this->getAllActiveSections();         
         }

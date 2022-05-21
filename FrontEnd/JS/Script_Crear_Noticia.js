@@ -42,6 +42,7 @@ function getActiveTagsRad() {
         url: '../includes/consults_inc.php',
         type: 'POST',
         data: {
+            'reportId': 0,
             'ajax_get_active_tags': 1
         },
 
@@ -136,6 +137,7 @@ function insertReport() {
             reportUpdated = true;
             //getAllSections();
             console.log(response);
+            window.location.replace("../Pages/Perfil_reportero.php?error=none");
         },
         error: function (jqXHR, status, error) {
             alert('Error inserting report')

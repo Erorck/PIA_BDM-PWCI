@@ -110,6 +110,7 @@ function validarFormularioUsuario(){
 
 }
 
+//#region ACTUALIZAR PERFIL
 //Actualizar la imagen de perfil en el HTML
 $('#upload_profile_pic').on('change', function (evt) {
     var tgt = evt.target || window.event.src,
@@ -221,6 +222,64 @@ function deactivateProfile() {
         }
     })
 }
+//#endregion
+
+//OBTENER NOTICIAS
+function getNewsReports() {
+    $.ajax({
+        url: '../includes/consults_inc.php',
+        type: 'POST',
+        data: {
+            'ajax_get_news_f_journalist': 1
+        },
+
+        success: function (response) {
+            var htmlNews = "";
+            var bottom = ''
+           // console.log(response);
+            if (response != 0) {
+                var data_array = $.parseJSON(response);
+                for (let key of data_array) {
+                    htmlNews = htmlNews.concat('<li class="item-a" ><div onclick="getReport('+ key['REPORT_NUMBER'] + ')" id="report_' + key['REPORT_NUMBER']  +'" class="caja_cursos"><img src="' + key['THUMBNAIL'] + '" style="width:350px; height:204px; object-fit:cover;" class="img_curso_cuadro" alt="curso 1"><div class="detalles_curso"> <h2 class="text-truncate">' + key['HEADER'] + '</h2>');
+
+                    if (key['REPORT_STATUS'] == 'RR') {
+                        bottom = '<p> En redacción </p> <a onclick="getReport('+ key['REPORT_NUMBER'] + ') href="#" class="text-white btn-outline-secondary mb-3"> <i class="fas fa-edit"> </i> </a> <a href="javascript:Ventanamod()" id="show-modal" class="text-white btn-outline-secondary mb-3"> <i class="fas fa-trash"> </i> </a>';                        
+                    }
+
+                    if (key['REPORT_STATUS'] == 'RA') {
+                        bottom = '<p> En revisión por editor </p> <a href="#" class="text-white btn-outline-secondary mb-3"> <i class="fas fa-edit"> </i> </a>';                        
+                    }
+
+                    if (key['REPORT_STATUS'] == 'P') {
+                        bottom = '<p> Publicada </p>';                        
+                    }
+
+                    htmlNews = htmlNews.concat(bottom, '</div></div></li>')
+                }
+            }
+            $('#autoWidth').html(htmlNews);
+            $('#autoWidth').lightSlider({
+                autoWidth:true,
+                loop:true,
+                onSliderLoad: function() {
+                    $('#autoWidth').removeClass('cS-hidden');
+                } 
+            });
+            console.log('obtuve las noticias del reportero');
+        },
+        error: function (jqXHR, status, error) {
+            alert('Error consulting news')
+            console.log(error);
+            console.log(status);
+        },
+        complete: function (jqXHR, status) {
+            console.log("se concreto la consulta de noticias");
+        }
+    })
+}
+
+
+//#region MISCELANEOS
 
 $('#btn_tools').on('click', function (e) {
 
@@ -247,3 +306,9 @@ function normalColor(dato){
 function mostrarAlerta_Form(id, texto){
         $('#'+id).before('<div class= "alert" > Error: ' + texto +'</div>');
 }
+//#endregion
+
+$(document).ready(function(){
+    getNewsReports();
+    
+})

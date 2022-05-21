@@ -4,14 +4,14 @@ USE GOOD_OLD_TIMES_DB;
 
 CALL sp_News_Reports('SA', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, null, null, NULL);
 CALL sp_News_Categories('SSR', NULL,'19', NULL);
-CALL sp_News_Tags('STR', NULL, 19, NULL);
+CALL sp_News_Tags('STR', NULL, 25, NULL);
 CALL sp_Videos('SVR', NULL, NULL, 19);
 CALL sp_Images('SIR', NULL, NULL, 19);
--- SELECT * FROM news_categories;
+-- SELECT * FROM users;
 -- DELETE FROM news_reports WHERE REPORT_ID > 0;
 
 SELECT EVENT_DATE FROM news_reports;
-SELECT EVENT_DATE FROM v_news_detailed;
+SELECT * FROM videos;
 
 DELIMITER //
 DROP PROCEDURE IF EXISTS sp_News_Reports//
@@ -26,7 +26,7 @@ CREATE PROCEDURE sp_News_Reports (
 	IN event_dateT DATETIME,
 	IN headerT VARCHAR(80),
 	IN descriptionT VARCHAR(80),
-	IN contentT VARCHAR(1000),	
+	IN contentT VARCHAR(10000),	
 	IN thumbnailT LONGBLOB,
     IN updated_byT INT
 )
@@ -129,7 +129,7 @@ BEGIN
         `CREATION_DATE`, `CREATED_BY_ID`, `CREATED_BY_NAME`,
 		`LAST_UPDATE_DATE`, `UPDATED_BY_ID`, `UPDATED_BY_NAME`, `REPORT_STATUS`
         FROM v_news_detailed      
-        WHERE `ID_USER` = id_ReportT;
+        WHERE `REPORT_NUMBER` = id_ReportT;
         LEAVE `sp_News_Reports`;   
     END IF;
     
@@ -193,7 +193,7 @@ BEGIN
 SET 
     `SIGN` = IFNULL(signT, `SIGN`),
     `LOCATION_STREET` = IFNULL(streetT, `LOCATION_STREET`),
-    `LOCATION_NEIGHB` = IFNULL(neighbourhoohT, `LOCATION_NEIGHB`),
+    `LOCATION_NEIGHB` = IFNULL(neighbourhoodT, `LOCATION_NEIGHB`),
     `LOCATION_CITY` = IFNULL(cityT, `LOCATION_CITY`),
     `LOCATION_COUNTRY` = IFNULL(countryT, `LOCATION_COUNTRY`),
     `REPORT_HEADER` = IFNULL(headerT, `REPORT_HEADER`),
