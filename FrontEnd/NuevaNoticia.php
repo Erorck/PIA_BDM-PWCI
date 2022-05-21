@@ -111,6 +111,17 @@
             });
             $('#ArticleForm').submit(function(e){
                 e.preventDefault();
+                let timerInterval
+                        Swal.fire({
+                        title: 'Cargando...',
+                        timer: 5000,
+                        timerProgressBar: true,
+                        showCancelButton: false,
+                        showConfirmButton: false,
+                        willClose: () => {
+                            clearInterval(timerInterval)
+                        }
+                        });
                 var formData = new FormData();
                 formData.append('image', blobImg);  //append thumbnail
                 for(var i = 0; i < blobfilesarr.length;i++){

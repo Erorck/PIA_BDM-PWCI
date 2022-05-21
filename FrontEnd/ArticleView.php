@@ -20,6 +20,10 @@
     $hasimages=false;
     $hasvideos=false;
     $articleCateg = "";
+    $LikeAmount = null;
+    $Reactions = [];
+    $hasLikes = $reactionsloaded = $ilikedit = false;
+    $loggeduserid = null;
     if(connection::GetCategories($datarray)){
         foreach($datarray as $cat){
         $categ = new Categoria($cat);
@@ -29,6 +33,7 @@
     if(isset($_SESSION['islogged']) && $_SESSION['islogged']){
         $LoggedUser = true;
         $Perfil = $_SESSION['DataUser'];
+        connection::GetUserId($Perfil->USER_ALIAS, $loggeduserid);
     }
     if(connection::GetCountArticles($numArticles,"XD")) $ArticlesExist = true;
     if(connection::GetCountArticles($numRRArticles,"RR")) $ArticlesRRExist = true;
@@ -40,7 +45,7 @@
         if(connection::GetArticles($datarray)){
             foreach($datarray as $art){
                 $arti = new Articulo($art);
-                if($arti->ARTICLE_ID === intval($_GET['ArticleId'])){
+                if($arti->ARTICLE_ID == intval($_GET['ArticleId'])){
                     $Articulo = $arti;
                     break;
                 }
@@ -97,6 +102,18 @@
 
             }
         }
+
+        if(connection::GetLikesArticle($Articulo->ARTICLE_ID,$LikeAmount)){
+            if($LikeAmount > 0){
+                $hasLikes = true;
+                if(connection::GetReactions($Articulo->ARTICLE_ID,$Reactions)){ 
+                    $reactionsloaded =true;
+                    if($LoggedUser) foreach($Reactions as $reac){
+                        if($reac['USER']==$loggeduserid) {$ilikedit =true; break;}
+                    }
+                }
+            }
+        }
     }
 ?>
 <!DOCTYPE html>
@@ -113,23 +130,106 @@
       <script  type="text/javascript" src="js/models/validations.js" ></script>
       <script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
       <script type="text/javascript">
-            $(document).ready(function() {
-                $('.answerComment').click(function(){
-                    debugger;
-                    let pid = $(this).parent().parent().attr('id')
-                    let me= $('#commentdata').attr('by');
-                    let aid =$('#commentdata').attr('aid');
-                    $(this).replaceWith('<input type="hidden" id="answerdata"by="'+me+'" aid="'+aid+'" pid="'+pid+'">'
-                    +'<textarea style="display:inline;float:left;resize:none;width: 90%;" class="commentContent" placeholder="Comentario..."id="answerContent" name="answerContent" rows="4" cols="60"></textarea>'+
-                    '<button id="sendAnswer" style="transition:none;width:100%;textalign:center;">Enviar</button>');
+          var once = false;
+            function alertasimple()
+                {
+                Swal.fire({
+                title: 'Debes iniciar sesion para poder dar Like',
+                icon: 'warning',
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Iniciar Sesion'
+                }).then((result) => {
+                if (result.isConfirmed) {
+                    location.href="Login.php";
+                }
                 });
-                $('#sendComment').click(function(){
+            }
+            function fastupdatelikebttn(like){
+                let currentlikes = parseInt($('#likecounter').text());
+                let newlikequantity = like ?  currentlikes + 1: currentlikes - 1;
+                debugger;
+                $('#likecounter').text(newlikequantity);
+            }
+            function React(like){
+                fastupdatelikebttn(like);
+                let data={}
+                data['like'] = like;
+                data['uid'] = $('#likebtn').attr('from');
+                data['aid'] = $('#likebtn').attr('to');
+                var jsonString = JSON.stringify(data);
+                return $.ajax({
+                    type: "POST",
+                    url: "LikeScript.php",
+                    data: {data : jsonString}, 
+                    cache: false,
+                    async: false
+                });
+            }
+            $(document).ready(function() {
+                //like
+                $('#likezone').on('click','#likebtn',function(){
+                    //check if we can like
+                    debugger;
+                    let avaliable = $(this).attr('avaliable');
+                    let liked = $(this).attr('liked');
+                    switch(avaliable){
+                        case 'yes':
+                            debugger;
+                            if(liked == 'no'){
+                                var jsonData ="";
+                                React(true).done(function(response){
+                                    debugger;
+                                    jsonData = JSON.parse(response);
+                                    if (jsonData.success == "1")
+                                    {
+                                        $("#likezone").load(location.href+" #likezone>*","");
+                                    }
+                                    else{ 
+                                        alert('Error de algun tipo');
+                                    }
+                                });
+                            }
+                            else if(liked == 'yes'){
+                                var jsonData ="";
+                                    React(false).done(function(response){
+                                    debugger;
+                                    jsonData = JSON.parse(response);
+                                    if (jsonData.success == "1")
+                                    {
+                                        $("#likezone").load(location.href+" #likezone>*","");
+                                    }
+                                    else{ 
+                                        alert('Error de algun tipo');
+                                    }
+                                });
+                            }
+                        break;
+                        case'no':
+                            alertasimple();
+                        break;
+                    }
+                });
+                //comments and comments's comments
+                $('.answerComment').click(function(){
+                    if(!once){
+                        once = true;
+                        let pid = $(this).parent().parent().attr('id');
+                        let me= $('#commentdata').attr('by');
+                        let aid =$('#commentdata').attr('aid');
+                        $(this).replaceWith('<form id="answerform"><input type="hidden" id="answerdata"by="'+me+'" aid="'+aid+'" pid="'+pid+'">'
+                        +'<textarea style="display:inline;float:left;resize:none;width: 90%;" class="commentContent" placeholder="Comentario..."id="answerContent" name="answerContent" rows="4" cols="60"></textarea>'+
+                        '<button id="sendAnswer" style="transition:none;width:100%;textalign:center;">Enviar</button></form>');
+                    }
+                });
+                $('#sendComment').click(function(e){
+                    e.preventDefault();
+                    debugger;
                     let data = {};
                     data['text']=$('#commentContent').val();
                     data['by']=$('#commentdata').attr('by');
                     data['aid']=$('#commentdata').attr('aid');
                     data['child']=false;
-                    debugger;
                     if(data['text']!=""){ //there is actual comment
                         var jsonString = JSON.stringify(data);
                         $.ajax({
@@ -150,7 +250,42 @@
                         });
                     }
                 });
-                $('.comment').on('click','#sendAnswer',function(){
+                $('.deleteComment').click(function(e){
+                    e.preventDefault();
+                    e.stopImmediatePropagation();
+                    let cid = null;
+                    cid = $(this).parent().parent().attr('id');
+                    let child = false;
+                    if($(this).parent().parent().parent('.comment').length) child = true;
+                    let data = {};
+                    data['cid']=cid;
+                    data['child'] = child;
+                    if(data['cid']!=null){ //there is actual id
+                        var jsonString = JSON.stringify(data);
+                        $.ajax({
+                            type: "POST",
+                            url: "DeleteCommentScript.php",
+                            data: {data : jsonString}, 
+                            cache: false,
+                            success: function(response){
+                                debugger;
+                                var jsonData = JSON.parse(response);
+                                if (jsonData.success == "1")
+                                {
+                                    swal.fire('Comentario Eliminado');
+                                    setTimeout(function(){location.reload();}, 0001);
+                                }
+                                else{ 
+                                    alert('Error de algun tipo');
+                                    setTimeout(function(){location.reload();}, 0001);
+                                }
+                            }
+                        });
+                    }
+                })
+                $('.comment').on('click','#answerform > #sendAnswer',function(e){
+                    e.preventDefault();
+                    e.stopImmediatePropagation();
                     debugger;
                     let data = {};
                     data['text']=$('#answerContent').val();
@@ -172,18 +307,26 @@
                                 if (jsonData.success == "1")
                                 {
                                     swal.fire('Comentario Añadido');
+                                    $('.comment').off('click','#answerform > #sendAnswer');
                                     setTimeout(function(){location.reload();}, 0001);
                                 }
-                                else{ alert('Error de algun tipo')}
+                                else{ 
+                                    alert('Error de algun tipo');
+                                    $('.comment').off('click','#answerform > #sendAnswer');
+                                    setTimeout(function(){location.reload();}, 0001);
+                                }
                             }
                         });
                     }
                 });
+                
             });
       </script>
 </head>
 
 <body>
+<div id="fb-root"></div>
+<script async defer crossorigin="anonymous" src="https://connect.facebook.net/es_LA/sdk.js#xfbml=1&version=v13.0" nonce="yVtoNnuj"></script>
     <div class="Contenedor-base">
         <div class = "Barra-navegacion">
             <h3 class="Logo-web">Noticias</h3>
@@ -214,7 +357,7 @@
                 <div id="ZonaNew">
                 <?php
                 function hazDivisible(&$resultado,$dividendo,$divisor){
-                    if($dividendo % $divisor === 0) $resultado = $dividendo;
+                    if($dividendo % $divisor == 0) $resultado = $dividendo;
                     else{
                         $dividendo ++;
                         hazDivisible($resultado,$dividendo,$divisor);
@@ -222,8 +365,9 @@
                 }
                 if(!$Articulo != null) echo'<h3>No Existe el Articulo en la DB</h3>';
                 else{
+                    echo'<p hidden id="this_aid" aid="'.$Articulo->ARTICLE_ID.'" >xD</p>';
                     for($i=0;$i<count($Categorias);$i++){
-                        if($Categorias[$i]->name ===$articleCateg) 
+                        if($Categorias[$i]->name ==$articleCateg) 
                         echo'<h3 class="Categ" style="background-color:#'.$Categorias[$i]->color.';">' . $Categorias[$i]->name . '</h3>';
                     }
                     echo'<h1 class="Titulo">'.$Articulo->ARTICLE_HEADER.'</h1>';
@@ -238,7 +382,7 @@
                     echo'<br>';
                     $paragraphs = explode("\n",$Articulo->ARTICLE_CONTENT); // get paragraphs
                     for($i=0;$i<count($paragraphs);$i++){ //clean empty paragraphs
-                        if($paragraphs[$i]==="") \array_splice($paragraphs, $i, 1);
+                        if($paragraphs[$i]=="") \array_splice($paragraphs, $i, 1);
                     }
                     $parNum = count($paragraphs);
                     $imgnum = 0;
@@ -251,10 +395,13 @@
                         hazDivisible($delimitante,$parNum,$imgnum);
                         $orden = $delimitante/$imgnum;
                     }
+                    else{
+                        $delimitante=$parNum;
+                    }
                     $imgindex = 0;
                     for($i=1;$i<=$delimitante;$i++){
                         if($i<=$parNum)echo'<p class="parrafo">'.$paragraphs[$i-1].'</p>';
-                        if($i % $orden === 0){
+                        if($i % $orden == 0 && $imgnum!=0){
                             echo'<img class="MediaImg"
                             src="data:'.$ImgBlobarr['Mime'][$imgindex].
                             ';base64,'.base64_encode($ImgBlobarr['Data'][$imgindex]).
@@ -272,7 +419,26 @@
                     echo'<h5 class="parrafo"> Hecho por: -'.$Articulo->SIGN.'</h5>';
                 }
                 ?>
+                <div id="likezone">
+                    <button id="likebtn" class="btnlike" avaliable=<?php
+                    if((!$LoggedUser)/*||$ilikedit*/) echo'"no"';
+                    else echo'"yes"';?> style=<?php
+                    if($ilikedit)echo'"background-color:#fea900;"';
+                    else echo'"background-color:#d1e8ec;"';
+                    ?>
+                    liked =<?php
+                    if($ilikedit)echo'"yes"';
+                    else echo'"no"';
+                    ?>
+                    from=<?php echo'"'.$loggeduserid.'"';?>
+                    to=<?php echo'"'.$Articulo->ARTICLE_ID.'"';?>>
+                    <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
+                    <span id="likecounter"><?php echo $LikeAmount;?></span>
+                    </button></div>
                 </div>
+                <br>
+                <div style="display:flex; justify-content:center;"class="fb-share-button" data-href="window.location.href" data-layout="button_count" data-size="small"><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">Compartir</a></div>
+                <br>
                 <div id="commentsDiv">
                     <h3>COMENTARIOS</h3>
                     <div id="AddCommentsDiv">
@@ -296,37 +462,45 @@
                     ?>
                     </div>
                     <?php
-                    function lookforchild($comment,$childsarray,$childinfoarray,$LoggedUser){
+                    function lookforchild($comment,$childsarray,$childinfoarray,$LoggedUser,$Perfil,$Articulo){
                         //search if current comment has child
                         $childfound=false;
-                        $thechild=null;
+                        $thechilds=[];
                         foreach($childinfoarray as $child){
                             if($comment['COMMENT_ID']==$child['PARENT_ID']){
                             $thechildaux = null;
                             foreach($childsarray as $actualchild){
                                 if($actualchild['COMMENT_ID']==$child['COMMENT_ID']){
                                     $thechildaux=$actualchild;
-                                    break;
+                                    array_push($thechilds,$thechildaux);
                                 }
                             }
-                            $thechild = $thechildaux;
                             $childfound=true;
-                            break;
                             }
                         }
                         if($childfound){
-                            //print comment
-                            if(connection::GetUname($comment['CREATED_BY'],$author)){
-                                echo'<div class="comment" by="'.$comment['CREATED_BY'].'"id="'.$comment['COMMENT_ID'].'"aid="'.$comment['ARTICLE_ID'].'">
-                                <div class="commentAuthor">
-                                <img class="commentPfp" src="media\img\defProfPic.png" alt="profpic">
-                                <h6>'.$author.'</h6>
-                                </div>
-                                <p class="commentContent"><span class="fecha">'.$comment['CREATION_DATE'].'<br></span>'.$comment['COMMENT_TEXT'].'<br>';
-                                if($LoggedUser) echo'<button class="answerComment">Responder</button>';
-                                echo'</p>';
-                                lookforchild($thechild,$childsarray,$childinfoarray,$LoggedUser);
-                                echo'</div>';   
+                                //print comment
+                                if(connection::GetUname($comment['CREATED_BY'],$author)){
+                                    echo'<div class="comment child" by="'.$comment['CREATED_BY'].'"id="'.$comment['COMMENT_ID'].'"aid="'.$comment['ARTICLE_ID'].'">
+                                    <div class="commentAuthor">
+                                    <img class="commentPfp" src="media\img\defProfPic.png" alt="profpic">
+                                    <h6>'.$author.'</h6>
+                                    </div>
+                                    <p class="commentContent"><span class="fecha">'.$comment['CREATION_DATE'].'<br></span>'.$comment['COMMENT_TEXT'].'<br>';
+                                    if($LoggedUser){
+                                        $me = null;
+                                        echo'<button class="answerComment">Responder</button>';
+                                        if((strcmp($Perfil->USER_TYPE,'AD')==0)||
+                                        ((strcmp($Perfil->USER_TYPE,'RE')==0)&& connection::GetUserId($Perfil->USER_ALIAS,$me)&&$me==$Articulo->CREATED_BY)||
+                                        connection::GetUserId($Perfil->USER_ALIAS,$me)&& $me==$comment['CREATED_BY'])
+                                        echo'<button class="deleteComment" style="background-color:red">Eliminar</button>';
+                                    } 
+                                    echo'</p>';
+                                    foreach($thechilds as $thechild){
+                                        lookforchild($thechild,$childsarray,$childinfoarray,$LoggedUser,$Perfil,$Articulo);
+                                        
+                                    }
+                                    echo'</div>'; 
                             }
                         }
                         else{
@@ -338,17 +512,23 @@
                                 <h6>'.$author.'</h6>
                                 </div>
                                 <p class="commentContent"><span class="fecha">'.$comment['CREATION_DATE'].'<br></span>'.$comment['COMMENT_TEXT'].'<br>';
-                                if($LoggedUser) echo'<button class="answerComment">Responder</button>';
+                                if($LoggedUser){
+                                    $me = null;
+                                    echo'<button class="answerComment">Responder</button>';
+                                    if((strcmp($Perfil->USER_TYPE,'AD')==0)||
+                                    ((strcmp($Perfil->USER_TYPE,'RE')==0)&& connection::GetUserId($Perfil->USER_ALIAS,$me)&&$me==$Articulo->CREATED_BY)||
+                                    connection::GetUserId($Perfil->USER_ALIAS,$me)&& $me==$comment['CREATED_BY'])
+                                    echo'<button class="deleteComment" style="background-color:red">Eliminar</button>';
+                                } 
                                 echo'</p>';
                                 echo'</div>';
                             }
                         }
                     }
                     foreach($commentsarr as $comment){
-                        lookforchild($comment,$childCommentsarr,$childComments,$LoggedUser);
+                        lookforchild($comment,$childCommentsarr,$childComments,$LoggedUser,$Perfil,$Articulo);
                     }
                     ?>
-                
                 </div>
             </div>
         </div>

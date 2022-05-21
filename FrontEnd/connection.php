@@ -155,6 +155,44 @@ class connection {
         return $resultao;
     }
 
+    public static function AddUser_RE($parUname,$parPass, $parName,$parAp,$parAm,$parMail,$parPhone,$parBdate)
+    {
+        $resultao= false;
+        $data = [
+            'usuario' => $parUname,
+            'pass' => $parPass,
+            'nombre' => $parName,
+            'lastname' => $parAp,
+            'slastname' => $parAm,
+            'mail' => $parMail,
+            'phone' => $parPhone,
+            'bdate' => $parBdate,
+        ];
+        try {
+            $conn = new MyPDO();
+            $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $sql = "CALL sp_User_Insert('I','RE',:usuario,:pass,:nombre,:lastname,:slastname,:mail,:phone,:bdate,0,null)";
+            $conn->beginTransaction();
+            $stmt = $conn->prepare($sql);
+            $stmt->execute($data);
+            $conn->commit();
+            if ($stmt->rowCount() > 0) {
+                $resultao = true;
+                //validacion esta chida
+            } 
+            else {
+                $resultao = false;
+                $Errmessage = "PDOStatement::errorCode(): ". $stmt->errorCode();
+                //validacion no esta chida
+            }
+        }
+        catch(PDOException $e) {
+            echo "Connection failed" . $e->getMessage();
+        }
+
+        return $resultao;
+    }
+
     public static function getDatosUsuario($parUname,&$DatosUsuarioArray)
     {
         $resultao= false;
@@ -655,6 +693,139 @@ class connection {
 
         return $resultao;
     }
+
+    public static function LikeArticle($aid,$uid){
+        $data = [
+            'aid' => $aid,
+            'uid' => $uid,
+        ];
+        $resultao= false;
+        try {
+            $conn = new MyPDO();
+            $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $sql = "CALL sp_Like(:aid,:uid)";
+            $conn->beginTransaction();
+            $stmt = $conn->prepare($sql);
+            $stmt->execute($data);
+            $done = $stmt !== false ? true : false;
+            $conn->commit();
+            if ($stmt->rowCount() > 0) {
+                $resultao = true;
+                //validacion esta chida
+            } 
+            else {
+                if($done == false){
+                $resultao = false;
+                $Errmessage = "PDOStatement::errorCode(): ". $stmt->errorCode();
+                }
+                else $resultao = true;
+                //validacion no esta chida
+            }
+        }
+        catch(PDOException $e) {
+            echo "Connection failed" . $e->getMessage();
+        }
+
+        return $resultao;
+    }
+
+    public static function DislikeArticle($aid,$uid){
+        $data = [
+            'aid' => $aid,
+            'uid' => $uid,
+        ];
+        $resultao= false;
+        try {
+            $conn = new MyPDO();
+            $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $sql = "CALL sp_Dislike(:aid,:uid)";
+            $conn->beginTransaction();
+            $stmt = $conn->prepare($sql);
+            $stmt->execute($data);
+            $done = $stmt !== false ? true : false;
+            $conn->commit();
+            if ($stmt->rowCount() > 0) {
+                $resultao = true;
+                //validacion esta chida
+            } 
+            else {
+                if($done == false){
+                $resultao = false;
+                $Errmessage = "PDOStatement::errorCode(): ". $stmt->errorCode();
+                }
+                else $resultao = true;
+                //validacion no esta chida
+            }
+        }
+        catch(PDOException $e) {
+            echo "Connection failed" . $e->getMessage();
+        }
+
+        return $resultao;
+    }
+
+    public static function GetLikesArticle($id,&$likes){
+        $resultao= false;
+        try {
+            $conn = new MyPDO();
+            $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $sql = "CALL sp_GetLikes(:id)";
+            $stmt = $conn->prepare($sql);
+            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+            $stmt->execute();
+            if ($stmt->rowCount() > 0) {
+                $ArticleArray= $stmt->setFetchMode(PDO::FETCH_ASSOC);
+                while($rows = $stmt->fetchAll()) {   
+                    foreach ($rows as $row) {
+                        $likes = $row['LIKES'];
+                    }
+                }
+                $resultao = true;
+            } 
+            else {
+                $resultao = false;
+                $Errmessage = "PDOStatement::errorCode(): ". $stmt->errorCode();
+                //validacion no esta chida
+            }
+        }
+        catch(PDOException $e) {
+            echo "Connection failed" . $e->getMessage();
+        }
+
+        return $resultao;
+    }
+
+    public static function GetReactions($id,&$reactionarr){
+        $resultao= false;
+        try {
+            $conn = new MyPDO();
+            $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $sql = "CALL sp_GetReactions(:id)";
+            $stmt = $conn->prepare($sql);
+            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+            $stmt->execute();
+            if ($stmt->rowCount() > 0) {
+                $ArticleArray= $stmt->setFetchMode(PDO::FETCH_ASSOC);
+                while($rows = $stmt->fetchAll()) {   
+                    foreach ($rows as $row) {
+                        array_push($reactionarr,$row);
+                    }
+                }
+                $resultao = true;
+            } 
+            else {
+                $resultao = false;
+                $Errmessage = "PDOStatement::errorCode(): ". $stmt->errorCode();
+                //validacion no esta chida
+            }
+        }
+        catch(PDOException $e) {
+            echo "Connection failed" . $e->getMessage();
+        }
+
+        return $resultao;
+    }
+
     ///////////////////////////////////////////
     ////////////////Media(Images and Videos)///
     ///////////////////////////////////////////
@@ -689,6 +860,7 @@ class connection {
 
         return $resultao;
     }
+
     public static function InsertMediaImage($datarray){ 
         $resultao= false;
         try {
@@ -1083,4 +1255,144 @@ class connection {
 
         return $resultao;
     }
+
+    public static function DeleteComment($cid){ 
+        $resultao= false;
+        try {
+            $conn = new MyPDO();
+            $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $sql = "CALL sp_Delete_Comment(:cid)";
+            $conn->beginTransaction();
+            $stmt = $conn->prepare($sql);
+            $stmt->bindParam(':cid', $cid, PDO::PARAM_INT);
+            $stmt->execute();
+            $done = $stmt !== false ? true : false;
+            $conn->commit();
+            if ($stmt->rowCount() > 0) {
+                $resultao = true;
+                //validacion esta chida
+            } 
+            else {
+                if($done == false){
+                $resultao = false;
+                $Errmessage = "PDOStatement::errorCode(): ". $stmt->errorCode();
+                //validacion no esta chida
+                }
+                else $resultao = true; //validacion esta chida
+            }
+        }
+        catch(PDOException $e) {
+            echo "Connection failed" . $e->getMessage();
+        }
+
+        return $resultao;
+    }
+
+    public static function DeleteChildComment($cid){ 
+        $resultao= false;
+        try {
+            $conn = new MyPDO();
+            $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $sql = "CALL sp_Delete_ChildComment(:cid)";
+            $conn->beginTransaction();
+            $stmt = $conn->prepare($sql);
+            $stmt->bindParam(':cid', $cid, PDO::PARAM_INT);
+            $stmt->execute();
+            $done = $stmt !== false ? true : false;
+            $conn->commit();
+            if ($stmt->rowCount() > 0) {
+                $resultao = true;
+                //validacion esta chida
+            } 
+            else {
+                if($done == false){
+                $resultao = false;
+                $Errmessage = "PDOStatement::errorCode(): ". $stmt->errorCode();
+                //validacion no esta chida
+                }
+                else $resultao = true; //validacion esta chida
+            }
+        }
+        catch(PDOException $e) {
+            echo "Connection failed" . $e->getMessage();
+        }
+
+        return $resultao;
+    }
+    ///////////////////////////////////////////
+    ////////////////Busqueda///////////////////
+    ///////////////////////////////////////////
+    public static function  SearchArticlesByContent($regexpp,&$Articlearr)
+    {
+        $resultao= false;
+        try {
+            $conn = new MyPDO();
+            $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $sql = "CALL sp_SearchArticleBy_Content(:regexpp)";
+            $stmt = $conn->prepare($sql);
+            $stmt->bindParam(':regexpp', $regexpp, PDO::PARAM_STR);
+            $stmt->execute();
+            if ($stmt->rowCount() > 0) {
+                $stmt->setFetchMode(PDO::FETCH_ASSOC);
+                while($rows = $stmt->fetchAll()) {   
+                    foreach ($rows as $row) {
+                        array_push($Articlearr,$row);
+                    }
+                }
+                $resultao = true;
+            } 
+            else {
+                $resultao = false;
+                $Errmessage = "PDOStatement::errorCode(): ". $stmt->errorCode();
+                //validacion no esta chida
+            }
+        }
+        catch(PDOException $e) {
+            echo "Connection failed" . $e->getMessage();
+        }
+
+        return $resultao;
+    }
+    public static function  SearchArticlesBy($regexpp,$parametro,$filtro,&$Articlearr)
+    {
+        $resultao= false;
+        try {
+            $conn = new MyPDO();
+            $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            switch($filtro){
+                case 'FECHA':
+                    $sql = "CALL sp_SearchArticleBy_FECHA(:regexpp,:par)";
+                break;
+                case'PAIS':
+                    $sql = "CALL sp_SearchArticleBy_PAIS(:regexpp,:par)";
+                break;
+                default: return false;
+            }
+            $stmt = $conn->prepare($sql);
+            $stmt->bindParam(':regexpp', $regexpp, PDO::PARAM_STR);
+            $stmt->bindParam(':par', $parametro, PDO::PARAM_STR);
+            $stmt->execute();
+            if ($stmt->rowCount() > 0) {
+                $stmt->setFetchMode(PDO::FETCH_ASSOC);
+                while($rows = $stmt->fetchAll()) {   
+                    foreach ($rows as $row) {
+                        array_push($Articlearr,$row);
+                    }
+                }
+                $resultao = true;
+            } 
+            else {
+                $resultao = false;
+                $Errmessage = "PDOStatement::errorCode(): ". $stmt->errorCode();
+                //validacion no esta chida
+            }
+        }
+        catch(PDOException $e) {
+            echo "Connection failed" . $e->getMessage();
+        }
+
+        return $resultao;
+    }
+    
+
 }

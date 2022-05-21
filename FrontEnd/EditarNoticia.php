@@ -42,7 +42,7 @@
         if(connection::GetArticles($datarray)){
             foreach($datarray as $art){
                 $arti = new Articulo($art);
-                if($arti->ARTICLE_ID === intval($_POST['aid'])){
+                if($arti->ARTICLE_ID == intval($_POST['aid'])){
                     $Articulo = $arti;
                     break;
                 }
@@ -54,7 +54,7 @@
         //getArticleCateg
         if(connection::GetCategOfArticle($Articulo->ARTICLE_ID,$articleCateg)){
             for($i=0;$i<count($Categorias);$i++){
-                if($Categorias[$i]->name ===$articleCateg) $aCateg = $Categorias[$i];
+                if($Categorias[$i]->name ==$articleCateg) $aCateg = $Categorias[$i];
             }
         }
         //get thumbnail

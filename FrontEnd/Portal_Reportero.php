@@ -31,13 +31,13 @@
     if(connection::GetCountArticles($numRRArticles,"RR")) $ArticlesRRExist = true;
     if(connection::GetCountArticles($numRAArticles,"RA")) $ArticlesRAExist = true;
     if(connection::GetCountArticles($numPUArticles,"PU")) $ArticlesPUExist = true;
-    if($ArticlesRRExist)
+    if($ArticlesRAExist)
     {
         if(connection::GetArticles($datarray)){
             foreach($datarray as $art){
             $arti = new Articulo($art);
-            if($arti->ARTICLE_STATUS === 'RA'&&
-            $arti->CREATED_BY===$loggedreporterid)array_push($ArticulosRA,$arti);
+            if($arti->ARTICLE_STATUS == 'RA'&&
+            $arti->CREATED_BY==$loggedreporterid)array_push($ArticulosRA,$arti);
             }
         }
         // para ponerlos en la lista de articulos pendientes de revision paps
@@ -109,7 +109,7 @@
                 <hr>                
                 <h2 >NOTICIAS PENDIENTES DE CORRECCION:</h2>
                 <?php
-                if(!$ArticlesRRExist) echo'<h3>No hay noticias pendientes</h3>';
+                if(!($ArticlesRAExist && count($ArticulosRA) !=0 )) echo'<h3>No hay noticias pendientes</h3>';
                 else{
                     $ImgBlob = Null;
                     echo'<h4>Hay <span style="background-color: #9d0e28; color:white;" >'.$numRAArticles.'</span> Articulos Revisados, pendientes de correccion</h4>';

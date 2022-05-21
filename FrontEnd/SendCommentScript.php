@@ -4,7 +4,7 @@ require 'User.php';
 $x=1;
 $y=2;
 if (!isset($_POST['data']) ){echo json_encode(array("success" => 0)); exit();}
-$commentsarr = json_decode(stripslashes($_POST['data']),TRUE);
+$commentsarr = json_decode(($_POST['data']),TRUE);
 //determine wether is child (a response to another comment) or not
 $ischild = false;
 $ischild = $commentsarr['child'];

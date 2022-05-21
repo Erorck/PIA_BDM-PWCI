@@ -65,7 +65,6 @@ session_destroy();
     <div class="Contenedor-base">
     <div class = "Barra-navegacion">
                 <h3 class="Logo-web">Noticias</h3>
-                <a href="index.php">Volver Al Indice</a>
                 <a href="Main.php"><i class="fa fa-home" aria-hidden="true"></i></a> 
             </div>
 

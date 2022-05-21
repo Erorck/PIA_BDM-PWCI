@@ -22,7 +22,7 @@
                 if(validar()){
                     $.ajax({
                         type: "POST",
-                        url: 'RegisterScript.php',
+                        url: 'RegRepScript.php',
                         data: $(this).serialize(),
                         success: function(response)
                         {
@@ -35,7 +35,7 @@
                                 //swal.fire('LOGIN EXITOSO','','success')
                                 let timerInterval
                                 Swal.fire({
-                                title: 'Singin Succsesful!',
+                                title: 'Reporter Register Succsesful!',
                                 timer: 2000,
                                 timerProgressBar: true,
                                 showCancelButton: false,

@@ -32,7 +32,7 @@ else{
  else{
     if (!(isset($_SESSION['islogged']) && $_SESSION['islogged'])) echo json_encode(array('success' => 0));
     else{
-        $arrArticulo = json_decode(stripslashes($_POST['data']),TRUE);
+        $arrArticulo = json_decode(($_POST['data']),TRUE);
         $contentconslahes = json_decode($_POST['data'],true);
         $textpconbreaks = $contentconslahes['content'];
         $arrArticulo['content'] = $textpconbreaks;

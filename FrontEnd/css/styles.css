@@ -6,6 +6,7 @@
     --grisesito:#AAAAAA;
     --ArroBlanco:#f3e9e0;
     --Celestito:#86afb6;
+    
 }
 
 body {
@@ -798,5 +799,27 @@ img.news-image {
 
     .fecha{
         color: var(--Celestito);
+        box-shadow:inset 0px 1px 0px 0px #f29c93;
+    }
+
+    .btnlike{
+        border-radius:14px;
+        display:inline-block;
+        cursor:pointer;
+        font-family:Arial;
+        font-size:18px;
+        font-weight:bold;
+        padding:9px 10px;
+        text-decoration:none;
+        transition: none;
     }
     
+    .btnlike:hover {
+        transform: none;
+        background:linear-gradient(to bottom, #ca7900 5%, #fea900 100%);
+        background-color:#d49012;
+    }
+    .myButton:active {
+        position:relative;
+        top:1px;
+    }

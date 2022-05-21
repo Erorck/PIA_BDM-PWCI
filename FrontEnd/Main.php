@@ -3,12 +3,16 @@
     require 'User.php';
     session_start();
     $datarray = []; 
+    $datarrayx = []; 
     $Categorias =[];
     $Perfil = null;
     $LoggedUser = false;
     $numArticles = $numRRArticles = $numRAArticles = $numPUArticles = 0;
     $ArticlesExist = $ArticlesRRExist = $ArticlesRAExist = $ArticlesPUExist = false;
     $ArticulosPU=[];
+    $CategsOfArticles=[];
+    $SectionSort = false;
+    $SortType="";
     if(connection::GetCategories($datarray)){
         foreach($datarray as $cat){
         $categ = new Categoria($cat);
@@ -28,10 +32,67 @@
         if(connection::GetArticles($datarray)){
             foreach($datarray as $art){
             $arti = new Articulo($art);
-            if($arti->ARTICLE_STATUS === 'PU')array_push($ArticulosPU,$arti);
+            if($arti->ARTICLE_STATUS === 'PU'){
+                array_push($ArticulosPU,$arti);
+                $currcateg =null;
+               if(connection::GetCategOfArticle($arti->ARTICLE_ID,$currcateg)){
+                array_push($CategsOfArticles,$currcateg);
+               }
+
+            }
             }
         }
         // para ponerlos en la lista de articulos pendientes de revision paps
+    }
+    if($ArticlesRAExist)
+    {
+        if(connection::GetArticles($datarrayx)){
+            foreach($datarrayx as $art){
+            $arti = new Articulo($art);
+            if($arti->ARTICLE_STATUS == 'RA'&&
+            $arti->CREATED_BY==$loggedreporterid)array_push($ArticulosRA,$arti);
+            }
+        }
+        // para ponerlos en la lista de articulos pendientes de revision paps
+    }
+    if(isset($_GET['section'])){
+        $SortType=$_GET['section'];
+        if(!($SortType=="urgent" || $SortType=="week"))$SectionSort=true;
+        else{
+            //we alter the ArticulosPU to only have those within today or this week
+            $artaux = $ArticulosPU;
+            $ArticulosPU=[];
+            $Fechas =[];
+            $FechasDates=[];
+            $Tiempos =[];
+            foreach($artaux as $a){
+                array_push($Fechas, explode(" ",$a->EVENT_DATE)[0]);
+                array_push($Tiempos, explode(" ",$a->EVENT_DATE)[1]);
+            }
+            foreach($Fechas as $a){
+                array_push($FechasDates,date_create_from_format('Y-m-d', $a));
+            }
+            $Hoy =  date('Y-m-d');
+            $HoyDate = date_create_from_format('Y-m-d', date('Y-m-d')); 
+            switch($SortType){
+                case'urgent':
+                    for($i=0;$i<count($artaux);$i++){
+                        if($Fechas[$i]==$Hoy)array_push($ArticulosPU,$artaux[$i]);
+                    }
+                break;
+                case'week':
+                    for($i=0;$i<count($artaux);$i++){
+                        $interval = date_diff($FechasDates[$i], $HoyDate);
+                        $differencia = $interval->format('%a');
+                        $diffint = intval($differencia);
+                        if($diffint<7){
+                            array_push($ArticulosPU,$artaux[$i]);
+                        }
+                    }
+                break;
+            }
+            //order by most recent
+        }
     }
 ?>
 <!DOCTYPE html>
@@ -72,6 +133,12 @@
             $('.ZonaNoticia').click(function(){
                 $(this).children('.ArticleViewForm').submit();
             });
+            $('.Categ').click(function(){
+                let caac = $(this).attr('section');
+                debugger;
+                $('#section').val($(this).attr('section'));
+                $('#SortForm').submit();
+            });
         });
     </script>
       
@@ -81,12 +148,14 @@
     <div class="Contenedor-base">
         <div class ="topAnclado">
             <div class = "sidenav" id="catBar">
-                <h3 class="Categ" style="background-color:#2264a5;">Principal</h3>
+            <h3 class="Categ" style="background-color:red;" section="urgent">ULTIMA HORA!!!</h3>
+                <h3 class="Categ" style="background-color:#2264a5;" section="week" >SEMANAL</h3>
                 <?php
                 foreach ($Categorias as $x ) {
-                    echo '<h3 class="Categ" style="background-color:#'.$x->color.';">' . $x->name . '</h3>';
+                    echo '<h3 class="Categ" style="background-color:#'.$x->color.';" section="' . $x->name . '">' . $x->name . '</h3>';
                   };
                 ?>
+                <form action="Main.php" method="GET" id="SortForm"><input type="hidden" id="section" name="section"></form>
             </div>
             <div class = "Barra-navegacion">
                 <h3 class="Logo-web">Noticias</h3>
@@ -109,10 +178,10 @@
                     echo'<h3><a href="Perfil.php">'.$Perfil->USER_ALIAS.'';
                     switch($Perfil->USER_TYPE){
                         case 'AD':
-                          if($ArticlesRRExist) echo'<span class="notify-bubble" notifications="'.$numRRArticles.'">'.$numRRArticles.'</span>';
+                            if(!$ArticlesRAExist) echo'<span class="notify-bubble" notifications="'.$numRRArticles.'">'.$numRRArticles.'</span>';
                         break;
                         case 'RE':
-                            if($ArticlesRAExist) echo'<span class="notify-bubble" notifications="'.$numRAArticles.'">'.$numRAArticles.'</span>';
+                            if(!count($ArticulosRA) !=0) echo'<span class="notify-bubble" notifications="'.$numRAArticles.'">'.$numRAArticles.'</span>';
                           break;
                     }
                     echo'</a></h3>
@@ -127,32 +196,57 @@
         <div class="mainContenedor" id="portalcon">
             <div class="ZonaFeed">
                 <?php
-                if(!$ArticlesPUExist) echo'<h3>No hay noticias pendientes</h3>';
+                if((!$ArticlesPUExist) || count($ArticulosPU) == 0) echo'<h3>No hay noticias pendientes</h3>';
                 else{
                     for($i=0;$i<(count($ArticulosPU));$i++){
-                        //display Article
-                        echo "<div class='ZonaNoticia'>";
-                        echo'<form class="ArticleViewForm" action="ArticleView.php" method="GET">
-                        <input type="hidden" id="ArticleId" name="ArticleId" value="'.$ArticulosPU[$i]->ARTICLE_ID.'">
-                        </form>';
-                        if(connection::GetImageArticle($ArticulosPU[$i]->ARTICLE_ID,$ImgBlob)){
-                            echo'<div class="imgZone"> 
-                            
-                            <img src="data:'.$ImgBlob['mime'].';base64,'.base64_encode($ImgBlob['data']).'" alt="thumbnail">
-                            </div>';
+                        if($SectionSort){
+                            if($SortType==$CategsOfArticles[$i]){
+                                 //display Article
+                            echo "<div class='ZonaNoticia'>";
+                            echo'<form class="ArticleViewForm" action="ArticleView.php" method="GET">
+                            <input type="hidden" id="ArticleId" name="ArticleId" value="'.$ArticulosPU[$i]->ARTICLE_ID.'">
+                            </form>';
+                            if(connection::GetImageArticle($ArticulosPU[$i]->ARTICLE_ID,$ImgBlob)){
+                                echo'<div class="imgZone"> 
+                                
+                                <img src="data:'.$ImgBlob['mime'].';base64,'.base64_encode($ImgBlob['data']).'" alt="thumbnail">
+                                </div>';
+                            }
+                            echo'<div class="TxtZone">
+                                <h1 class="txtTitulo">'.$ArticulosPU[$i]->ARTICLE_HEADER.'</h1>
+                                <p class="txtFecha">'.$ArticulosPU[$i]->EVENT_DATE.'<p>
+                                <p class="txtDesc">
+                                '.$ArticulosPU[$i]->ARTICLE_DESCRIPTION.'
+                                </p>
+                                </div>';
+                            echo "</div>";
+                            }
                         }
-                        echo'<div class="TxtZone">
-                            <h1 class="txtTitulo">'.$ArticulosPU[$i]->ARTICLE_HEADER.'</h1>
-                            <p class="txtFecha">'.$ArticulosPU[$i]->EVENT_DATE.'<p>
-                            <p class="txtDesc">
-                            '.$ArticulosPU[$i]->ARTICLE_DESCRIPTION.'
-                            </p>
-                            </div>';
-                        echo "</div>";
+                        else{
+                            //display Article
+                            echo "<div class='ZonaNoticia'>";
+                            echo'<form class="ArticleViewForm" action="ArticleView.php" method="GET">
+                            <input type="hidden" id="ArticleId" name="ArticleId" value="'.$ArticulosPU[$i]->ARTICLE_ID.'">
+                            </form>';
+                            if(connection::GetImageArticle($ArticulosPU[$i]->ARTICLE_ID,$ImgBlob)){
+                                echo'<div class="imgZone"> 
+                                
+                                <img src="data:'.$ImgBlob['mime'].';base64,'.base64_encode($ImgBlob['data']).'" alt="thumbnail">
+                                </div>';
+                            }
+                            echo'<div class="TxtZone">
+                                <h1 class="txtTitulo">'.$ArticulosPU[$i]->ARTICLE_HEADER.'</h1>
+                                <p class="txtFecha">'.$ArticulosPU[$i]->EVENT_DATE.'<p>
+                                <p class="txtDesc">
+                                '.$ArticulosPU[$i]->ARTICLE_DESCRIPTION.'
+                                </p>
+                                </div>';
+                            echo "</div>";
+                        }
+                        
                     }
                 }
-                ?>
-               
+                ?>               
             </div>
         </div>
         <footer id="portalf">

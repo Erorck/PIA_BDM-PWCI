@@ -40,7 +40,7 @@
         if(connection::GetArticles($datarray)){
             foreach($datarray as $art){
                 $arti = new Articulo($art);
-                if($arti->ARTICLE_ID === intval($_GET['ArticleId'])){
+                if($arti->ARTICLE_ID == intval($_GET['ArticleId'])){
                     $Articulo = $arti;
                     break;
                 }
@@ -183,7 +183,7 @@
                         else echo'<h8>enviado el:'.$feedbacks[$i]['CREATION_DATE'].'</h8> <br>';
                         echo'</div>';
                         //Get Last children index in feedback
-                        if($i+1 === count($feedbacks)) $lastChildren = $i;
+                        if($i+1 == count($feedbacks)) $lastChildren = $i;
                     }
                     echo'</div>';
                 }
@@ -191,7 +191,7 @@
                 <div id="ZonaNew">
                 <?php
                 function hazDivisible(&$resultado,$dividendo,$divisor){
-                    if($dividendo % $divisor === 0) $resultado = $dividendo;
+                    if($dividendo % $divisor == 0) $resultado = $dividendo;
                     else{
                         $dividendo ++;
                         hazDivisible($resultado,$dividendo,$divisor);
@@ -200,7 +200,7 @@
                 if(!$Articulo != null) echo'<h3>No Existe el Articulo en la DB</h3>';
                 else{
                     for($i=0;$i<count($Categorias);$i++){
-                        if($Categorias[$i]->name ===$articleCateg) 
+                        if($Categorias[$i]->name ==$articleCateg) 
                         echo'<h3 class="Categ" style="background-color:#'.$Categorias[$i]->color.';">' . $Categorias[$i]->name . '</h3>';
                     }
                     echo'<h1 class="Titulo">'.$Articulo->ARTICLE_HEADER.'</h1>';
@@ -215,7 +215,7 @@
                     echo'<br>';
                     $paragraphs = explode("\n",$Articulo->ARTICLE_CONTENT); // get paragraphs
                     for($i=0;$i<count($paragraphs);$i++){ //clean empty paragraphs
-                        if($paragraphs[$i]==="") \array_splice($paragraphs, $i, 1);
+                        if($paragraphs[$i]=="") \array_splice($paragraphs, $i, 1);
                     }
                     $parNum = count($paragraphs);
                     $imgnum = 0;
@@ -228,10 +228,13 @@
                         hazDivisible($delimitante,$parNum,$imgnum);
                         $orden = $delimitante/$imgnum;
                     }
+                    else{
+                        $delimitante=$parNum;
+                    }
                     $imgindex = 0;
                     for($i=1;$i<=$delimitante;$i++){
                         if($i<=$parNum)echo'<p class="parrafo">'.$paragraphs[$i-1].'</p>';
-                        if($i % $orden === 0){
+                        if($i % $orden == 0 && $imgnum!=0){
                             echo'<img class="MediaImg"
                             src="data:'.$ImgBlobarr['Mime'][$imgindex].
                             ';base64,'.base64_encode($ImgBlobarr['Data'][$imgindex]).

@@ -77,13 +77,19 @@
                     switch($userType){
                         case "AD":
                             echo'<Button class="BtnEditProfile" style="font-size:xx-large;"><a href="Portal_Editor.php">Portal del Editor</a>';
+                            echo'<Button class="BtnEditProfile" style="font-size:xx-large;"><a href="RegisterReporter.php">Registrar Reportero</a>';
                             if($ArticlesRRExist) echo'<span class="notify-bubble" notifications="'.$numRRArticles.'">'.$numRRArticles.'</span>';
                             echo'</Button>';
+                            if($ArticlesPUExist){
+                                echo'<Button class="BtnEditProfile" style="font-size:xx-large;"><a href="ReportApi/Report.php">Generar Reporte de noticias</a>';
+                                echo'</Button>';
+                            }
                         break;
                         case"RE":
                         echo'<Button class="BtnEditProfile" style="font-size:xx-large;"><a href="Portal_Reportero.php">Portal del Reportero</a>';
                             if($ArticlesRAExist) echo'<span class="notify-bubble" notifications="'.$numRAArticles.'">'.$numRAArticles.'</span>';
                             echo'</Button>';
+                            
                         break;
                         default:
                     }
