@@ -129,188 +129,15 @@ session_start();
     <!--</div>-->
 
 
-    <div class="album py-5 bg-light">
-      <div class="container">
+    <div class="album py-5 bg-light" >
+      <div class="container" >
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3" id="recent_news">
+        </div>
 
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-          <div class="col">
-            <div class="card shadow-sm">
+      </div>  
+    </div>  
 
-              <img src="../../Elementos/Altonio.jpg" class="imagen" alt="imagen" width="100%" height="225">
-
-              <!-- <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: صورة مصغرة" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"/><text x="50%" y="50%" fill="#eceeef" dy=".3em">صورة مصغرة</text></svg> -->
-
-              <div class="card-body">
-                <p class="card-text text-black">Enlistan en el ejercito al hijo de AMLO</p>
-                <p class="text">Presuntamente el hijo de amlo fue...</p>
-                <div class="d-flex justify-content-between align-items-center">
-                  <div class="btn-group">
-                    <button type="button" class="btn btn-sm btn-outline-secondary">Continuar leyendo</button>
-                  </div>
-                  <small class="text-muted">12-Enero-2022</small>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="col">
-            <div class="card shadow-sm">
-
-              <img src="../../Elementos/Altonio.jpg" class="imagen" alt="imagen" width="100%" height="225">
-
-              <!-- <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: صورة مصغرة" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"/><text x="50%" y="50%" fill="#eceeef" dy=".3em">صورة مصغرة</text></svg> -->
-
-              <div class="card-body">
-                <p class="card-text text-black">Enlistan en el ejercito al hijo de AMLO</p>
-                <p class="text">Presuntamente el hijo de amlo fue...</p>
-                <div class="d-flex justify-content-between align-items-center">
-                  <div class="btn-group">
-                    <button type="button" class="btn btn-sm btn-outline-secondary">Continuar leyendo</button>
-                  </div>
-                  <small class="text-muted">12-Enero-2022</small>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col">
-            <div class="card shadow-sm">
-
-              <img src="../../Elementos/Altonio.jpg" class="imagen" alt="imagen" width="100%" height="225">
-
-              <!-- <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: صورة مصغرة" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"/><text x="50%" y="50%" fill="#eceeef" dy=".3em">صورة مصغرة</text></svg> -->
-
-              <div class="card-body">
-                <p class="card-text text-black">Enlistan en el ejercito al hijo de AMLO</p>
-                <p class="text">Presuntamente el hijo de amlo fue...</p>
-                <div class="d-flex justify-content-between align-items-center">
-                  <div class="btn-group">
-                    <button type="button" class="btn btn-sm btn-outline-secondary">Continuar leyendo</button>
-                  </div>
-                  <small class="text-muted">12-Enero-2022</small>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="col">
-            <div class="card shadow-sm">
-
-              <img src="../../Elementos/Altonio.jpg" class="imagen" alt="imagen" width="100%" height="225">
-
-              <!-- <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: صورة مصغرة" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"/><text x="50%" y="50%" fill="#eceeef" dy=".3em">صورة مصغرة</text></svg> -->
-
-              <div class="card-body">
-                <p class="card-text text-black">Enlistan en el ejercito al hijo de AMLO</p>
-                <p class="text">Presuntamente el hijo de amlo fue...</p>
-                <div class="d-flex justify-content-between align-items-center">
-                  <div class="btn-group">
-                    <button type="button" class="btn btn-sm btn-outline-secondary">Continuar leyendo</button>
-                  </div>
-                  <small class="text-muted">12-Enero-2022</small>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="col">
-            <div class="card shadow-sm">
-
-              <img src="../../Elementos/Altonio.jpg" class="imagen" alt="imagen" width="100%" height="225">
-
-              <!-- <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: صورة مصغرة" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"/><text x="50%" y="50%" fill="#eceeef" dy=".3em">صورة مصغرة</text></svg> -->
-
-              <div class="card-body">
-                <p class="card-text text-black">Enlistan en el ejercito al hijo de AMLO</p>
-                <p class="text">Presuntamente el hijo de amlo fue...</p>
-                <div class="d-flex justify-content-between align-items-center">
-                  <div class="btn-group">
-                    <button type="button" class="btn btn-sm btn-outline-secondary">Continuar leyendo</button>
-                  </div>
-                  <small class="text-muted">12-Enero-2022</small>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="col">
-            <div class="card shadow-sm">
-
-              <img src="../../Elementos/Altonio.jpg" class="imagen" alt="imagen" width="100%" height="225">
-
-              <!-- <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: صورة مصغرة" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"/><text x="50%" y="50%" fill="#eceeef" dy=".3em">صورة مصغرة</text></svg> -->
-
-              <div class="card-body">
-                <p class="card-text text-black">Enlistan en el ejercito al hijo de AMLO</p>
-                <p class="text">Presuntamente el hijo de amlo fue...</p>
-                <div class="d-flex justify-content-between align-items-center">
-                  <div class="btn-group">
-                    <button type="button" class="btn btn-sm btn-outline-secondary">Continuar leyendo</button>
-                  </div>
-                  <small class="text-muted">12-Enero-2022</small>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="col">
-            <div class="card shadow-sm">
-
-              <img src="../../Elementos/Altonio.jpg" class="imagen" alt="imagen" width="100%" height="225">
-
-              <!-- <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: صورة مصغرة" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"/><text x="50%" y="50%" fill="#eceeef" dy=".3em">صورة مصغرة</text></svg> -->
-
-              <div class="card-body">
-                <p class="card-text text-black">Enlistan en el ejercito al hijo de AMLO</p>
-                <p class="text">Presuntamente el hijo de amlo fue...</p>
-                <div class="d-flex justify-content-between align-items-center">
-                  <div class="btn-group">
-                    <button type="button" class="btn btn-sm btn-outline-secondary">Continuar leyendo</button>
-                  </div>
-                  <small class="text-muted">12-Enero-2022</small>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="col">
-            <div class="card shadow-sm">
-
-              <img src="../../Elementos/Altonio.jpg" class="imagen" alt="imagen" width="100%" height="225">
-
-              <!-- <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: صورة مصغرة" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"/><text x="50%" y="50%" fill="#eceeef" dy=".3em">صورة مصغرة</text></svg> -->
-
-              <div class="card-body">
-                <p class="card-text text-black">Enlistan en el ejercito al hijo de AMLO</p>
-                <p class="text">Presuntamente el hijo de amlo fue...</p>
-                <div class="d-flex justify-content-between align-items-center">
-                  <div class="btn-group">
-                    <button type="button" class="btn btn-sm btn-outline-secondary">Continuar leyendo</button>
-                  </div>
-                  <small class="text-muted">12-Enero-2022</small>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="col">
-            <div class="card shadow-sm">
-
-              <img src="../../Elementos/Altonio.jpg" class="imagen" alt="imagen" width="100%" height="225">
-
-              <!-- <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: صورة مصغرة" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"/><text x="50%" y="50%" fill="#eceeef" dy=".3em">صورة مصغرة</text></svg> -->
-
-              <div class="card-body">
-                <p class="card-text text-black">Enlistan en el ejercito al hijo de AMLO</p>
-                <p class="text">Presuntamente el hijo de amlo fue...</p>
-                <div class="d-flex justify-content-between align-items-center">
-                  <div class="btn-group">
-                    <button type="button" class="btn btn-sm btn-outline-secondary">Continuar leyendo</button>
-                  </div>
-                  <small class="text-muted">12-Enero-2022</small>
-                </div>
-              </div>
-            </div>
-          </div>
+          
 
 
 
@@ -324,7 +151,63 @@ session_start();
 
   <script src="../../JS/bootstrap.bundle.min.js"></script>
 
+    <script>
+      function setNews(news){
+        var html_content = ''
+        for(let data of news) {
+          console.log(data)
+              html_content = html_content.concat(`
+                <div class="col">
+                  <div class="card shadow-sm">
 
+                    <img src="${data['THUMBNAIL']}" class="imagen" alt="imagen" width="100%" height="225">
+
+
+                    <div class="card-body">
+                      <p class="card-text text-black">${data['HEADER']}</p>
+                      <p class="text">${data['REPORT_DESCRIPTION']}</p>
+                      <div class="d-flex justify-content-between align-items-center">
+                        <div class="btn-group">
+                          <a href="Pagina_noticia.php?reportId=${data['REPORT_NUMBER']}" class="btn btn-sm btn-outline-secondary">Continuar leyendo</a>
+                        </div>
+                        <small class="text-muted">${data['EVENT_DATE']}</small>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              `)
+          }
+          console.log(html_content)
+          $('#recent_news').append(html_content)
+
+      }
+
+
+      $(document).ready(function(){
+        $.ajax({
+          url: '../includes/consults_inc.php',
+          type: 'POST',
+          data: {
+              'ajax_get_all_news_published': 1
+          },
+          success: function(response)  {
+            if(response !== 0){
+              var data_array = $.parseJSON(response)
+              setNews(data_array)
+            }
+          },
+          error: function (jqXHR, status, error) {
+            alert('Error consulting news')
+            console.log(error);
+            console.log(status);
+          },
+          complete: function (jqXHR, status) {
+              console.log("se concreto la consulta de noticias en inicio");
+          }
+
+        })
+      })
+    </script>
 </body>
 
 </html>

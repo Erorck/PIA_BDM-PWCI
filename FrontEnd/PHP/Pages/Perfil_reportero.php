@@ -179,89 +179,7 @@ session_start();
           <div class="contenedor_recuadros">
             <ul id="autoWidth" class="cs-hidden" id="newsContainer">
 
-              <!-- 1  ---------------------------------------- -->
-              <li class="item-a">
-                <div class="caja_cursos">
-                  <img src="../../Elementos/NP.jpg" class="img_curso_cuadro" alt="curso 1">
-                  <div class="detalles_curso">
-                    <h2>Chavis rompe en llanto</h2>
-                    <!--<a href="/html/Info_Curso.html">-->
-                    <p> Aceptada </p>
-                    <a href="#" class="text-white btn-outline-secondary"><i class="fas fa-edit"></i></a>
-                    <a href="javascript:Ventanamod()" id="show-modal" class="text-white btn-outline-secondary"><i class="fas fa-trash"></i></a>
-                  </div>
-                </div>
-              </li>
-
-              <!-- 2  ---------------------------------------- -->
-              <li class="item-a">
-                <div class="caja_cursos">
-                  <img src="../../Elementos/Altonio.jpg" class="img_curso_cuadro" alt="curso 1">
-                  <div class="detalles_curso">
-                    <h2> Cae capo de sinaloa</h2>
-                    <!--<a href="/html/Info_Curso.html">-->
-                    <p> Aceptada </p>
-                    <a href="#" class="text-white btn-outline-secondary"><i class="fas fa-edit"></i></a>
-                    <a href="javascript:Ventanamod()" id="show-modal" class="text-white btn-outline-secondary"><i class="fas fa-trash"></i></a>
-                  </div>
-                </div>
-              </li>
-
-              <!-- 3  ---------------------------------------- -->
-              <li class="item-a">
-                <div class="caja_cursos">
-                  <img src="../../Elementos/Altonio.jpg" class="img_curso_cuadro" alt="curso 1">
-                  <div class="detalles_curso">
-                    <h2> ¡Escandalo sucede en es show!</h2>
-                    <!--<a href="/html/Info_Curso.html">-->
-                    <p> Rechazada </p>
-                    <a href="#" class="text-white btn-outline-secondary"><i class="fas fa-edit"></i></a>
-                    <a href="javascript:Ventanamod()" id="show-modal" class="text-white btn-outline-secondary"><i class="fas fa-trash"></i></a>
-                  </div>
-                </div>
-              </li>
-
-              <!-- 4  ---------------------------------------- -->
-              <li class="item-a">
-                <div class="caja_cursos">
-                  <img src="../../Elementos/NP.jpg" class="img_curso_cuadro" alt="curso 1">
-                  <div class="detalles_curso">
-                    <h2>Chavis rompe en llanto</h2>
-                    <!--<a href="/html/Info_Curso.html">-->
-                    <p> Aceptada </p>
-                    <a href="#" class="text-white btn-outline-secondary"><i class="fas fa-edit"></i></a>
-                    <a href="javascript:Ventanamod()" id="show-modal" class="text-white btn-outline-secondary"><i class="fas fa-trash"></i></a>
-                  </div>
-                </div>
-              </li>
-
-              <!-- 5  ---------------------------------------- -->
-              <li class="item-a">
-                <div class="caja_cursos">
-                  <img src="../../Elementos/NP.jpg" class="img_curso_cuadro" alt="curso 1">
-                  <div class="detalles_curso">
-                    <h2>Chavis rompe en llanto</h2>
-                    <!--<a href="/html/Info_Curso.html">-->
-                    <p> Rechazada </p>
-                    <a href="#" class="text-white btn-outline-secondary"><i class="fas fa-edit"></i></a>
-                    <a href="javascript:Ventanamod()" id="show-modal" class="text-white btn-outline-secondary"><i class="fas fa-trash"></i></a>
-                  </div>
-                </div>
-              </li>
-
-              <!--6  ---------------------------------------- -->
-              <li class="item-a">
-                <div class="caja_cursos">
-                  <img src="../../Elementos/NP.jpg" class="img_curso_cuadro" alt="curso 1">
-                  <div class="detalles_curso">
-                    <h2>Chavis rompe en llanto</h2>
-                    <!--<a href="/html/Info_Curso.html">-->
-                    <p> Aceptada </p>
-                    <a href="#" class="text-white btn-outline-secondary"><i class="fas fa-edit"></i></a>
-                    <a href="javascript:Ventanamod()" id="show-modal" class="text-white btn-outline-secondary"><i class="fas fa-trash"></i></a>
-                  </div>
-                </div>
-              </li>
+       
 
             </ul>       
           </div>
@@ -318,7 +236,7 @@ session_start();
     }
   </script>
   <script>
-    function Ventanamod() {
+    function Ventanamod(reportId) {
       Swal.fire({
         title: '¿Estas seguro de eliminar la Nota?',
         text: "¡Este proceso no se revertira!",
@@ -329,11 +247,20 @@ session_start();
         confirmButtonText: 'Si, ¡borralo!'
       }).then((result) => {
         if (result.isConfirmed) {
+          deleteReport(reportId)
+          // $(`#report_${reportId}`).parent().remove()
+          // $('#autoWidth').destroy()
+          // $('#autoWidth').empty();
           Swal.fire(
             '¡Borrado!',
             'Tu Nota a sido eliminada',
             'success'
-          )
+            ).then((result) => {
+              window.location.reload();
+
+            })
+            
+            // getNewsReports();
         }
       })
     }

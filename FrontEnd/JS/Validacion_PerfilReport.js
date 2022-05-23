@@ -222,6 +222,32 @@ function deactivateProfile() {
         }
     })
 }
+
+function deleteReport(reportId) {
+    $.ajax({
+        url: '../includes/news_reports_inc.php',
+        type: 'POST',
+        data: {
+            'reportIdT': reportId,
+            'ajax_delete_report': 1
+        },
+
+        success: function (response) {
+           
+           console.log(response);
+        },
+        error: function (jqXHR, status, error) {
+            
+            alert('Error deleting report')
+            console.log(error);
+            console.log(status);
+        },
+        complete: function (jqXHR, status) {
+            console.log("se concreto la eliminacion");
+        }
+    })
+}
+
 //#endregion
 
 //OBTENER NOTICIAS
@@ -243,7 +269,7 @@ function getNewsReports() {
                     htmlNews = htmlNews.concat('<li class="item-a" ><div onclick="getReport('+ key['REPORT_NUMBER'] + ')" id="report_' + key['REPORT_NUMBER']  +'" class="caja_cursos"><img src="' + key['THUMBNAIL'] + '" style="width:350px; height:204px; object-fit:cover;" class="img_curso_cuadro" alt="curso 1"><div class="detalles_curso"> <h2 class="text-truncate">' + key['HEADER'] + '</h2>');
 
                     if (key['REPORT_STATUS'] == 'RR') {
-                        bottom = '<p> En redacción </p> <a onclick="getReport('+ key['REPORT_NUMBER'] + ') href="#" class="text-white btn-outline-secondary mb-3"> <i class="fas fa-edit"> </i> </a> <a href="javascript:Ventanamod()" id="show-modal" class="text-white btn-outline-secondary mb-3"> <i class="fas fa-trash"> </i> </a>';                        
+                        bottom = '<p> En redacción </p> <a onclick="event.preventDefault(); event.stopPropagation(); getReport('+ key['REPORT_NUMBER'] + ', \'edit\')" href="#" class="text-white btn-outline-secondary mb-3"> <i class="fas fa-edit"> </i> </a> <a href="#" onclick="event.preventDefault(); event.stopPropagation(); Ventanamod('+ key['REPORT_NUMBER'] + ')" id="show-modal" class="text-white btn-outline-secondary mb-3"> <i class="fas fa-trash"> </i> </a>';                        
                     }
 
                     if (key['REPORT_STATUS'] == 'RA') {

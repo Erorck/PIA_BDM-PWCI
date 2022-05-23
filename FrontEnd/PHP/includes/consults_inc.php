@@ -40,6 +40,13 @@ if (isset($_POST["ajax_get_news_details"])) {
 
 }
 
+if(isset($_POST["ajax_get_all_news_published"])) {
+    $consult = new ConsultsControler();
+    $news = $consult->getAllNewsPublished();
+    echo json_encode($news);
+}
+
+
 if (isset($_POST["ajax_get_active_sections_PE"])) {
 
     $consult = new ConsultsControler();

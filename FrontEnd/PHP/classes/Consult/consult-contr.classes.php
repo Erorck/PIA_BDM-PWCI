@@ -16,6 +16,14 @@ include"consult.classes.php";
             return $this->getNewsFromJournalist($journalistId);         
         }
 
+        public function getAllNewsPublished(){
+            return $this->getAllNews();
+        }
+
+        public function getSearchedNews($querySearch, $dateMin, $dateMax){
+            return $this->getSearchedNewsWithFilters($querySearch, $dateMin,$dateMax);
+        }
+
         public function getReportById($reportId){ 
             return $this->getReport($reportId);         
         }

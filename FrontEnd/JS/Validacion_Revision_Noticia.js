@@ -1,6 +1,6 @@
 //OBTENER DATOS DE NOTICIA
 
-function getReport($reportId) {
+function getReport($reportId, editing) {
     $.ajax({
         url: '../includes/consults_inc.php',
         type: 'POST',
@@ -14,7 +14,11 @@ function getReport($reportId) {
             console.log(response);
             var data_array = $.parseJSON(response);
             var header = data_array[0]['HEADER'];
-           window.location.replace("../Pages/Revision_Noticia.php?".concat(header));
+            if(editing){
+                window.location.replace("../Pages/Editar_Noticia.php?".concat(header))
+                return;
+            }
+            window.location.replace("../Pages/Revision_Noticia.php?".concat(header));
         },
         error: function (jqXHR, status, error) {
             alert('Error sending new id')

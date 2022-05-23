@@ -132,6 +132,16 @@ if (isset($_POST["ajax_update_report"])) {
     echo 'Se logro c:';
 }
 
+if(isset($_POST["ajax_delete_report"])) {
+    $id_ReportT = $_POST["reportIdT"];
+
+    session_start();
+    $updated_by = $_SESSION["user"]["ID_USER"];
+    
+    $reportTemp =  News_ReportsControler::withId($id_ReportT, null,null,null,null,null,null,null,null,null,null,$updated_by);
+
+    $reportTemp->deleteNewsReport();
+}
 
 if(isset($_POST['ajax_delete_news_category'])){
     $sectionIdT = $_POST["sectionidT"];

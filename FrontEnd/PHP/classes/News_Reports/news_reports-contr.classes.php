@@ -75,6 +75,8 @@ include "news_reports.classes.php";
              $this->modStatus("DEL", $this->id_ReportT, $this->updated_by);
         }
 
+      
+
         public function publicateNewsReport(){ 
             $this->modStatus("PUB", $this->id_ReportT, $this->updated_by);
         }

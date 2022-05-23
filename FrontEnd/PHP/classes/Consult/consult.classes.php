@@ -95,6 +95,50 @@ class Consults extends Dbh
         return $report;
     }
 
+    protected function getAllNews() {
+        $stmt = $this->connect()->prepare('CALL sp_News_Reports("SAP", NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);');
+        
+        if(!$stmt->execute()){
+            $stmt = null;
+            header("location: ../Pages/Crear_noticia.php?error=stmtFailed");
+            exit();
+        }
+        if ($stmt->rowCount() > 0) {
+            $news = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            // $_SESSION["o_news"] = $news;
+        } else {
+            return 0;
+        }
+
+        $stmt = null;
+        return $news;
+
+     
+
+
+    }
+
+    protected function getSearchedNewsWithFilters($querySearch, $dateMin, $dateMax){
+        $stmt = $this->connect()->prepare('CALL sp_Search_News(NULL, ?, ?, ?, NULL, NULL);');
+        
+        if(!$stmt->execute(array($querySearch, $dateMin, $dateMax))){
+            $stmt = null;
+            header("location: ../Pages/Crear_noticia.php?error=stmtFailed");
+            exit();
+        }
+        if ($stmt->rowCount() > 0) {
+            $news = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            // $_SESSION["o_news"] = $news;
+        } else {
+            return 0;
+        }
+
+        $stmt = null;
+        return $news;
+    }
+
     protected function getAllActiveSections()
     {
         $stmt = $this->connect()->prepare('CALL sp_Section("SAA", NULL, NULL, NULL, NULL, NULL);');
