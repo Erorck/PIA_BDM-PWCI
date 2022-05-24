@@ -266,7 +266,7 @@ class Consults extends Dbh
     protected function retrieveAllImagesFromReport($reportId)
     {
         $stmt = $this->connect()->prepare("CALL sp_Images('SIR', NULL, NULL, ?)");
-        session_start();
+        // session_start();
         if ($reportId == 0) {
             if (isset($_SESSION['c_report'])) {
                 $report = $_SESSION['c_report'];

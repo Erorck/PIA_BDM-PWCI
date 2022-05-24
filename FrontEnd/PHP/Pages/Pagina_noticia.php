@@ -1,9 +1,24 @@
 <?php
   include "../classes/Consult/consult-contr.classes.php";
+  include "../classes/News_Comments/news_comts-contr.classes.php";
 
   $consult = new ConsultsControler();
 
   $newsDetails = $consult->getReportById($_GET['reportId']);
+  
+  $sections= $consult->getReportCtgs($_GET['reportId']);
+
+  $videos= $consult->getReportVideos($_GET['reportId']);
+  if($videos == 0)
+    $videos = array();
+
+  $images = $consult->getReportImages($_GET["reportId"]);
+  if($images == 0)
+    $images = array();
+
+  $commentsConsult = new News_CommentsContr();
+  $comments = $commentsConsult->getCommentsByReportId(($_GET['reportId']));
+  
   if($newsDetails == 0){
     // TODO: redirect to error page
   }
@@ -23,7 +38,8 @@
     <link rel="canonical" href="https://getbootstrap.com/docs/5.1/examples/jumbotron/">
     <link rel="canonical" href="https://getbootstrap.com/docs/5.1/examples/offcanvas-navbar/">
 
-
+    <script type="text/javascript" src="../../JS/JQuery3.3.1.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
   
     <!-- Bootstrap core CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -79,7 +95,7 @@
   <?php include '../templates/header_navbar.php'; ?>
 
 
-<main class="container py-4">
+<main class="container">
   
     <div class="imagen_portada p-2 mb-3 bg-light rounded-3">
           <img src="<?php echo $newsDetails[0]["THUMBNAIL"] ?>" class="img-fluid img-thumbnail mx-auto d-block" alt="">
@@ -91,6 +107,11 @@
         <div class="col-md-8">
           <article class="blog-post">
             <h2 class="blog-post-title"><?php echo $newsDetails[0]["HEADER"] ?></h2>
+            <div id="rCtgs" class="meta-data d-flex blog-post-meta" styl>
+              <?php foreach($sections as $section): ?>
+                <div class="mr-3" style=" text-decoration: underline; text-decoration-thickness:3px; text-decoration-color: <?php echo $section["COLOR"]?> ; margin-right:15px "> <?php echo $section["CATEGORY_NAME"] ?> </div>
+              <?php endforeach?>
+            </div>
             <p class="Fecha de suceso blog-post-meta"><?php echo $newsDetails[0]["EVENT_DATE"] ?></p>
             <p class="Lugar se suceso blog-post-meta"><?php echo 'Colonia ' . $newsDetails[0]['EVENT_NEIGHBOURHOOD'] . ', ' . $newsDetails[0]['EVENT_STREET'] . ', ' . $newsDetails[0]['EVENT_CITY'] . ', ' . $newsDetails[0]['EVENT_COUNTRY'];  ?></p>
 
@@ -99,9 +120,19 @@
             <hr>
             <p><?php echo $newsDetails[0]["CONTENT"] ?> </p>                
             <h2><?php echo  $newsDetails[0]["REPORT_DESCRIPTION"] ?></h2>
-            <img src="../Elementos/NASA.jpg" class="img-fluid img-thumbnail mx-auto d-block" alt="">
+            <div id="rImages" class="d-flex flex-row justify-content-around">
+              <?php foreach($images as $image): ?>
+                <img src="<?php echo $image['CONTENT'] ?> " class="img-fluid img-thumbnail mx-auto" alt="" style="height:300px;">
+              <?php endforeach?>
+            </div>
+            <div id="rVideos" class="d-flex flex-row justify-content-around">
+              <?php foreach($videos as $video): ?>
+                <div class="extra_vid_container d-flex justify-content-start"> 
+                  <video class="mb-2" width="290" height="170" controls><source src="<?php echo $video['CONTENT'] ?> " type="video/mp4"> Your browser does not support the video tag.</video>  
+                </div>
+              <?php endforeach?>
+            </div>
 
-        
             </article>
         </div>
 
@@ -136,36 +167,31 @@
  <main class="container">
  <div class="my-3 p-3 bg-body rounded shadow-sm">
   <h6 class="border-bottom pb-2 mb-0 text-light">Comentarios de la Noticia </h6>
-  <div class="d-flex text-muted pt-3">
-    <svg class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 32x32" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#007bff"/><text x="50%" y="50%" fill="#007bff" dy=".3em">32x32</text></svg>
-
-    <p class="pb-3 mb-0 small lh-sm border-bottom">
-      <strong class="d-block text-gray-dark">@usernameX</strong>
-      "Supe cool la noticia, excelente redaccion y un orgullo mexicano el muchachito"
-    </p>
+  <?php if(count($comments) == 0): ?>
+    <h6 class="border-bottom pb-2 mb-0 mt-1 text-light text-center">No hay comentarios</h6>
+    
+  <?php endif?>
+    <?php foreach($comments as $comment): ?>
+      <div class="d-flex text-muted pt-3">
+        <?php if($comment["PROFILE_PICTURE"] == ""): ?>
+          <svg class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 32x32" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#007bff"/><text x="50%" y="50%" fill="#007bff" dy=".3em">32x32</text></svg>
+        <?php else: ?>          
+          <img src="<?php echo $comment["PROFILE_PICTURE"] ?>" class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="32" height="32" >
+        <?php endif?>
+  
+        <p class="pb-3 mb-0 small lh-sm border-bottom w-100">
+          <strong class="d-block text-gray-dark">@<?php echo $comment["USER_ALIAS"] ?></strong>
+          <?php echo $comment["COMMENT_TEXT"] ?>
+        </p>
+      </div>
+      
+    <?php endforeach?>
   </div>
-  <div class="d-flex text-muted pt-3">
-    <svg class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 32x32" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#e83e8c"/><text x="50%" y="50%" fill="#e83e8c" dy=".3em">32x32</text></svg>
-
-    <p class="pb-3 mb-0 small lh-sm border-bottom">
-      <strong class="d-block text-gray-dark">@usernameX</strong>
-      "No pues en hora buena por este país, ya hacia falta joveazos asi eda"
-    </p>
-  </div>
-  <div class="d-flex text-muted pt-3">
-    <svg class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 32x32" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#6f42c1"/><text x="50%" y="50%" fill="#6f42c1" dy=".3em">32x32</text></svg>
-
-    <p class="pb-3 mb-0 small lh-sm border-bottom">
-      <strong class="d-block text-gray-dark">@usernameX</strong>
-       "Ay ese muchachito me recuerda a otro joven que se dedica a la industria de la cinematografia dirigida a publico mayor, no recuerdo como se llama. Pero en hora buena por el muchacho"
-    </p>
-  </div>
-</div>
 <div class="my-3 p-3 bg-body rounded shadow-sm">
   <h6 class="text-light border-bottom pb-2 mb-0">Comentario para la noticia</h6>
   <small class="d-block text-end mt-3">
-    <a class="text-light" href="#">Enviar Comentario</a>
-    <input type="text" class="form-control" name="coment"></input>
+    <a class="text-light" href="javascript:sendComment(<?php echo $_GET["reportId"] ?>)">Enviar Comentario</a>
+    <input type="text" class="form-control" name="coment" id="commentInput"></input>
   </small>
 </div>
 </main>
@@ -176,7 +202,53 @@
 </footer>
 
 <script src="../JS/bootstrap.bundle.min.js"></script>
+<script>
+  function sendComment(reportId) {
+    let comment = $('#commentInput').val();
+    $('#commentInput').css({
+       border: "3px solid #3b055f"
+    });
 
+    $('#commentInput').attr('placeholder', '');
+
+    
+    if(comment === "" ||comment === null){
+      console.log("esta mal");
+      $('#commentInput').css({
+          border: "1px solid #dd5144"
+      });
+      $('#commentInput').attr('placeholder', 'No deje este campo vacio');
+      return;
+    }
+
+
+    $.ajax({
+      url: '../includes/news_reports_inc.php',
+      type: 'POST',
+      data: {
+      'commentText':comment,
+      'reportId':reportId,
+      'ajax_insert_comment': 1
+      },
+      success: function(response) {
+        
+        window.location.reload();
+      },
+      error: function (jqXHR, status, error) {
+            alert('Error inserting report')
+            console.log(error);
+            console.log(status);
+      },
+      complete: function (jqXHR, status) {
+       
+      }
+    })
+
+  }
+
+
+
+</script>
     
   </body>
 

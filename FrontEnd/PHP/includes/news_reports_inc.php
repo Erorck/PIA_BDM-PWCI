@@ -2,6 +2,7 @@
 
 include "../classes/News_Reports/news_reports-contr.classes.php";
 include "../classes/News_Categories/news_ctgs-contr.classes.php";
+include "../classes/News_Comments/news_comts-contr.classes.php";
 include "../classes/News_Tags/news_tags-contr.classes.php";
 include "../classes/Image/image-contr.classes.php";
 include "../classes/Video/videos-contr.classes.php";
@@ -177,6 +178,18 @@ if(isset($_POST['ajax_delete_image'])){
     $imageTemp =  ImageContr::withId($imageIdT, $id_ReportT);
 
     $imageTemp->delete();
+}
+
+if(isset($_POST['ajax_insert_comment'])){
+    $commentText = $_POST['commentText'];
+    $reportId = $_POST['reportId'];
+    session_start();
+    $updated_by = $_SESSION["user"]["ID_USER"];
+
+    $comments = News_CommentsContr::withInfo($commentText,$reportId,$updated_by);
+
+    $comments->insert();
+    echo json_encode($_POST);
 }
 
 if(isset($_POST['ajax_delete_video'])){

@@ -160,7 +160,7 @@ function getReportVideos() {
                 var data_array = $.parseJSON(response);
                 for (let key of data_array) {
 
-                    htmlRepVidList = htmlRepVidList.concat(' <div class=" extra_vid_container d-flex justify-content-start"> <video class="mb-2" width="290" height="170" controls><source src="' + key['CONTENT'] + '" type="video/mp4"> Your browser does not support the video tag.</video>  </div>');
+                    htmlRepVidList = htmlRepVidList.concat(' <div class="extra_vid_container d-flex justify-content-start"> <video class="mb-2" width="290" height="170" controls><source src="' + key['CONTENT'] + '" type="video/mp4"> Your browser does not support the video tag.</video>  </div>');
 
                 }
             }
