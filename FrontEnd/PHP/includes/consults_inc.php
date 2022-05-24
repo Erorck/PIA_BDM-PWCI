@@ -48,6 +48,19 @@ if (isset($_POST["ajax_get_news_details"])) {
 
 }
 
+if (isset($_POST["ajax_get_likes_report"])) {
+    
+    $oper = $_POST['oper'];
+    $fechaMinT = $_POST['fechaMinT'];
+    $fechaMaxT = $_POST['fechaMaxT'];
+    $categoryT = $_POST['categoryT'];
+    
+    $consult = new ConsultsControler();
+    $report= $consult->getLReport($oper, $fechaMinT, $fechaMaxT, $categoryT);
+    echo json_encode($report);
+
+}
+
 if(isset($_POST["ajax_get_all_news_published"])) {
     $consult = new ConsultsControler();
     $news = $consult->getAllNewsPublished();

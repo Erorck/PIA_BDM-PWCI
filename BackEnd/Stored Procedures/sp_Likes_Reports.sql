@@ -21,29 +21,34 @@ BEGIN
     IF Oper = 'N'
 	THEN
 		SELECT `CATEGORY_NAME`, `PUBLICATION_DATE`,`REPORT_HEADER`, 
-        `LIKES`, `COMENTS`
+        `LIKES`, `COMMENTS`
         FROM categories CS
+        JOIN news_categories NCTG
+        ON NCTG.CATEGORY = CS.CATEGORY_ID
         JOIN news_reports NSR
-        ON NSR.CREATED_BY = CS.CREATED_BY
+        ON NCTG.REPORT_ID = NSR.REPORT_ID
 		WHERE if(categoryT IS NULL OR categoryT = 0, 1, CATEGORY_NAME = categoryT)
 		AND if (fechaMinT IS NULL, 1, `PUBLICATION_DATE` >=  fechaMinT)
 		AND if (fechaMaxT IS NULL, 1, `PUBLICATION_DATE` <= fechaMaxT)
 		AND `REPORT_STATUS` = 'P'
+        GROUP BY REPORT_HEADER
         ORDER BY LIKES DESC;
     END IF;
     
     IF Oper = 'S'
 	THEN
-		SELECT `CATEGORY_NAME`, `PUBLICATION_DATE`,   
-        `LIKES`, `COMENTS`
+		SELECT `CATEGORY_NAME`, MONTH(`PUBLICATION_DATE`) AS MES, YEAR(`PUBLICATION_DATE`) AS ANIO,   
+        SUM(NSR.LIKES) AS LIKES_CTG, SUM(NSR.COMMENTS) AS COMMENTS_CTG
         FROM categories CS
+		JOIN news_categories NCTG
+        ON NCTG.CATEGORY = CS.CATEGORY_ID
         JOIN news_reports NSR
-        ON NSR.CREATED_BY = CS.CREATED_BY
+        ON NCTG.REPORT_ID = NSR.REPORT_ID
 		WHERE if(categoryT IS NULL OR categoryT = 0, 1, CATEGORY_NAME = categoryT)
 		AND if (fechaMinT IS NULL, 1, `PUBLICATION_DATE` >=  fechaMinT)
 		AND if (fechaMaxT IS NULL, 1, `PUBLICATION_DATE` <= fechaMaxT)
 		AND `REPORT_STATUS` = 'P'
-        GROUP BY MONTH(fechaMinT) AND YEAR(fechaMaxT)
+        GROUP BY CATEGORY_NAME, LIKES, COMMENTS
         ORDER BY LIKES DESC;
         
 	END IF;

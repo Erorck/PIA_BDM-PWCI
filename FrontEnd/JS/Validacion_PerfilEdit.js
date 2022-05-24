@@ -307,6 +307,7 @@ function getActiveSections() {
         success: function (response) {
             var htmlSectionsList = "";
             var htmlSectionsCb = '<option value="N">Elige la seccion a Editar...</option>';
+            var htmlSectionsRepCb = '<option value="0">Todas</option>';
             if (response != 0) {
                 var data_array = $.parseJSON(response);
                 for (let key of data_array) {
@@ -321,13 +322,16 @@ function getActiveSections() {
                     htmlSectionsList = htmlSectionsList.concat('<div class="d-flex text-muted pt-3"><svg class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 32x32" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="' + key['DISPLAY_COLOR'] + '"/><text x="50%" y="50%" fill="' + textColor + '" dy=".3em">' + sectionInitial + '</text></svg><div class="pb-3 mb-0 small lh-sm border-bottom w-100"><div class="d-flex justify-content-between"><strong value=' + key['SECTION_ID'] + ' id="seccion_' + key['SECTION_ID'] + '"class="text-gray-dark">' + key['SECTION_NAME'] + '</strong><a href="javascript:VentanaBajaSeccion(' + key['SECTION_ID'] + ')" class="text-danger"><i class="fas fa-trash-alt"></i></a></div><a href="javascript:VentanaModNameSeccion(' + key['SECTION_ID'] + ')" class="lapiz"><i class="fas fa-pen"></i></a></div></div>');
 
                     htmlSectionsCb = htmlSectionsCb.concat('<option d_order="' + key['DISPLAY_ORDER'] + '"d_color="' + key['DISPLAY_COLOR'] + '" value=' + key['SECTION_ID'] + '>' + key['SECTION_NAME'] + '</option>');
+
+                    htmlSectionsRepCb = htmlSectionsRepCb.concat('<option d_order="' + key['DISPLAY_ORDER'] + '"d_color="' + key['DISPLAY_COLOR'] + '" value=' + key['SECTION_ID'] + '>' + key['SECTION_NAME'] + '</option>');
                 }
             }
             $('#sections_list').html(htmlSectionsList);
             $('#cbSection').html(htmlSectionsCb);
+            $('#cbSectionRep').html(htmlSectionsRepCb);
 
             sectionsConsulted = true;
-            console.log('obtuve las secciones activas');
+            console.log('obtuve las secciones para reporte');
         },
         error: function (jqXHR, status, error) {
             alert('Error consulting sections');
@@ -337,7 +341,7 @@ function getActiveSections() {
             console.log(status);
         },
         complete: function (jqXHR, status) {
-            console.log("se concreto la consulta de secciones");
+            console.log("se concreto la consulta de secciones para reporte");
             getDeletedSections();
             return sectionsConsulted;
         }
@@ -723,6 +727,59 @@ function setToJournalist() {
 }
 //#endregion
 
+
+function getLikesReports() {
+
+    let oper = $('#Tipo option:selected').val(),
+        fechaMinT = $('#fechaMinRep').val(),
+        fechaMaxT = $('#fechaMaxRep').val(),
+        categoryT = $('#cbSectionRep option:selected').val();
+
+    $.ajax({
+        url: '../includes/consults_inc.php',
+        type: 'POST',
+        data: {
+            'oper': oper,
+            'fechaMinT': fechaMinT,
+            'fechaMaxT': fechaMaxT,
+            'categoryT': categoryT,
+            'ajax_get_likes_report': 1
+        },
+
+        success: function (response) {
+            var htmlData = "";
+            $('#reportRows').empty();
+
+            if (response != 0) {
+                console.log(response);
+                var data_array = $.parseJSON(response);
+                for (let key of data_array) {
+                    if ($('#Tipo option:selected').val() == 'N') {
+                        $('#posMes').text('Fecha');
+                        $('#posAño').text('Noticia');
+                        htmlData = htmlData.concat('</h2>  <tr>  <td>' + key['CATEGORY_NAME'] + '</td>  <td>' + key['PUBLICATION_DATE'] + '</td>   <td>' + key['REPORT_HEADER'] + '</td>  <td>' + key['LIKES'] + ' </td>   <td>' + key['COMMENTS'] + '</td>     </tr>');
+                    } else {
+                        $('#posMes').text('Mes');
+                        $('#posAño').text('Año');
+                        htmlData = htmlData.concat('</h2>  <tr>  <td>' + key['CATEGORY_NAME'] + '</td>  <td>' + key['MES'] + '</td> <td>' + key['ANIO'] + '</td>  <td>' + key['LIKES_CTG'] + ' </td>   <td>' + key['COMMENTS_CTG'] + '</td>   </tr>');
+                    }
+
+                }
+            }
+            $('#reportRows').html(htmlData);
+
+            console.log('obtuve el reporte para el editor');
+        },
+        error: function (jqXHR, status, error) {
+            alert('Error consulting likes report')
+            console.log(error);
+            console.log(status);
+        },
+        complete: function (jqXHR, status) {
+            console.log("se concreto la consulta del reporte");
+        }
+    })
+}
 
 //#region MISCELANÉOS
 

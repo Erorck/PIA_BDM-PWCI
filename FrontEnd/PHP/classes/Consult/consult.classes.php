@@ -115,6 +115,28 @@ class Consults extends Dbh
         return $report;
     }
 
+    protected function getLikesReport($oper, $fechamin, $fechamax, $categoryId)
+    {
+       
+        $stmt = $this->connect()->prepare('CALL sp_Likes_Report(?, ?, ?, ?);');
+        if (!$stmt->execute(array($oper, $fechamin, $fechamax, $categoryId))) {
+            $stmt = null;
+            header("location: ../Pages/Perfil_Editor.php?error=stmtFailed");
+            exit();
+        }
+        if ($stmt->rowCount() > 0) {
+            $report = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            session_start();
+            $_SESSION["o_likes_report"] = $report;
+        } else {
+            return 0;
+        }
+
+        $stmt = null;
+        return $report;
+    }
+
     protected function getAllNews()
     {
         $stmt = $this->connect()->prepare('CALL sp_News_Reports("SAP", NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);');

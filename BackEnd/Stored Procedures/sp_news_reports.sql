@@ -2,7 +2,8 @@
 
 USE GOOD_OLD_TIMES_DB;
 
-CALL sp_News_Reports('-LIK', 26 , NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, null, null, NULL); 
+
+-- CALL sp_News_Reports('+LIK', 26 , NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, null, null, NULL); 
 CALL sp_News_Reports('SA', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, null, null, NULL);
 CALL sp_News_Reports('SOI', 26, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, null, null, NULL);
 CALL sp_News_Categories('SSR', NULL,'25', NULL);

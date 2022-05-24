@@ -32,6 +32,10 @@ include "consult.classes.php";
             return $this->getReport($reportId);         
         }
 
+        public function getLReport($oper, $fechamin, $fechamax, $categoryId){ 
+            return $this->getLikesReport($oper, $fechamin, $fechamax, $categoryId);         
+        }
+
         public function getASections(){ 
              return $this->getAllActiveSections();         
         }

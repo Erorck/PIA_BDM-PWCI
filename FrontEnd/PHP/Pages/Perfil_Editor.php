@@ -420,7 +420,7 @@ session_start();
               <label for="Tipo" class="form-label">Noticia o Sección</label>
               <select class="form-select" id="Tipo">
                 <option value="N">Noticia</option>
-                <option value= "S">Sección</option>
+                <option value="S">Sección</option>
               </select>
             </div>
           </div>
@@ -433,8 +433,8 @@ session_start();
           <div class="pb-3 mb-0 small lh-sm border-bottom w-100">
             <div class="d-flex justify-content-between">
               <label for="seccion" class="form-label">Secciónes</label>
-              <select class="form-select" id="seccionRep">
-                <option value="">Todas</option>
+              <select class="form-select" id="cbSectionRep">
+                <option value="0">Todas</option>
                 <option>Sección 01</option>
                 <option>Sección 02</option>
               </select>
@@ -451,56 +451,60 @@ session_start();
               <label for="country" class="form-label">Fechas</label>
               <div class="row gy-3">
                 <div class="col-md-6 columna">
-                  <input type="text" name="daterange" value="Fecha" class="calend" />
+                  <input type="date" id="fechaMinRep" class="calend">
+                  <input type="date" id="fechaMaxRep" class="calend">
                 </div>
               </div>
             </div>
           </div>
         </div>
         <small class="d-block text-dark mt-3">
-          <button class="text-dark text-decoration-none" id="CrearReporte" type="submit">Crear Reporte</button>
+          <button class="text-dark text-decoration-none" id="CrearReporte" type="button" onclick="getLikesReports()">Crear Reporte</button>
         </small>
       </div>
     </form>
 
     <table class="reporte" id="tablareporte">
-      <thead>
+      <thead id="tableHeader">
         <tr>
           <th>Sección</th>
-          <th>Fecha</th>
-          <th>Noticia</th>
+          <th id="posMes">Fecha</th>
+          <th id="posAño">Noticia</th>
           <th>Likes</th>
           <th>Numero Comentarios</th>
         </tr>
       </thead>
-      <tr>
-        <td>Farandula</td>
-        <td>30/SEP/2022</td>
-        <td>Alfredo Adame...</td>
-        <td>300 </td>
-        <td>30</td>
-      </tr>
-      <tr>
-        <td>Deportes</td>
-        <td>10/DIC/2022</td>
-        <td>Big Neurosis gana...</td>
-        <td>301</td>
-        <td>200</td>
-      </tr>
-      <tr>
-        <td>Internacional</td>
-        <td>20/DIC/2022</td>
-        <td>Mafer Chavana World Tour</td>
-        <td>2300</td>
-        <td>10</td>
-      </tr>
-      <tr>
-        <td>Clima</td>
-        <td>1/ENE/2022</td>
-        <td>¡Se viene la llovina!</td>
-        <td>90</td>
-        <td>405</td>
-      </tr>
+      <tbody id="reportRows">
+        <tr>
+          <td>Farandula</td>
+          <td>30/SEP/2022</td>
+          <td>Alfredo Adame...</td>
+          <td>300 </td>
+          <td>30</td>
+        </tr>
+        <tr>
+          <td>Deportes</td>
+          <td>10/DIC/2022</td>
+          <td>Big Neurosis gana...</td>
+          <td>301</td>
+          <td>200</td>
+        </tr>
+        <tr>
+          <td>Internacional</td>
+          <td>20/DIC/2022</td>
+          <td>Mafer Chavana World Tour</td>
+          <td>2300</td>
+          <td>10</td>
+        </tr>
+        <tr>
+          <td>Clima</td>
+          <td>1/ENE/2022</td>
+          <td>¡Se viene la llovina!</td>
+          <td>90</td>
+          <td>405</td>
+        </tr>
+      </tbody>
+      </div>
     </table>
     <br>
     <br>
@@ -535,7 +539,6 @@ session_start();
 
   <!-- SCRIPTS REVISIÓN NOTICIAS -->
   <script>
-
     function VentanaAprobarNoticia(reportId) {
 
       Swal.fire({
@@ -549,15 +552,15 @@ session_start();
       }).then((result) => {
         if (result.isConfirmed) {
           approveReport(reportId);
-         
+
           Swal.fire(
             '¡Aprobada!',
             'La Nota a sido publicada',
             'success'
-            ).then((result) => {
-              window.location.reload();
-            })
-            
+          ).then((result) => {
+            window.location.reload();
+          })
+
         }
       })
     }
@@ -584,7 +587,7 @@ session_start();
               'La seccion a sido eliminada',
               'success'
             )
-          } 
+          }
           //TODO
           // else {
           //   Swal.fire(
@@ -616,7 +619,7 @@ session_start();
               'La seccion a sido reactivada',
               'success'
             )
-          } 
+          }
           //TODO
           // else {
           //   Swal.fire(
