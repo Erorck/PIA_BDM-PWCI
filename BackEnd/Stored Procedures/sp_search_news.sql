@@ -15,7 +15,7 @@ CREATE PROCEDURE sp_Search_News (
     IN fechaMinT DATETIME,
     IN fechaMaxT DATETIME,
 	IN categoryT INT,
-    IN tagT varchar(50)
+    IN tagT varchar(100)
 )
 CONTAINS SQL
 `sp_Search_News`:
@@ -29,25 +29,19 @@ BEGIN
         `EVENT_STREET`, `EVENT_NEIGHBOURHOOD`, `EVENT_CITY`, `EVENT_COUNTRY`, 
         `HEADER`, `REPORT_DESCRIPTION`, `CONTENT`, `LIKES`, `THUMBNAIL`, `EVENT_DATE`, `PUBLICATION_DATE`,
         `CREATION_DATE`, `CREATED_BY_ID`, `CREATED_BY_NAME`,
-		`LAST_UPDATE_DATE`, `UPDATED_BY_ID`, `UPDATED_BY_NAME`, `REPORT_STATUS`
-        FROM v_news_detailed ND
-        JOIN news_categories NCTG
-        ON NCTG.REPORT_ID = ND.REPORT_NUMBER
-        JOIN categories CTG
-        ON NCTG.CATEGORY = CTG.CATEGORY_ID
-        JOIN news_tags NTG
-        ON NTG.REPORT_ID = NTG.TAG_NAME
-        JOIN tags T
-        ON NTG.TAG = T.TAG_NAME
+		`LAST_UPDATE_DATE`, `UPDATED_BY_ID`, `UPDATED_BY_NAME`, `TAG`, `CATEGORY`, `CATEGORY_NAME`,`REPORT_STATUS`
+        FROM v_News_Search
 		WHERE if(textoT IS NULL OR textoT = '', 1, HEADER LIKE concat('%', textoT,'%'))
         OR if(textoT IS NULL OR textoT = '', 1, REPORT_DESCRIPTION LIKE concat('%', textoT,'%'))
         OR if(textoT IS NULL OR textoT = '', 1, EVENT_CITY LIKE concat('%', textoT,'%'))
         OR if(textoT IS NULL OR textoT = '', 1, EVENT_COUNTRY LIKE concat('%', textoT,'%'))
-        AND if(tagT IS NULL OR tagT = 0, 1, NTG.TAG = tagT)
-        AND if(categoryT IS NULL OR categoryT = 0, 1, NCTG.CATEGORY = categoryT)
-		OR if (fechaMinT IS NULL, 1, `EVENT_DATE` >=  fechaMinT)
+        OR if(textoT IS NULL OR tagT = 0, 1, TAG LIKE concat('%', textoT,'%'))
+        OR if(textoT IS NULL OR textoT = 0, 1, CATEGORY_NAME LIKE concat('%', textoT,'%'))
+        AND if(categoryT IS NULL OR categoryT = 0, 1, CATEGORY = categoryT)
+		AND if (fechaMinT IS NULL, 1, `EVENT_DATE` >=  fechaMinT)
 		AND if (fechaMaxT IS NULL, 1, `EVENT_DATE` <= fechaMaxT)
 		AND `REPORT_STATUS` = 'P'
+		GROUP BY REPORT_NUMBER
         ORDER BY EVENT_DATE, HEADER ASC;
         LEAVE `sp_Search_News`; 
     

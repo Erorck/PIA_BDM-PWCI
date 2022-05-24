@@ -1,6 +1,7 @@
 <?php
   include "../classes/Consult/consult-contr.classes.php";
   include "../classes/News_Comments/news_comts-contr.classes.php";
+  include "../classes/Reactions/reactions-contr.classes.php";
 
   $consult = new ConsultsControler();
 
@@ -18,6 +19,19 @@
 
   $commentsConsult = new News_CommentsContr();
   $comments = $commentsConsult->getCommentsByReportId(($_GET['reportId']));
+
+  $reaction = ReactionsContr::withId($_SESSION['user']['ID_USER'], $_GET["reportId"], 0);;
+  
+  if(!isset($_SESSION['user']))
+    session_start();
+
+
+  $reactionData = $reaction->getReaction();
+  $hasReacted = false;
+
+  if($reactionData != 0){
+    $hasReacted = true;
+  }
   
   if($newsDetails == 0){
     // TODO: redirect to error page
@@ -46,49 +60,16 @@
     integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
     <script src="https://kit.fontawesome.com/89688bb0b5.js" crossorigin="anonymous"></script>
 
-    <link rel="shortcut icon" href="../Elementos/Good Old Times-ICON.2.png" type="image/x-icon">
-    <link href="../assets/dist/css/bootstrap.min.css" rel="stylesheet">
-
-
-    <style>
-      .bd-placeholder-img {
-        font-size: 1.125rem;
-        text-anchor: middle;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        user-select: none;
-      }
-
-      .imagen_portada{
-          margin-top: 3%;
-      }
-      .Cant_likes{
-          text-decoration:underline;
-      }
-      .button_like{
-          color: rgb(42, 112, 173);
-          border-radius: 30px;
-          background-color: rgb(227, 216, 247);
-      }
-      .Rel_notice{
-          color: black;
-      }
-      .blog-footer{
-          margin-top: 5%;
-      }
-
-      @media (min-width: 768px) {
-        .bd-placeholder-img-lg {
-          font-size: 3.5rem;
-        }
-      }
-    </style>
+    <link rel="shortcut icon" href="../../Elementos/Good Old Times-ICON.2.png" type="image/x-icon">
+    <link href="../../bootstrap-5.1.3-examples/assets/dist/css/bootstrap.min.css" rel="stylesheet">
+    <
 
     
     <!-- Custom styles for this template -->
     <link href="https://fonts.googleapis.com/css?family=Playfair&#43;Display:700,900&amp;display=swap" rel="stylesheet">
     <!-- Custom styles for this template -->
-    <link href="../CSS/Inicio.css" rel="stylesheet">
+    <link href="../../CSS/Inicio.css" rel="stylesheet">
+    <link href="../../CSS/Estilo_Pagina_Noticia.css" rel="stylesheet">
   </head>
   <body>
   
@@ -106,7 +87,8 @@
       <div class="row g-5">
         <div class="col-md-8">
           <article class="blog-post">
-            <h2 class="blog-post-title"><?php echo $newsDetails[0]["HEADER"] ?></h2>
+            <input type="text" id="reportTemp" value="<?php echo $_GET["reportId"] ?>" hidden="true">
+            <h2 class="blog-post-title"><?php echo $newsDetails[0]["HEADER"]?></h2>
             <div id="rCtgs" class="meta-data d-flex blog-post-meta" styl>
               <?php foreach($sections as $section): ?>
                 <div class="mr-3" style=" text-decoration: underline; text-decoration-thickness:3px; text-decoration-color: <?php echo $section["COLOR"]?> ; margin-right:15px "> <?php echo $section["CATEGORY_NAME"] ?> </div>
@@ -143,8 +125,19 @@
             <div class="p-4 mb-3 bg-light rounded">
               <h4 class="fst-italic">Autor de la Noticia</h4>
               <p class="Info_nota blog-post-meta"><?php echo $newsDetails[0]['PUBLICATION_DATE'] ?> por <a href="#"><?php echo $newsDetails[0]['CREATED_BY_NAME'] ?></a></p>
-              <p class="Cant_likes blog-post-meta">Likes de la noticia: <a class="text-dark" href="#"><?php echo $newsDetails[0]["LIKES"] ?></a></p>
-              <button class="button_like"><i class="far fa-thumbs-up"></i> Dar like</button>
+              <p class="Cant_likes blog-post-meta">Likes de la noticia: <a id="like_counter" class="text-dark" href="#">
+                <?php echo $newsDetails[0]["LIKES"] ?></a></p>
+
+              <button class="button_like" 
+              value=<?php if($hasReacted && $reactionData[0]['LIKED']== 1) echo 'true'; else echo 'false'; ?>
+               id="btn_like" 
+               onclick="reaction(<?php echo intval($_GET['reportId']).','. $newsDetails[0]['LIKES']?>)">
+               
+
+               <i class="far fa-thumbs-up"></i> 
+               <?php if($hasReacted && $reactionData[0]['LIKED']== 1) echo 'Quitar like'; else echo 'Dar like ' ; ?>
+
+              </button>
             </div>
 
             <div class="Rel_notice p-4">
@@ -165,7 +158,7 @@
 
  <!--  COMENTARIOS NOTICIA  -->
  <main class="container">
- <div class="my-3 p-3 bg-body rounded shadow-sm">
+ <div class="my-3 p-3 bg-dark rounded shadow-sm">
   <h6 class="border-bottom pb-2 mb-0 text-light">Comentarios de la Noticia </h6>
   <?php if(count($comments) == 0): ?>
     <h6 class="border-bottom pb-2 mb-0 mt-1 text-light text-center">No hay comentarios</h6>
@@ -187,7 +180,7 @@
       
     <?php endforeach?>
   </div>
-<div class="my-3 p-3 bg-body rounded shadow-sm">
+<div class="my-3 p-3 bg-dark rounded shadow-sm">
   <h6 class="text-light border-bottom pb-2 mb-0">Comentario para la noticia</h6>
   <small class="d-block text-end mt-3">
     <a class="text-light" href="javascript:sendComment(<?php echo $_GET["reportId"] ?>)">Enviar Comentario</a>
@@ -201,7 +194,8 @@
   </p>
 </footer>
 
-<script src="../JS/bootstrap.bundle.min.js"></script>
+<script src="../../JS/bootstrap.bundle.min.js"></script>
+<script src="../../JS/Script_Pagina_Noticia.js"></script>
 <script>
   function sendComment(reportId) {
     let comment = $('#commentInput').val();

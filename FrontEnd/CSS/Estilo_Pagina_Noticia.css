@@ -1,0 +1,31 @@
+.bd-placeholder-img {
+  font-size: 1.125rem;
+  text-anchor: middle;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+}
+
+.imagen_portada{
+    margin-top: 3%;
+}
+.Cant_likes{
+    text-decoration:underline;
+}
+.button_like{
+    color: rgb(42, 112, 173);
+    border-radius: 30px;
+    background-color: rgb(227, 216, 247);
+}
+.Rel_notice{
+    color: black;
+}
+.blog-footer{
+    margin-top: 5%;
+}
+
+@media (min-width: 768px) {
+  .bd-placeholder-img-lg {
+    font-size: 3.5rem;
+  }
+}

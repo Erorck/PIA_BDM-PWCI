@@ -53,7 +53,7 @@ class News_Reports extends Dbh{
 
         if(!$stmt->execute(array($action, $id_ReportT, $updated_by))){
             $stmt = null;
-            header("location: ../Pages/Perfil_Reportero.php?error=stmtFailed");
+            header("location: ../Pages/Inicio.php?error=stmtFailed");
             exit();
         }
 

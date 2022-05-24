@@ -6,6 +6,7 @@ include "../classes/News_Comments/news_comts-contr.classes.php";
 include "../classes/News_Tags/news_tags-contr.classes.php";
 include "../classes/Image/image-contr.classes.php";
 include "../classes/Video/videos-contr.classes.php";
+include "../classes/Reactions/reactions-contr.classes.php";
 
 
 //Inserción de noticia mediante ajax
@@ -144,6 +145,39 @@ if(isset($_POST["ajax_delete_report"])) {
     $reportTemp->deleteNewsReport();
 }
 
+if(isset($_POST["ajax_send_report_to_editor"])) {
+    $id_ReportT = $_POST["reportIdT"];
+
+    session_start();
+    $updated_by = $_SESSION["user"]["ID_USER"];
+    
+    $reportTemp =  News_ReportsControler::withId($id_ReportT, null,null,null,null,null,null,null,null,null,null,$updated_by);
+
+    $reportTemp->sendToEditor();
+}
+
+if(isset($_POST["ajax_send_back_to_journalist"])) {
+    $id_ReportT = $_POST["reportIdT"];
+
+    session_start();
+    $updated_by = $_SESSION["user"]["ID_USER"];
+    
+    $reportTemp =  News_ReportsControler::withId($id_ReportT, null,null,null,null,null,null,null,null,null,null,$updated_by);
+
+    $reportTemp->sendToReporter();
+}
+
+if(isset($_POST["ajax_approve_report"])) {
+    $id_ReportT = $_POST["reportIdT"];
+
+    session_start();
+    $updated_by = $_SESSION["user"]["ID_USER"];
+    
+    $reportTemp =  News_ReportsControler::withId($id_ReportT, null,null,null,null,null,null,null,null,null,null,$updated_by);
+
+    $reportTemp->publicateNewsReport();
+}
+
 if(isset($_POST['ajax_delete_news_category'])){
     $sectionIdT = $_POST["sectionidT"];
     $id_ReportT = $_POST["reportIdT"];
@@ -189,7 +223,16 @@ if(isset($_POST['ajax_insert_comment'])){
     $comments = News_CommentsContr::withInfo($commentText,$reportId,$updated_by);
 
     $comments->insert();
-    echo json_encode($_POST);
+}
+
+//Obtener los reporteros mediante formulario
+if (isset($_POST["ajax_get_editor_comment"])) {
+    $reportId = $_POST["reportId"];
+
+    $cosult = new News_CommentsContr();
+    $comment = $cosult->getEditorCommentByReportId($reportId);
+    
+    echo json_encode($comment);
 }
 
 if(isset($_POST['ajax_delete_video'])){
@@ -202,4 +245,28 @@ if(isset($_POST['ajax_delete_video'])){
     $videoTemp =  VideoContr::withId($videoIdT, $id_ReportT);
 
     $videoTemp->delete();
+}
+
+if(isset($_POST['ajax_reaction'])){    
+    $id_ReportT = $_POST["reportIdT"];
+    
+    session_start();
+    $updated_by = $_SESSION["user"]["ID_USER"];
+
+    $reactionTemp =  ReactionsContr::withId($updated_by, $id_ReportT, 1);
+
+    $reactionTemp->ManageReaction();
+}
+
+if(isset($_POST['ajax_get_reaction'])){    
+    $id_ReportT = $_POST["reportIdT"];
+    
+    session_start();
+    $updated_by = $_SESSION["user"]["ID_USER"];
+
+    $reactionTemp =  ReactionsContr::withId($updated_by, $id_ReportT, 1);
+
+    $reaction = $reactionTemp->getReaction();
+
+    echo json_encode($reaction);
 }

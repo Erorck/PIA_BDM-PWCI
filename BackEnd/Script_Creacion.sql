@@ -63,6 +63,7 @@ CREATE TABLE `GOOD_OLD_TIMES_DB`.`USERS` (
   `REPORT_DESCRIPTION` VARCHAR(100) COMMENT 'Descripción breve de la nota',
   `REPORT_CONTENT` VARCHAR(10000) NOT NULL COMMENT 'Contenido de la nota',
   `LIKES` INT NOT NULL DEFAULT 0 COMMENT 'Numero de likes que ha recibido la nota',
+  `COMMENTS` INT NOT NULL DEFAULT 0 COMMENT 'Numero de comentarios que ha recibido la nota',
   `THUMBNAIL` LONGBLOB NOT NULL COMMENT 'Miniatura con la que la nota se muestra',
   `CREATION_DATE` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Fecha de creacion de la nota',
   `CREATED_BY` INT NOT NULL COMMENT 'Usuario que creo la nota',

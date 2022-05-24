@@ -7,6 +7,109 @@ $('#seccionval').submit(function (e) {
     }
 })
 
+//OBTENER NOTICIAS
+function getNewsReports() {
+    $.ajax({
+        url: '../includes/consults_inc.php',
+        type: 'POST',
+        data: {
+            'ajax_get_news_f_editor': 1
+        },
+
+        success: function (response) {
+            var htmlNews = "";
+            var bottom = ''
+            // console.log(response);
+            if (response != 0) {
+                var data_array = $.parseJSON(response);
+                for (let key of data_array) {
+                    let event = 'getReport(' + key['REPORT_NUMBER'] + ')';
+
+                    htmlNews = htmlNews.concat('<li class="item-a" ><div onclick="' + event + '" id="report_' + key['REPORT_NUMBER'] + '" class="caja_cursos"><img src="' + key['THUMBNAIL'] + '" style="width:350px; height:204px; object-fit:cover;" class="img_curso_cuadro" alt="curso 1"><div class="detalles_curso"> <h2 class="text-truncate">' + key['HEADER'] + '</h2>');
+
+                    bottom = '<p> En redacción </p> <a onclick="event.preventDefault(); event.stopPropagation(); getReport(' + key['REPORT_NUMBER'] + ')" href="#" class="text-white btn-outline-secondary mb-3"> <i class="fad fa-comment-alt-edit"> </i> </a> <a href="#" onclick="event.preventDefault(); event.stopPropagation(); VentanaAprobarNoticia(' + key['REPORT_NUMBER'] + ')" id="show-modal" class="text-white btn-outline-secondary mb-3"> <i class="fas fa-check-square"> </i> </a>';
+
+
+                    htmlNews = htmlNews.concat(bottom, '</div></div></li>')
+                }
+            }
+            $('#autoWidth').html(htmlNews);
+            $('#autoWidth').lightSlider({
+                autoWidth: true,
+                loop: true,
+                onSliderLoad: function () {
+                    $('#autoWidth').removeClass('cS-hidden');
+                }
+            });
+            console.log('obtuve las noticias para el editor');
+        },
+        error: function (jqXHR, status, error) {
+            alert('Error consulting news')
+            console.log(error);
+            console.log(status);
+        },
+        complete: function (jqXHR, status) {
+            console.log("se concreto la consulta de noticias");
+        }
+    })
+}
+
+function getReport($reportId, editing) {
+    $.ajax({
+        url: '../includes/consults_inc.php',
+        type: 'POST',
+        data: {
+            'reportId': $reportId,
+            'ajax_get_news_details': 1
+        },
+
+        success: function (response) {
+            console.log('Se envio el id de la noticia: '.concat($reportId));
+            console.log(response);
+            var data_array = $.parseJSON(response);
+            var header = data_array[0]['HEADER'];
+            if (editing) {
+                window.location.replace("../Pages/Editar_Noticia.php?".concat(header))
+                return;
+            }
+            window.location.replace("../Pages/Revision_Noticia.php?".concat(header));
+        },
+        error: function (jqXHR, status, error) {
+            alert('Error sending new id')
+            console.log(error);
+            console.log(status);
+        },
+        complete: function (jqXHR, status) {
+            console.log("se concreto lel envio del id de la noticia: ".concat($reportId));
+        }
+    })
+}
+
+function approveReport(reportId) {
+    $.ajax({
+        url: '../includes/news_reports_inc.php',
+        type: 'POST',
+        data: {
+            'reportIdT': reportId,
+            'ajax_approve_report': 1
+        },
+
+        success: function (response) {
+            console.log(response);
+            getNewsReports();
+        },
+        error: function (jqXHR, status, error) {
+
+            alert('Error deleting report')
+            console.log(error);
+            console.log(status);
+        },
+        complete: function (jqXHR, status) {
+            console.log("se concreto la eliminacion");
+        }
+    })
+}
+
 function validarSECCIONALTA() {
 
     $('.alert').remove();
@@ -125,7 +228,7 @@ function updateSectionName(section, new_name) {
         },
 
         success: function (response) {
-            if (response != "nameNotAvailable") {                
+            if (response != "nameNotAvailable") {
                 sectionUpdated = true;
                 getAllSections();
                 Swal.fire(
@@ -658,6 +761,7 @@ function resetSectionAttrForm() {
 
 //AL CARGAR EL DOCUMENTO
 $(document).ready(function () {
+    getNewsReports();
     getJournalists();
     getActiveRUsers();
     $('#cbJournalist').on("change", function (e) {

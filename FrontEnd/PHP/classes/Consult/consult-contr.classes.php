@@ -1,5 +1,5 @@
 <?php
-include"consult.classes.php";
+include "consult.classes.php";
 
     class ConsultsControler extends Consults{
 
@@ -15,6 +15,10 @@ include"consult.classes.php";
          public function getJournalistNews($journalistId){ 
             return $this->getNewsFromJournalist($journalistId);         
         }
+
+         public function getNewsForRevision(){ 
+            return $this->getNewsForEditor();         
+        }         
 
         public function getAllNewsPublished(){
             return $this->getAllNews();

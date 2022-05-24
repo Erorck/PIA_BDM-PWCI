@@ -67,6 +67,26 @@ class Consults extends Dbh
         return $news;
     }
 
+    protected function getNewsForEditor()
+    {
+        $stmt = $this->connect()->prepare('CALL sp_News_Reports("SAFE", NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);');
+        if (!$stmt->execute(array())) {
+            $stmt = null;
+            header("location: ../Pages/Perfil_Editor.php?error=stmtFailed");
+            exit();
+        }
+        if ($stmt->rowCount() > 0) {
+            $news = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            $_SESSION["o_r_news"] = $news;
+        } else {
+            return 0;
+        }
+
+        $stmt = null;
+        return $news;
+    }
+
     protected function getReport($reportId)
     {
         if ($reportId == 0) {
@@ -95,10 +115,11 @@ class Consults extends Dbh
         return $report;
     }
 
-    protected function getAllNews() {
+    protected function getAllNews()
+    {
         $stmt = $this->connect()->prepare('CALL sp_News_Reports("SAP", NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);');
-        
-        if(!$stmt->execute()){
+
+        if (!$stmt->execute()) {
             $stmt = null;
             header("location: ../Pages/Crear_noticia.php?error=stmtFailed");
             exit();
@@ -113,16 +134,13 @@ class Consults extends Dbh
 
         $stmt = null;
         return $news;
-
-     
-
-
     }
 
-    protected function getSearchedNewsWithFilters($querySearch, $dateMin, $dateMax){
+    protected function getSearchedNewsWithFilters($querySearch, $dateMin, $dateMax)
+    {
         $stmt = $this->connect()->prepare('CALL sp_Search_News(NULL, ?, ?, ?, NULL, NULL);');
-        
-        if(!$stmt->execute(array($querySearch, $dateMin, $dateMax))){
+
+        if (!$stmt->execute(array($querySearch, $dateMin, $dateMax))) {
             $stmt = null;
             header("location: ../Pages/Crear_noticia.php?error=stmtFailed");
             exit();
@@ -185,8 +203,8 @@ class Consults extends Dbh
     {
         $stmt = $this->connect()->prepare("CALL sp_News_Categories('SSR', NULL, ?, NULL)");
 
-        session_start();
         if ($reportId == 0) {
+            session_start();
             if (isset($_SESSION['c_report'])) {
                 $report = $_SESSION['c_report'];
                 $reportId = $report[0]['REPORT_NUMBER'];
@@ -201,6 +219,8 @@ class Consults extends Dbh
 
         if ($stmt->rowCount() > 0) {
             $sections = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            if (!isset($_SESSION['user']))
+                session_start();
 
             $_SESSION["o_sections"] = $sections;
         } else {
@@ -235,9 +255,9 @@ class Consults extends Dbh
     protected function retrieveAllTagsFromReport($reportId)
     {
         $stmt = $this->connect()->prepare("CALL sp_News_Tags('STR', NULL, ?, NULL)");
-        session_start();
 
         if ($reportId == 0) {
+            session_start();
             if (isset($_SESSION['c_report'])) {
                 $report = $_SESSION['c_report'];
                 $reportId = $report[0]['REPORT_NUMBER'];
@@ -254,6 +274,9 @@ class Consults extends Dbh
         if ($stmt->rowCount() > 0) {
             $tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+            if (!isset($_SESSION['user']))
+                session_start();
+
             $_SESSION["o_tags"] = $tags;
         } else {
             return 0;
@@ -266,8 +289,8 @@ class Consults extends Dbh
     protected function retrieveAllImagesFromReport($reportId)
     {
         $stmt = $this->connect()->prepare("CALL sp_Images('SIR', NULL, NULL, ?)");
-        // session_start();
         if ($reportId == 0) {
+            session_start();
             if (isset($_SESSION['c_report'])) {
                 $report = $_SESSION['c_report'];
                 $reportId = $report[0]['REPORT_NUMBER'];
@@ -283,7 +306,8 @@ class Consults extends Dbh
 
         if ($stmt->rowCount() > 0) {
             $images = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
+            if (!isset($_SESSION['user']))
+                session_start();
             $_SESSION["o_images"] = $images;
         } else {
             return 0;
@@ -297,8 +321,8 @@ class Consults extends Dbh
     {
         $stmt = $this->connect()->prepare("CALL sp_Videos('SVR', NULL, NULL, ?)");
 
-        session_start();
         if ($reportId == 0) {
+            session_start();
             if (isset($_SESSION['c_report'])) {
                 $report = $_SESSION['c_report'];
                 $reportId = $report[0]['REPORT_NUMBER'];
@@ -312,6 +336,9 @@ class Consults extends Dbh
         }
 
         if ($stmt->rowCount() > 0) {
+            if (!isset($_SESSION['user']))
+                session_start();
+
             $videos = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
             $_SESSION["o_videos"] = $videos;

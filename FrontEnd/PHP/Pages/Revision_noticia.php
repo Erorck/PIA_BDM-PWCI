@@ -132,11 +132,11 @@ if (isset($_SESSION['c_report']))
   <!--  COMENTARIOS NOTICIA  -->
   <hr class="my-4">
   <?php if ($isSelected && $_SESSION['permission']=='E') {?>
-    <button class=" boton_final w-100 btn btn-outline-success btn-lg " type="button">APROBAR NOTICIA</button>
+    <button class=" boton_final w-100 btn btn-outline-success btn-lg " onclick="VentanaAprobarNoticia(<?php if ($isSelected) {echo $_SESSION['c_report'][0]['REPORT_NUMBER'];}?>)" type="button">APROBAR NOTICIA</button>
     <br>
   <?php } ?>
 
-  <?php if ($isSelected && $_SESSION['permission']=='R') {?>
+  <?php if ($isSelected && $_SESSION['permission']=='R' && $_SESSION['c_report'][0]['REPORT_STATUS'] == 'RR') {?>
     <br>
     <a class=" boton_final w-100 btn btn-outline-info btn-lg " href=<?php if ($isSelected) {
               echo 'Editar_Noticia.php?'.$_SESSION['c_report'][0]['HEADER']; }?> id="btn_to_edit">EDITAR NOTICIA</a>
@@ -151,26 +151,27 @@ if (isset($_SESSION['c_report']))
       <div class="my-3 p-3 bg-dark rounded shadow-sm">
         <h6 class="text-light border-bottom pb-2 mb-0">Comentario para Reportero</h6>
         <small class="d-block text-end mt-3">
-          <input type="text" class="form-control" name="coment" id="coment" placeholder="ta muy fea tu noticia"></input>
+          <input type="text" class="form-control" name="coment" id="commentE" placeholder="Sin comentario"></input>
         </small>
       </div>
     </main>
 
-    <button class=" boton_final w-100 btn btn-outline-danger btn-lg " type="button">DEVOLVER NOTICIA CON COMENTARIO</button>
+    <button class=" boton_final w-100 btn btn-outline-danger btn-lg "  onclick="VentanaRechazarNoticia(<?php if ($isSelected) {echo $_SESSION['c_report'][0]['REPORT_NUMBER'].', '. $_SESSION['user']['ID_USER'];}?>)" type="button">DEVOLVER NOTICIA CON COMENTARIO</button>
   <?php } ?>
 
 
-  <?php if ($isSelected && $_SESSION['permission']=='R') {?>
+  <?php if ($isSelected && $_SESSION['permission']=='R' && $_SESSION['c_report'][0]['REPORT_STATUS'] == 'RR') {?>
   
     <main class="container">
       <div class="my-3 p-3 bg-dark rounded shadow-sm">
-        <h6 class="text-light border-bottom pb-2 mb-0">Comentario para Reportero</h6>
+        <h6 class="text-light border-bottom pb-2 mb-0">Comentario de Editor</h6>
         <small class="d-block text-end mt-3">
-          <input type="text" class="form-control" name="coment" id="coment" placeholder="ta muy fea tu noticia" disabled="true"></input>
+          <input type="text" class="form-control" name="coment" id="commentFJ" placeholder="Sin comentarios" disabled="true"></input>
         </small>
       </div>
     </main>
-    <button class=" boton_final w-100 btn btn-outline-warning btn-lg " type="button">ENVIAR PARA REVISIÓN</button>
+
+        <button onclick="VentanaEnviarNoticia(<?php if ($isSelected) {echo $_SESSION['c_report'][0]['REPORT_NUMBER'];}?>)" class=" boton_final w-100 btn btn-outline-warning btn-lg " type="button">ENVIAR PARA REVISIÓN</button>
   <?php } ?>
 
 
@@ -181,7 +182,93 @@ if (isset($_SESSION['c_report']))
 
   <script src="../../JS/bootstrap.bundle.min.js"></script>
   <script src="../../JS/Validacion_Revision_Noticia.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+  <script>
+      function VentanaEnviarNoticia(reportId) {
+
+        Swal.fire({
+          title: '¿Estas segur@ de enviar la Nota a revisión?',
+          text: "¡No se podrá eliminar o editar hasta haber sido devuelta por un editor!",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Si, ¡Enviarla!'
+        }).then((result) => {
+          if (result.isConfirmed) {
+            sendReportToEditor(reportId);
+          
+            Swal.fire(
+              '¡En revisión!',
+              'La Nota a sido enviada al editor',
+              'success'
+              ).then((result) => {
+                getReport(reportId);
+              })
+              
+          }
+        })
+      }
+
+      function VentanaAprobarNoticia(reportId) {
+
+        Swal.fire({
+          title: '¿Estas segur@ de aprobar la Nota?',
+          text: "¡Se publicará en el portal!",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Si, ¡Aprobarla!'
+        }).then((result) => {
+          if (result.isConfirmed) {
+            approveReport(reportId);
+          
+            Swal.fire(
+              '¡Aprobada!',
+              'La Nota a sido publicada',
+              'success'
+              ).then((result) => {
+                window.location.reload();
+              })
+              
+          }
+        })
+      }
+
+      function VentanaRechazarNoticia(reportId, editorId) {
+        let comment = $("#commentE").val();
+        if(validarFormularioUsuario()){
+          Swal.fire({
+            title: '¿Devolver nota con este comentario?',
+            text: "\"" +  comment + "\"",
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Si, ¡Enviarla!'
+          }).then((result) => {
+            if (result.isConfirmed) {
+              sendBackToJournalist(reportId);
+              sendEditorComment(comment, reportId);
+              console.log('Paso');
+              Swal.fire(
+                '¡Listo!',
+                'La Nota ha sido devuelta al reportero',
+                'success'
+                ).then((result) => {
+                  window.location.replace("Perfil_Editor.php");
+                })
+                
+            }
+          })
+          }
+        }
+
+
+
+  </script>
 
 </body>
 

@@ -31,7 +31,6 @@ session_start();
   <script type="text/javascript" src="../../JS/JQuery3.3.1.js"></script>
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
   <script type="text/javascript" src="../../JS/lightslider.js"></script>
-  <script type="text/javascript" src="../../JS/script.js"></script>
   <link rel="stylesheet" href="../../CSS/lightslider.css">
 
 
@@ -420,8 +419,8 @@ session_start();
             <div class="d-flex justify-content-between">
               <label for="Tipo" class="form-label">Noticia o Sección</label>
               <select class="form-select" id="Tipo">
-                <option value="">Noticia</option>
-                <option>Sección</option>
+                <option value="N">Noticia</option>
+                <option value= "S">Sección</option>
               </select>
             </div>
           </div>
@@ -434,7 +433,7 @@ session_start();
           <div class="pb-3 mb-0 small lh-sm border-bottom w-100">
             <div class="d-flex justify-content-between">
               <label for="seccion" class="form-label">Secciónes</label>
-              <select class="form-select" id="seccion">
+              <select class="form-select" id="seccionRep">
                 <option value="">Todas</option>
                 <option>Sección 01</option>
                 <option>Sección 02</option>
@@ -536,22 +535,29 @@ session_start();
 
   <!-- SCRIPTS REVISIÓN NOTICIAS -->
   <script>
-    function Ventanamod() {
+
+    function VentanaAprobarNoticia(reportId) {
+
       Swal.fire({
         title: '¿Estas segur@ de aprobar la Nota?',
-        text: "¡Este proceso no se revertira!",
-        icon: 'success',
+        text: "¡Se publicará en el portal!",
+        icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
         confirmButtonText: 'Si, ¡Aprobarla!'
       }).then((result) => {
         if (result.isConfirmed) {
+          approveReport(reportId);
+         
           Swal.fire(
             '¡Aprobada!',
-            'La Nota a sido aprobada',
-            'Exito!'
-          )
+            'La Nota a sido publicada',
+            'success'
+            ).then((result) => {
+              window.location.reload();
+            })
+            
         }
       })
     }

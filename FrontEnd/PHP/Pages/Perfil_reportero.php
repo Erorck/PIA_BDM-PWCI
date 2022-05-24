@@ -236,7 +236,7 @@ session_start();
     }
   </script>
   <script>
-    function Ventanamod(reportId) {
+    function VentanaBajaNoticia(reportId) {
       Swal.fire({
         title: '¿Estas seguro de eliminar la Nota?',
         text: "¡Este proceso no se revertira!",

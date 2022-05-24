@@ -241,20 +241,20 @@ if (isset($_SESSION['c_report']))
   <script>
     function VentanaUpdateReport() {
     
-    Swal.fire({
-      title: '¿Quiere guardar los cambios de la noticia?',
-      icon: 'question',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Si, ¡Guardar!'
-    }).then((result) => {
-      if (result.isConfirmed) {
-        if (validarFormularioNoticia()) {
-            updateReport();
+      Swal.fire({
+        title: '¿Quiere guardar los cambios de la noticia?',
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, ¡Guardar!'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          if (validarFormularioNoticia()) {
+              updateReport();
+          }
         }
-      }
-    })
+      })
     }
     
 

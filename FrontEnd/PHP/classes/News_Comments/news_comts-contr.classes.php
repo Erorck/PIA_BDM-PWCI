@@ -38,6 +38,10 @@ class News_CommentsContr extends News_Comments {
         return $this->getCommentsByReport($reportId);
     }
 
+    public function getEditorCommentByReportId($reportId){    
+        return $this->getEditorComment($reportId);
+    }
+
     public function insert(){
         $this->insertComment($this->commentText, $this->reportId, $this->updated_by);
     }

@@ -30,6 +30,14 @@ if (isset($_POST["ajax_get_news_f_journalist"])) {
 
 }
 
+if (isset($_POST["ajax_get_news_f_editor"])) {
+
+    $consult = new ConsultsControler();
+    $news= $consult->getNewsForRevision();
+    echo json_encode($news);
+
+}
+
 if (isset($_POST["ajax_get_news_details"])) {
 
     $reportId = $_POST['reportId'];

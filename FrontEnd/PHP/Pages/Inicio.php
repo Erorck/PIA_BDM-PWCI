@@ -160,7 +160,7 @@ session_start();
                 <div class="col">
                   <div class="card shadow-sm">
 
-                    <img src="${data['THUMBNAIL']}" class="imagen" alt="imagen" width="100%" height="225">
+                    <img src="${data['THUMBNAIL']}" class="imagen" alt="imagen"style="height:204px; object-fit:cover; width="100%" height="225">
 
 
                     <div class="card-body">
@@ -191,6 +191,7 @@ session_start();
               'ajax_get_all_news_published': 1
           },
           success: function(response)  {
+            console.log(response);
             if(response !== 0){
               var data_array = $.parseJSON(response)
               setNews(data_array)

@@ -7,7 +7,7 @@ Class Dbh{//Clase que se encarga de la conexion a la base de datos
             //Parametros necesairos para realizar la conexión 
             $server = "localhost";
             $username = "root";
-            $password = "";
+            $password = "root";
             $database = "good_old_times_db";
 
             $conn = new PDO("mysql:host=$server;dbname=$database",$username,$password); //Utilizando la clase Php Data Object creamos una conexión

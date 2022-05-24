@@ -2,11 +2,13 @@
 
 USE GOOD_OLD_TIMES_DB;
 
+CALL sp_News_Reports('-LIK', 26 , NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, null, null, NULL); 
 CALL sp_News_Reports('SA', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, null, null, NULL);
-CALL sp_News_Categories('SSR', NULL,'19', NULL);
-CALL sp_News_Tags('STR', NULL, 25, NULL);
-CALL sp_Videos('SVR', NULL, NULL, 19);
-CALL sp_Images('SIR', NULL, NULL, 19);
+CALL sp_News_Reports('SOI', 26, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, null, null, NULL);
+CALL sp_News_Categories('SSR', NULL,'25', NULL);
+CALL sp_News_Tags('STR', NULL, 17, NULL);
+CALL sp_Videos('SVR', NULL, NULL, 17);
+CALL sp_Images('SIR', NULL, NULL, 17);
 -- SELECT * FROM users;
 -- DELETE FROM news_reports WHERE REPORT_ID > 0;
 
@@ -52,7 +54,7 @@ BEGIN
         `CREATION_DATE`, `CREATED_BY_ID`, `CREATED_BY_NAME`,
 		`LAST_UPDATE_DATE`, `UPDATED_BY_ID`, `UPDATED_BY_NAME`, `REPORT_STATUS`
         FROM v_news_detailed
-		ORDER BY CREATION_DATE DESC, HEADER ASC;
+		ORDER BY CREATION_DATE DESC, HEADER DESC;
         LEAVE `sp_News_Reports`;   
     END IF;
     
@@ -344,8 +346,8 @@ WHERE
             THEN
 				COMMIT;
 			ELSE
-				SELECT CONCAT('Error al enviar la decrementar los likes en la noticia con No. ', CAST(id_ReportT AS CHAR))
-                 FROM news_reports WHERE REPORT_ID = id_ReportT;
+				-- SELECT CONCAT('Error al enviar la decrementar los likes en la noticia con No. ', CAST(id_ReportT AS CHAR))
+                 -- FROM news_reports WHERE REPORT_ID = id_ReportT;
 				ROLLBACK;
 			END IF;
             
@@ -370,6 +372,56 @@ WHERE
 				COMMIT;
 			ELSE
 				SELECT CONCAT('Error al enviar la aumentar los likes en la noticia con No. ', CAST(id_ReportT AS CHAR))
+                 FROM news_reports WHERE REPORT_ID = id_ReportT;
+				ROLLBACK;
+			END IF;
+            
+		LEAVE `sp_News_Reports`;   
+    END IF;
+    
+    /*#######################################
+				DISMINUIR COMENTARIOS
+    ########################################*/
+	IF Oper = '-COM'
+	THEN
+		START TRANSACTION;
+			UPDATE news_reports 
+SET 
+    `COMMENTS` = COMMENTS - 1   
+WHERE
+    REPORT_ID = id_ReportT;
+            
+            
+         IF @@error_count = 0
+            THEN
+				COMMIT;
+			ELSE
+				SELECT CONCAT('Error al enviar la decrementar los comentarios en la noticia con No. ', CAST(id_ReportT AS CHAR))
+                 FROM news_reports WHERE REPORT_ID = id_ReportT;
+				ROLLBACK;
+			END IF;
+            
+		LEAVE `sp_News_Reports`;   
+    END IF;
+    
+       /*#######################################
+				AUMENTAR COMENTARIOS
+    ########################################*/
+	IF Oper = '+COM'
+	THEN
+		START TRANSACTION;
+			UPDATE news_reports 
+SET 
+    `COMMENTS` = COMMENTS + 1   
+WHERE
+    REPORT_ID = id_ReportT;
+            
+            
+         IF @@error_count = 0
+            THEN
+				COMMIT;
+			ELSE
+				SELECT CONCAT('Error al enviar la aumentar los comentarios en la noticia con No. ', CAST(id_ReportT AS CHAR))
                  FROM news_reports WHERE REPORT_ID = id_ReportT;
 				ROLLBACK;
 			END IF;

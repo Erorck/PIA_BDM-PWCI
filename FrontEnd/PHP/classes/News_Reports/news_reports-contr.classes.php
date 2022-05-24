@@ -76,7 +76,6 @@ include "news_reports.classes.php";
         }
 
       
-
         public function publicateNewsReport(){ 
             $this->modStatus("PUB", $this->id_ReportT, $this->updated_by);
         }

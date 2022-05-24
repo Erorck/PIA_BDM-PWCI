@@ -266,10 +266,18 @@ function getNewsReports() {
             if (response != 0) {
                 var data_array = $.parseJSON(response);
                 for (let key of data_array) {
-                    htmlNews = htmlNews.concat('<li class="item-a" ><div onclick="getReport('+ key['REPORT_NUMBER'] + ')" id="report_' + key['REPORT_NUMBER']  +'" class="caja_cursos"><img src="' + key['THUMBNAIL'] + '" style="width:350px; height:204px; object-fit:cover;" class="img_curso_cuadro" alt="curso 1"><div class="detalles_curso"> <h2 class="text-truncate">' + key['HEADER'] + '</h2>');
+                    let event = 'getReport('+ key['REPORT_NUMBER'] + ')';
+
+                    if (key['REPORT_STATUS'] == 'P'){
+                        event = 'getReportPage('+ key['REPORT_NUMBER'] + ')';
+                    }
+
+                    htmlNews = htmlNews.concat('<li class="item-a" ><div onclick="' + event +'" id="report_' + key['REPORT_NUMBER']  +'" class="caja_cursos"><img src="' + key['THUMBNAIL'] + '" style="width:350px; height:204px; object-fit:cover;" class="img_curso_cuadro" alt="curso 1"><div class="detalles_curso"> <h2 class="text-truncate">' + key['HEADER'] + '</h2>');
+
+
 
                     if (key['REPORT_STATUS'] == 'RR') {
-                        bottom = '<p> En redacción </p> <a onclick="event.preventDefault(); event.stopPropagation(); getReport('+ key['REPORT_NUMBER'] + ', \'edit\')" href="#" class="text-white btn-outline-secondary mb-3"> <i class="fas fa-edit"> </i> </a> <a href="#" onclick="event.preventDefault(); event.stopPropagation(); Ventanamod('+ key['REPORT_NUMBER'] + ')" id="show-modal" class="text-white btn-outline-secondary mb-3"> <i class="fas fa-trash"> </i> </a>';                        
+                        bottom = '<p> En redacción </p> <a onclick="event.preventDefault(); event.stopPropagation(); getReport('+ key['REPORT_NUMBER'] + ', \'edit\')" href="#" class="text-white btn-outline-secondary mb-3"> <i class="fas fa-edit"> </i> </a> <a href="#" onclick="event.preventDefault(); event.stopPropagation(); VentanaBajaNoticia('+ key['REPORT_NUMBER'] + ')" id="show-modal" class="text-white btn-outline-secondary mb-3"> <i class="fas fa-trash"> </i> </a>';                        
                     }
 
                     if (key['REPORT_STATUS'] == 'RA') {

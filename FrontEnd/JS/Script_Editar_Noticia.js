@@ -384,21 +384,21 @@ function getReportSections() {
                         VentanaBajaCategoria(key['CATEGORY_ID'], '#rad_seccion_'.concat(key['CATEGORY_ID']));
                     });
                 }
-                $('.upload_extra_section').on('change', function (evt) {
-                    var extraSectionArray = $('#extra_section_array').children();
-                    var inputExtraSection = ' <input id="extra_section_' + evt.target.value + '" value="' + evt.target.value + '" ></input>';
-    
-                    if($('#rad_seccion_'+evt.target.value).is(":checked")){
-                        if (extraSectionArray.length <= 0) {
-                            $('#extra_section_array').html(inputExtraSection);
-                        } else
-                        extraSectionArray.last().after(inputExtraSection);
-                    }else{                    
-                        $('#extra_section_'+evt.target.value).remove();
-                    }
-    
-                })
             }
+            $('.upload_extra_section').on('change', function (evt) {
+                var extraSectionArray = $('#extra_section_array').children();
+                var inputExtraSection = ' <input id="extra_section_' + evt.target.value + '" value="' + evt.target.value + '" ></input>';
+
+                if($('#rad_seccion_'+evt.target.value).is(":checked")){
+                    if (extraSectionArray.length <= 0) {
+                        $('#extra_section_array').html(inputExtraSection);
+                    } else
+                    extraSectionArray.last().after(inputExtraSection);
+                }else{                    
+                    $('#extra_section_'+evt.target.value).remove();
+                }
+
+            })
             sectionsConsulted = true;
             console.log('obtuve las secciones para la edición');
         },
@@ -436,21 +436,21 @@ function getReportTags() {
                     })
                 }
 
-                $('.upload_extra_tag').on('change', function (evt) {
-                    var extraTagArray = $('#extra_tag_array').children();
-                    var inputExtraTag = ' <input id="extra_tag_' + evt.target.value + '" value="' + evt.target.value + '"></input>';
-    
-                    if($('#rad_etiqueta_'+evt.target.value).is(":checked")){
-                        if (extraTagArray.length <= 0) {
-                            $('#extra_tag_array').html(inputExtraTag);
-                        } else
-                            extraTagArray.last().after(inputExtraTag);
-                    }else{                    
-                        $('#extra_tag_'+evt.target.value).remove();
-                    }
-    
-                })
             }
+            $('.upload_extra_tag').on('change', function (evt) {
+                var extraTagArray = $('#extra_tag_array').children();
+                var inputExtraTag = ' <input id="extra_tag_' + evt.target.value + '" value="' + evt.target.value + '"></input>';
+
+                if($('#rad_etiqueta_'+evt.target.value).is(":checked")){
+                    if (extraTagArray.length <= 0) {
+                        $('#extra_tag_array').html(inputExtraTag);
+                    } else
+                        extraTagArray.last().after(inputExtraTag);
+                }else{                    
+                    $('#extra_tag_'+evt.target.value).remove();
+                }
+
+            })
 
 
             tagsConsulted = true;
