@@ -1,13 +1,13 @@
 -- TRIGGERS
 
-DROP TRIGGER IF EXISTS upd_reaction;
+DROP TRIGGER IF EXISTS ins_reaction;
 delimiter //
-CREATE TRIGGER upd_reaction BEFORE INSERT ON reactions
+CREATE TRIGGER ins_reaction BEFORE INSERT ON reactions
        FOR EACH ROW 
        BEGIN    
 			UPDATE news_reports
             SET LIKES = LIKES + 1
-            WHERE CREATED_BY = NEW.`USER`;
+            WHERE REPORT_ID = NEW.REPORT_ID;
                -- CALL sp_News_Reports('+LIK', NEW.REPORT_ID , NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, null, null, NULL);                         		            
        END;//
 delimiter ;
@@ -51,8 +51,8 @@ CREATE TRIGGER ins_comment BEFORE INSERT ON comments
        FOR EACH ROW 
        BEGIN
        
-       SELECT USER_STATUS INTO @usuarioTemp FROM `USER` U
-       WHERE U.ID_USER = NEW.CREATED_BY;
+       SELECT USER_STATUS INTO @usuarioTemp FROM `USERS`
+       WHERE ID_USER = NEW.CREATED_BY;
        
            IF @usuarioTemp != 'E' THEN	
 					UPDATE news_reports

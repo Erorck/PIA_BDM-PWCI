@@ -183,7 +183,7 @@
 <div class="my-3 p-3 bg-dark rounded shadow-sm">
   <h6 class="text-light border-bottom pb-2 mb-0">Comentario para la noticia</h6>
   <small class="d-block text-end mt-3">
-    <a class="text-light" href="javascript:sendComment(<?php echo $_GET["reportId"] ?>)">Enviar Comentario</a>
+    <a class="text-light" onclick="sendComment(<?php echo $_GET['reportId'] ?>)">Enviar Comentario</a>
     <input type="text" class="form-control" name="coment" id="commentInput"></input>
   </small>
 </div>
@@ -225,7 +225,7 @@
       'ajax_insert_comment': 1
       },
       success: function(response) {
-        
+        console.log(response);
         window.location.reload();
       },
       error: function (jqXHR, status, error) {

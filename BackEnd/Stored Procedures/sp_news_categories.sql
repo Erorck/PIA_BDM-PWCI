@@ -5,6 +5,7 @@ USE GOOD_OLD_TIMES_DB;
 
 -- CALL sp_News_Categories('SSR', NULL,'13', NULL);
 
+SELECT * FROM news_categories;
 
 DELIMITER //
 DROP PROCEDURE IF EXISTS sp_News_Categories//

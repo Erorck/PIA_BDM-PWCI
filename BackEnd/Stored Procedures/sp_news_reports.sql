@@ -10,8 +10,13 @@ CALL sp_News_Categories('SSR', NULL,'25', NULL);
 CALL sp_News_Tags('STR', NULL, 17, NULL);
 CALL sp_Videos('SVR', NULL, NULL, 17);
 CALL sp_Images('SIR', NULL, NULL, 17);
--- SELECT * FROM users;
--- DELETE FROM news_reports WHERE REPORT_ID > 0;
+-- SELECT * FROM REACTIONS;
+
+UPDATE news_reports 
+SET LIKES = 0
+WHERE REPORT_ID > 0;
+
+DELETE FROM reactions WHERE REPORT_ID > 0;
 
 SELECT EVENT_DATE FROM news_reports;
 SELECT * FROM videos;

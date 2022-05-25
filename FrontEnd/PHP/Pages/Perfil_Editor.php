@@ -634,11 +634,12 @@ session_start();
 
     function VentanaModNameSeccion(id_section) {
       var section = $("#seccion_" + id_section);
+      let new_Name = section.html();
 
       Swal.fire({
         title: 'Editar nombre de sección',
         input: 'text',
-        inputValue: section.html(),
+        inputValue: new_Name,
         inputAttributes: {
           autocapitalize: 'off'
         },
@@ -652,10 +653,11 @@ session_start();
           if (!lenght.test(value)) {
             return '¡Solo utiliza letras!';
           }
+          new_Name = value;
         }
       }).then((result) => {
         if (result.isConfirmed) {
-          if (updateSectionName(id_section, section.html())) {
+          if (updateSectionName(id_section, new_Name)) {
             //TODO
             Swal.fire(
               '¡Listo!',

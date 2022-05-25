@@ -48,8 +48,8 @@ BEGIN
 		AND if (fechaMinT IS NULL, 1, `PUBLICATION_DATE` >=  fechaMinT)
 		AND if (fechaMaxT IS NULL, 1, `PUBLICATION_DATE` <= fechaMaxT)
 		AND `REPORT_STATUS` = 'P'
-        GROUP BY CATEGORY_NAME, LIKES, COMMENTS
-        ORDER BY LIKES DESC;
+        GROUP BY CATEGORY_NAME
+        ORDER BY LIKES_CTG DESC;
         
 	END IF;
 END//

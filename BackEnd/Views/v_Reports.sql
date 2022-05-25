@@ -1,0 +1,26 @@
+-- VISTAS REPORTES
+
+SELECT * FROM comments;
+
+USE GOOD_OLD_TIMES_DB;
+
+DROP VIEW IF EXISTS v_Rep_Filter_News;
+CREATE VIEW v_Rep_Filter_News 
+AS SELECT `CATEGORY_NAME`, `PUBLICATION_DATE`,`REPORT_HEADER`, 
+        `LIKES`, `COMMENTS`
+        FROM categories CS
+        JOIN news_categories NCTG
+        ON NCTG.CATEGORY = CS.CATEGORY_ID
+        JOIN news_reports NSR
+        ON NCTG.REPORT_ID = NSR.REPORT_ID;
+        
+        
+DROP VIEW IF EXISTS v_Rep_Filter_Sections;
+CREATE VIEW v_Rep_Filter_Sections 
+AS SELECT `CATEGORY_NAME`, MONTH(`PUBLICATION_DATE`) AS MES, YEAR(`PUBLICATION_DATE`) AS ANIO,   
+        SUM(NSR.LIKES) AS LIKES_CTG, SUM(NSR.COMMENTS) AS COMMENTS_CTG
+        FROM categories CS
+		JOIN news_categories NCTG
+        ON NCTG.CATEGORY = CS.CATEGORY_ID
+        JOIN news_reports NSR
+        ON NCTG.REPORT_ID = NSR.REPORT_ID;

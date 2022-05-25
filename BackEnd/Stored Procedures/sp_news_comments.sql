@@ -1,6 +1,7 @@
 USE GOOD_OLD_TIMES_DB;
 
-CALL sp_News_Comments('SCFE', NULL, NULL, 16, NULL);
+-- CALL sp_News_Comments('SCFE', NULL, NULL, 16, NULL);
+select * FROM CATEGORIES;
 
 DELIMITER //
 DROP PROCEDURE IF EXISTS sp_News_Comments//
