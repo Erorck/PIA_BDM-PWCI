@@ -64,5 +64,9 @@ include "consult.classes.php";
             return $this->retrieveAllImagesFromReport($reportId);         
         }
 
+        public function getCommentsByReportId($reportId){    
+            return $this->getCommentsByReport($reportId);
+        }
+
     }
 ?>

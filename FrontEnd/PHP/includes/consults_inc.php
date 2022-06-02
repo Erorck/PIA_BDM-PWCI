@@ -38,35 +38,11 @@ if (isset($_POST["ajax_get_news_f_editor"])) {
 
 }
 
-if (isset($_POST["ajax_get_news_details"])) {
-
-    $reportId = $_POST['reportId'];
-    
-    $consult = new ConsultsControler();
-    $report= $consult->getReportById($reportId);
-    echo json_encode($report);
-
-}
-
-if (isset($_POST["ajax_get_likes_report"])) {
-    
-    $oper = $_POST['oper'];
-    $fechaMinT = $_POST['fechaMinT'];
-    $fechaMaxT = $_POST['fechaMaxT'];
-    $categoryT = $_POST['categoryT'];
-    
-    $consult = new ConsultsControler();
-    $report= $consult->getLReport($oper, $fechaMinT, $fechaMaxT, $categoryT);
-    echo json_encode($report);
-
-}
-
 if(isset($_POST["ajax_get_all_news_published"])) {
     $consult = new ConsultsControler();
     $news = $consult->getAllNewsPublished();
     echo json_encode($news);
 }
-
 
 if (isset($_POST["ajax_get_active_sections_PE"])) {
 
@@ -75,12 +51,21 @@ if (isset($_POST["ajax_get_active_sections_PE"])) {
     echo json_encode($activeSections);
 }
 
-
 if (isset($_POST["ajax_get_deleted_sections_PE"])) {
     
     $consult = new ConsultsControler();
     $deletedSections= $consult->getESections();
     echo json_encode($deletedSections);
+}
+
+if (isset($_POST["ajax_get_news_details"])) {
+
+    $reportId = $_POST['reportId'];
+    
+    $consult = new ConsultsControler();
+    $report= $consult->getReportById($reportId);
+    echo json_encode($report);
+
 }
 
 if (isset($_POST["ajax_get_report_sections"])) {
@@ -120,4 +105,25 @@ if (isset($_POST["ajax_get_report_videos"])) {
     $consult = new ConsultsControler();
     $videos= $consult->getReportVideos($reportId);
     echo json_encode($videos);
+}
+
+if (isset($_POST["ajax_get_likes_report"])) {
+    
+    $oper = $_POST['oper'];
+    $fechaMinT = $_POST['fechaMinT'];
+    $fechaMaxT = $_POST['fechaMaxT'];
+    $categoryT = $_POST['categoryT'];
+    
+    $consult = new ConsultsControler();
+    $report= $consult->getLReport($oper, $fechaMinT, $fechaMaxT, $categoryT);
+    echo json_encode($report);
+
+}
+
+if (isset($_POST["ajax_get_news_comments"])) {
+    $reportId = $_POST["reportId"];
+
+    $consult = new ConsultsControler();
+    $comments= $consult->getCommentsByReportId($reportId);
+    echo json_encode($comments);
 }

@@ -500,7 +500,7 @@ function getReportImgs() {
                     htmlRepImgList = htmlRepImgList.concat('<img src="../../Elementos/1200px-Flat_cross_icon.svg.png" style=" width:30px;" class="fotoCurso delete-icon align-middle bottom top mb-2" onclick="VentanaBajaImagen(' + key['ID_IMAGE'] + ','+ idImg +')">');
                     $('.extra_img_list').children().last().children().last().after(htmlRepImgList);
 
-                    htmlRepImgList = htmlRepImgList.concat(' <img src="' + key['CONTENT'] + '" class="img-fluid img-thumbnail mx-auto" alt="" style="height:300px;">');
+                    // htmlRepImgList = htmlRepImgList.concat(' <img src="' + key['CONTENT'] + '" class="img-fluid img-thumbnail mx-auto" alt="" style="height:300px;">');
 
                 }
             }

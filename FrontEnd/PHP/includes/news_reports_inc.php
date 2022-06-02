@@ -225,6 +225,16 @@ if(isset($_POST['ajax_insert_comment'])){
     $comments->insert();
 }
 
+if(isset($_POST['ajax_delete_comment'])){
+    $commentId = $_POST['commentId'];
+    session_start();
+    $updated_by = $_SESSION["user"]["ID_USER"];
+
+    $comments = News_CommentsContr::withId($commentId, 0,$updated_by);
+
+    $comments->delete();
+}
+
 //Obtener los reporteros mediante formulario
 if (isset($_POST["ajax_get_editor_comment"])) {
     $reportId = $_POST["reportId"];

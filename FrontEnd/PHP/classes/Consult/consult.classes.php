@@ -371,4 +371,22 @@ class Consults extends Dbh
         $stmt = null;
         return $videos;
     }
+
+    protected  function getCommentsByReport($reportId){
+        $stmt = $this->connect()->prepare('call sp_News_Comments("SPC", NULL, NULL, ?, NULL);');
+        if (!$stmt->execute(array($reportId))) {
+            $stmt = null;
+            header("location: ../Pages/Crear_noticia.php?error=stmtFailed");
+            exit();
+        }
+        if ($stmt->rowCount() > 0) {
+            $comments = $stmt->fetchAll(PDO::FETCH_ASSOC);            
+            
+        } else {
+            return array();
+        }
+
+        $stmt = null;
+        return $comments;
+    }
 }

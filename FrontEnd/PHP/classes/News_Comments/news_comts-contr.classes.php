@@ -46,5 +46,9 @@ class News_CommentsContr extends News_Comments {
         $this->insertComment($this->commentText, $this->reportId, $this->updated_by);
     }
 
+    public function delete(){
+        $this->deleteComment($this->commentId, $this->updated_by);
+    }
+
 
 }

@@ -39,3 +39,7 @@ function getActiveSectionsNav() {
 $(document).ready(function () {
     getActiveSectionsNav();
 })
+
+function Logout() {
+    window.location.replace("../Pages/Login.php");
+}

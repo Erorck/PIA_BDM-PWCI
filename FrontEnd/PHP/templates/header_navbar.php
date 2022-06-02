@@ -3,6 +3,7 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+    <script src="https://kit.fontawesome.com/20eb58569d.js" crossorigin="anonymous"></script>
 
 <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
     <div class="container-fluid">
@@ -48,7 +49,10 @@
              }
           ?>
           <button class="btn btn-outline-light" type="submit" name="search" method="get"><i class="fas fa-search"></i></button>
-          <button class="btn btn-link" type="submit" name="profile" method="get"><i class="fas fa-user"></i></button>
+          <button class="btn btn-primary p-3 ml-2 mr-2" type="submit" name="profile" method="get"><i class="fas fa-user "></i></button>
+          <?php if(isset($_SESSION['user'])): ?>
+            <button class="btn btn-danger p-3 ml-2 mr-2" onclick="Logout()" type="button" ><i class="fa-solid fa-right-from-bracket "></i></button>
+          <?php endif?>
         </form>
       </div>
     </div>

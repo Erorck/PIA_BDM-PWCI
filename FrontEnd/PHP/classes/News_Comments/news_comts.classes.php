@@ -11,14 +11,7 @@ class News_Comments extends Dbh {
             exit();
         }
         if ($stmt->rowCount() > 0) {
-            $comments = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            // foreach($comments as &$comment){
-            //     if(isset($comment["PROFILE_PICTURE"])){
-            //         $comment["PROFILE_PICTURE"] = $comment["PROFILE_PICTURE"] != NULL ? "data:image/png;base64,".base64_encode($comment["PROFILE_PICTURE"]) : "";
-            //     } else {
-            //         $comment["PROFILE_PICTURE"] = "";
-            //     }
-            // }
+            $comments = $stmt->fetchAll(PDO::FETCH_ASSOC);            
             
         } else {
             return array();
@@ -61,6 +54,19 @@ class News_Comments extends Dbh {
         $stmt = $this->connect()->prepare('call sp_News_Comments("I", ?, NULL, ?, ?);');
 
         if(!$stmt->execute(array($commentText, $reportId, $createdBy))){
+            $stmt = null;
+            header("location: ../Pages/Inicio.php?error=stmtFailed");
+            exit();
+        }
+
+        $stmt = null;
+
+    }
+
+    protected function deleteComment($commentId, $createdBy) {
+        $stmt = $this->connect()->prepare('call sp_News_Comments("DEL", NULL, ?, NULL, ?);');
+
+        if(!$stmt->execute(array($commentId, $createdBy))){
             $stmt = null;
             header("location: ../Pages/Inicio.php?error=stmtFailed");
             exit();
