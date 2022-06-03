@@ -70,7 +70,7 @@ class Reactions Extends Dbh{
     }
 
     protected function minusLike($updated_by, $reportId){
-        $stmt = $this->connect()->prepare('CALL sp_News_Categories("D", ?, ?, NULL);');
+        $stmt = $this->connect()->prepare('CALL sp_Reactions("D", ?, ?, NULL);');
         if(!$stmt->execute(array($updated_by, $reportId))){
             $stmt=null;
             header("location:../Pagina_noticia.php?error=stmtfailed");

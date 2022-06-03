@@ -4,7 +4,9 @@ include "../classes/dbh.classes.php";
 class Login extends Dbh{
 
     protected function sign_in($email, $password){
-        $stmt = $this->connect()->prepare('CALL sp_User("SO", NULL, NULL, NULL, NULL, ?, NULL, NULL, NULL, NULL, NULL, NULL);');
+
+        $stmt = $this->connect()->prepare('SELECT `ID_USER`, `FULL_NAME`, `USER_ALIAS`,  `CREDENTIAL`, `EMAIL`, `PHONE_NUMBER`, `BIRTHDAY`, `PROFILE_PICTURE`, `BANNER_PICTURE`, `USER_TYPE`, `CREATED_BY`, `LAST_UPDATED_BY` FROM USERS
+        WHERE `EMAIL` = ?;');
 
         if(!$stmt->execute(array($email))){
             $stmt = null;

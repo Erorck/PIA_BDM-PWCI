@@ -4,7 +4,7 @@ USE GOOD_OLD_TIMES_DB;
 
 
 -- CALL sp_News_Reports('+LIK', 26 , NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, null, null, NULL); 
-CALL sp_News_Reports('SA', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, null, null, NULL);
+/*CALL sp_News_Reports('SA', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, null, null, NULL);
 CALL sp_News_Reports('SOI', 26, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, null, null, NULL);
 CALL sp_News_Categories('SSR', NULL,'25', NULL);
 CALL sp_News_Tags('STR', NULL, 17, NULL);
@@ -18,8 +18,10 @@ WHERE REPORT_ID > 0;
 
 DELETE FROM reactions WHERE REPORT_ID > 0;
 
+SELECT * FROM reactions;
+
 SELECT EVENT_DATE FROM news_reports;
-SELECT * FROM videos;
+SELECT * FROM videos;*/
 
 DELIMITER //
 DROP PROCEDURE IF EXISTS sp_News_Reports//
@@ -208,6 +210,7 @@ SET
     `REPORT_DESCRIPTION` = IFNULL(descriptionT, `REPORT_DESCRIPTION`),
     `REPORT_CONTENT` = IFNULL(contentT, `REPORT_CONTENT`),
     `THUMBNAIL` = IFNULL(thumbnailT, `THUMBNAIL`),
+    `EVENT_DATE` = IFNULL(event_dateT, `THUMBNAIL`),    
     `LAST_UPDATED_BY` = IFNULL(updated_byT, `LAST_UPDATED_BY`),
     `LAST_UPDATE_DATE` = NOW()
 WHERE

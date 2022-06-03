@@ -95,19 +95,6 @@ CREATE TABLE `GOOD_OLD_TIMES_DB`.`USERS` (
     INDEX (PARENT_ID)
 );
 
-CREATE TABLE `categories` (
-  `CATEGORY_ID` int NOT NULL AUTO_INCREMENT,
-  `CATEGORY_NAME` varchar(40) NOT NULL COMMENT 'Llave primaria de la tabla, nombre de la CATEGORIES',
-  `COLOR` char(7) NOT NULL COMMENT 'Color en hexadecimal con el que se resalta la sección',
-  `ORDER` tinyint NOT NULL COMMENT 'Orden en el que se encontrara la sección en relacion a las otras',
-  `CREATION_DATE` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Fecha de creacion de la nota',
-  `CREATED_BY` int NOT NULL COMMENT 'Usuario que creo la nota',
-  `LAST_UPDATE_DATE` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Última fecha de modificación de la sección',
-  `LAST_UPDATED_BY` int NOT NULL COMMENT 'Último usuario que modifico la sección',
-  `SECTION_STATUS` char(1) NOT NULL DEFAULT 'A' COMMENT 'Estado actual de la seccion [A - Activa  I - Inactiva]',
-  PRIMARY KEY (`CATEGORY_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
   
    DROP TABLE IF EXISTS IMAGES;
   CREATE TABLE `GOOD_OLD_TIMES_DB`.`IMAGES` (

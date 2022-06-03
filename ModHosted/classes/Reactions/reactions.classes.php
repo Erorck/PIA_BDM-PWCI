@@ -7,8 +7,13 @@ class Reactions Extends Dbh{
 
         $action = "I";
         $query = "";
+        $query2 = "";
+        $executeArray = array($updated_by, $reportId);
 
-        $stmt = $this->connect()->prepare('CALL sp_Reactions("SO", ?, ?, 1);');
+        $stmt = $this->connect()->prepare('SELECT `USER`, `LIKED`, `CREATION_DATE`, `REPORT_ID`
+        FROM REACTIONS
+        WHERE  `USER` = ? AND REPORT_ID = ?;');
+
         if(!$stmt->execute(array($updated_by, $reportId))){
             $stmt=null;
             header("location:../Pagina_noticia.php?error=stmtfailed");
@@ -21,37 +26,66 @@ class Reactions Extends Dbh{
             $reaction = $stmt->fetchAll(PDO::FETCH_ASSOC);
             if($reaction[0]['LIKED'] == 1){
                 $action = "D";
-                $query = 'CALL sp_Reactions("D", ?, ?, 0);';
+                $query = 'UPDATE REACTIONS
+                SET LIKED = 0
+                WHERE  `USER` = ? AND REPORT_ID = ?;';
             }
             else{
                 $action = "L";
-                $query = 'CALL sp_Reactions("L", ?, ?, 0);';
+                $query = 'UPDATE REACTIONS
+                SET LIKED = 1
+                WHERE  `USER` = ? AND REPORT_ID = ?;';
                 
             }
         }else{
-            $query = 'CALL sp_Reactions("I", ?, ?, 1);';
+            $query = 'INSERT INTO REACTIONS(`REPORT_ID`, `USER`, `CREATED_BY`, `LIKED`) 
+            VALUES (?, ?, ?, ?);';
+            $executeArray = array($reportId, $updated_by, $updated_by, $liked);
         }
 
 
         $stmt2 = $this->connect()->prepare($query);
 
 
-        if(!$stmt2->execute(array($updated_by, $reportId))){
+        if(!$stmt2->execute($executeArray)){
             $stmt2=null;
             header("location:../Pagina_noticia.php?error=stmtfailed");
             exit();
         }
+
+        if($action == 'I' && $action == 'L'){
+            $query2 = 'UPDATE NEWS_REPORTS
+            SET LIKES = LIKES + 1
+            WHERE REPORT_ID = ?;';
+        }else{
+            $query2 = 'UPDATE NEWS_REPORTS
+            SET LIKES = LIKES - 1
+            WHERE REPORT_ID = ?;';
+        }
+
+        $stmt3 = $this->connect()->prepare($query2);
+
+
+        if(!$stmt3->execute(array($reportId))){
+            $stmt3=null;
+            header("location:../Pagina_noticia.php?error=stmtfailed");
+            exit();
+        }
+
         echo $action;
-        $stmt2=null;
+        $stmt3 = null;
+        $stmt2 = null;
         $stmt = null;
     }
-
 
     protected function reactionValue($updated_by, $reportId){
 
         $reaction = null;
 
-        $stmt = $this->connect()->prepare('CALL sp_Reactions("SO", ?, ?, 1);');
+        $stmt = $this->connect()->prepare('SELECT `USER`, `LIKED`, `CREATION_DATE`, `REPORT_ID`
+        FROM REACTIONS
+       WHERE  `USER` = ? AND REPORT_ID = ?;');
+
         if(!$stmt->execute(array($updated_by, $reportId))){
             $stmt=null;
             header("location:../Pagina_noticia.php?error=stmtfailed");
@@ -70,7 +104,11 @@ class Reactions Extends Dbh{
     }
 
     protected function minusLike($updated_by, $reportId){
-        $stmt = $this->connect()->prepare('CALL sp_News_Categories("D", ?, ?, NULL);');
+        
+        $stmt = $this->connect()->prepare('UPDATE REACTIONS
+        SET LIKED = 0
+        WHERE  `USER` = ? AND REPORT_ID = ?;');
+
         if(!$stmt->execute(array($updated_by, $reportId))){
             $stmt=null;
             header("location:../Pagina_noticia.php?error=stmtfailed");

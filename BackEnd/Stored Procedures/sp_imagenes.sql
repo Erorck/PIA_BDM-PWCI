@@ -71,7 +71,7 @@ BEGIN
 	THEN
 		START TRANSACTION;
 			DELETE FROM images 
-			WHERE ID_IMAGE = image_idT AND REPORT_ID = REPORT_ID;
+			WHERE ID_IMAGE = image_idT AND REPORT_ID = report_idT;
             
 		IF @@error_count = 0
             THEN
