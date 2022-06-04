@@ -41,7 +41,7 @@
           <?php
              if (isset($_SESSION["user_name"])) {
           ?>
-             <input class="form-control me-2" type="search" placeholder= <?php echo '¿Buscamos_algo_'.$_SESSION["user_name"].'?' ?> aria-label="Search" name="buscarpalabra">
+             <input class="form-control me-2" type="search" placeholder= <?php echo $_SESSION["user_name"] ?> aria-label="Search" name="buscarpalabra">
           <?php
              } else {
           ?>

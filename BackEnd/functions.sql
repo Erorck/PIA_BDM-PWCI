@@ -13,3 +13,11 @@ RETURNS CHAR(40) DETERMINISTIC
 BEGIN
        RETURN DATE_FORMAT( d, '%M %e %Y');
 END;
+
+DROP FUNCTION IF EXISTS plceholderName//
+CREATE FUNCTION plceholderName (n VARCHAR(100))
+RETURNS CHAR(100) DETERMINISTIC
+BEGIN
+       SELECT REPLACE(n, ' ', '_') INTO @temp;
+       RETURN CONCAT('¿Buscamos_algo_', @temp,'_?');
+END;

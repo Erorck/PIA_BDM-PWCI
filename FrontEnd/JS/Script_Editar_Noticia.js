@@ -40,7 +40,7 @@ function getActiveSectionsRad() {
 
 function deleteSectionRel(sectionIdT) {
     let sectionsConsulted = false,
-    reportIdT = $('#reportId').val();
+        reportIdT = $('#reportId').val();
     $.ajax({
         url: '../includes/news_reports_inc.php',
         type: 'POST',
@@ -114,7 +114,7 @@ function getActiveTagsRad() {
 
 function deleteTagRel(tagIdT) {
     let sectionsConsulted = false,
-    reportIdT = $('#reportId').val();
+        reportIdT = $('#reportId').val();
     $.ajax({
         url: '../includes/news_reports_inc.php',
         type: 'POST',
@@ -149,7 +149,7 @@ function deleteTagRel(tagIdT) {
 
 function deleteImgRel(imgIdT, id_Container) {
     let sectionsConsulted = false,
-    reportIdT = $('#reportId').val();
+        reportIdT = $('#reportId').val();
     $.ajax({
         url: '../includes/news_reports_inc.php',
         type: 'POST',
@@ -160,9 +160,7 @@ function deleteImgRel(imgIdT, id_Container) {
         },
 
         success: function (response) {
-            if (response != 0) {
-                $('.' + id_Container).remove();
-            }
+            $('.' + id_Container).remove();
 
             sectionsConsulted = true;
 
@@ -183,7 +181,7 @@ function deleteImgRel(imgIdT, id_Container) {
 
 function deleteVidRel(vidIdT, id_Container) {
     let sectionsConsulted = false,
-    reportIdT = $('#reportId').val();
+        reportIdT = $('#reportId').val();
     $.ajax({
         url: '../includes/news_reports_inc.php',
         type: 'POST',
@@ -194,9 +192,7 @@ function deleteVidRel(vidIdT, id_Container) {
         },
 
         success: function (response) {
-            if (response != 0) {
-                $('.' + id_Container).remove();
-            }
+            $('.' + id_Container).remove();
 
             sectionsConsulted = true;
 
@@ -229,7 +225,7 @@ function getReport($reportId, editing) {
             console.log(response);
             var data_array = $.parseJSON(response);
             var header = data_array[0]['HEADER'];
-            if(editing){
+            if (editing) {
                 window.location.replace("../Pages/Editar_Noticia.php?".concat(header))
                 return;
             }
@@ -380,7 +376,7 @@ function getReportSections() {
                 for (let key of data_array) {
                     $('#rad_seccion_'.concat(key['CATEGORY_ID'])).prop("checked", true);
                     $('#rad_seccion_'.concat(key['CATEGORY_ID'])).removeClass('upload_extra_section');
-                    $('#rad_seccion_'.concat(key['CATEGORY_ID'])).one('click', function() {
+                    $('#rad_seccion_'.concat(key['CATEGORY_ID'])).one('click', function () {
                         VentanaBajaCategoria(key['CATEGORY_ID'], '#rad_seccion_'.concat(key['CATEGORY_ID']));
                     });
                 }
@@ -389,13 +385,13 @@ function getReportSections() {
                 var extraSectionArray = $('#extra_section_array').children();
                 var inputExtraSection = ' <input id="extra_section_' + evt.target.value + '" value="' + evt.target.value + '" ></input>';
 
-                if($('#rad_seccion_'+evt.target.value).is(":checked")){
+                if ($('#rad_seccion_' + evt.target.value).is(":checked")) {
                     if (extraSectionArray.length <= 0) {
                         $('#extra_section_array').html(inputExtraSection);
                     } else
-                    extraSectionArray.last().after(inputExtraSection);
-                }else{                    
-                    $('#extra_section_'+evt.target.value).remove();
+                        extraSectionArray.last().after(inputExtraSection);
+                } else {
+                    $('#extra_section_' + evt.target.value).remove();
                 }
 
             })
@@ -431,7 +427,7 @@ function getReportTags() {
                 for (let key of data_array) {
                     $('#rad_etiqueta_'.concat(key['TAG_NAME'])).prop("checked", true);
                     $('#rad_etiqueta_'.concat(key['TAG_NAME'])).removeClass('upload_extra_tag');
-                    $('#rad_etiqueta_'.concat(key['TAG_NAME'])).one('click', function(){
+                    $('#rad_etiqueta_'.concat(key['TAG_NAME'])).one('click', function () {
                         VentanaBajaEtiqueta(key['TAG_NAME'], '#rad_etiqueta_'.concat(key['TAG_NAME']));
                     })
                 }
@@ -441,13 +437,13 @@ function getReportTags() {
                 var extraTagArray = $('#extra_tag_array').children();
                 var inputExtraTag = ' <input id="extra_tag_' + evt.target.value + '" value="' + evt.target.value + '"></input>';
 
-                if($('#rad_etiqueta_'+evt.target.value).is(":checked")){
+                if ($('#rad_etiqueta_' + evt.target.value).is(":checked")) {
                     if (extraTagArray.length <= 0) {
                         $('#extra_tag_array').html(inputExtraTag);
                     } else
                         extraTagArray.last().after(inputExtraTag);
-                }else{                    
-                    $('#extra_tag_'+evt.target.value).remove();
+                } else {
+                    $('#extra_tag_' + evt.target.value).remove();
                 }
 
             })
@@ -485,8 +481,9 @@ function getReportImgs() {
                 var data_array = $.parseJSON(response);
                 for (let key of data_array) {
 
+                    htmlRepImgList = "";
                     var extraImgList = $('.extra_img_list').children();
-                    var idImg = "'" + 'img-' + key['ID_IMAGE'] + "'";
+                    var idImg = 'img-' + key['ID_IMAGE'];
                     htmlRepImgList = htmlRepImgList.concat('<div class="' + idImg + ' extra_img_container d-flex justify-content-start" >  <img src="' + key['CONTENT'] + '" alt="Media Cont" id="FotografiadeCurso" class=" fotoCurso  mb-2" > </div>');
 
 
@@ -497,7 +494,7 @@ function getReportImgs() {
 
 
                     htmlRepImgList = "";
-                    htmlRepImgList = htmlRepImgList.concat('<img src="../../Elementos/1200px-Flat_cross_icon.svg.png" style=" width:30px;" class="fotoCurso delete-icon align-middle bottom top mb-2" onclick="VentanaBajaImagen(' + key['ID_IMAGE'] + ','+ idImg +')">');
+                    htmlRepImgList = htmlRepImgList.concat('<img src="../../Elementos/1200px-Flat_cross_icon.svg.png" style=" width:30px;" class="fotoCurso delete-icon align-middle bottom top mb-2" onclick="VentanaBajaImagen(' + key['ID_IMAGE'] + ',\'' + idImg + '\')">');
                     $('.extra_img_list').children().last().children().last().after(htmlRepImgList);
 
                     // htmlRepImgList = htmlRepImgList.concat(' <img src="' + key['CONTENT'] + '" class="img-fluid img-thumbnail mx-auto" alt="" style="height:300px;">');
@@ -537,9 +534,10 @@ function getReportVideos() {
             if (response != 0) {
                 var data_array = $.parseJSON(response);
                 for (let key of data_array) {
+                    htmlRepVidList = "";
 
                     var extraVidList = $('.extra_vid_list').children();
-                    var idVideo = "'" + 'vid-' + key['ID_IMAGE'] + "'";
+                    var idVideo = 'vid-' + key['ID_VIDEO'];
                     htmlRepVidList = htmlRepVidList.concat('<div class="' + idVideo + ' extra_vid_container d-flex justify-content-start"> <video class="mb-2" width="220" height="150" controls><source src="' + key['CONTENT'] + '" type="video/mp4"> Your browser does not support the video tag.</video>  </div>');
 
 
@@ -550,10 +548,10 @@ function getReportVideos() {
 
 
                     htmlRepVidList = "";
-                    htmlRepVidList = htmlRepVidList.concat('<img src="../../Elementos/1200px-Flat_cross_icon.svg.png" style=" width:30px;" class="fotoCurso delete-icon align-middle bottom top mb-2" onclick="VentanaBajaVideo(' + key['ID_VIDEO'] + ',' + idVideo + ')">');
+                    htmlRepVidList = htmlRepVidList.concat('<img src="../../Elementos/1200px-Flat_cross_icon.svg.png" style=" width:30px;" class="fotoCurso delete-icon align-middle bottom top mb-2" onclick="VentanaBajaVideo(' + key['ID_VIDEO'] + ',\'' + idVideo + '\')">');
                     $('.extra_vid_list').children().last().children().last().after(htmlRepVidList);
 
-                    htmlRepVidList = htmlRepVidList.concat(' <img src="' + key['CONTENT'] + '" class="img-fluid img-thumbnail mx-auto" alt="" style="height:300px;">');
+                    // htmlRepVidList = htmlRepVidList.concat(' <img src="' + key['CONTENT'] + '" class="img-fluid img-thumbnail mx-auto" alt="" style="height:300px;">');
 
                 }
             }

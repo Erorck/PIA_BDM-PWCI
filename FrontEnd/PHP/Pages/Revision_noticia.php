@@ -103,11 +103,11 @@ if (isset($_SESSION['c_report']))
           <h2><?php if ($isSelected) {
                 echo $_SESSION['c_report'][0]['REPORT_DESCRIPTION'];
               } else echo 'Orgullo Mexicano'; ?></h2>
-          <div id="rImages" class="d-flex flex-row justify-content-around">
+          <div id="rImages" class="d-flex flex-row flex-wrap justify-content-around">
             <img src="../../Elementos/NASA.jpg" class="img-fluid img-thumbnail mx-auto d-block" alt="">
           </div>
           <br>
-          <div id="rVideos" class="d-flex flex-row justify-content-around">
+          <div id="rVideos" class="d-flex flex-row flex-wrap justify-content-around">
           </div>
 
           

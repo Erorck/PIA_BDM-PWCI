@@ -289,10 +289,20 @@ class Consults extends Dbh
             header("location: ../Pages/Perfil_Editor.php?error=stmtFailed");
             exit();
         }
-        if ($stmt->rowCount() > 0) {
-            session_start();
-            $sections = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+
+        if ($stmt->rowCount() > 0) {
+
+            if($sections = $stmt->fetchAll(PDO::FETCH_ASSOC)){
+                echo "Found";
+                $sections = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                //print_r($sections);
+            }else{
+                echo "Not found";
+            }
+
+            session_start();
+            
             $_SESSION["a_sections"] = $sections;
         } else {
             return 0;
