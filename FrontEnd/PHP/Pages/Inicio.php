@@ -153,32 +153,34 @@ session_start();
 
     <script>
       function setNews(news){
-        var html_content = ''
-        for(let data of news) {
-          console.log(data)
-              html_content = html_content.concat(`
-                <div class="col">
-                  <div class="card shadow-sm">
-
-                    <img src="${data['THUMBNAIL']}" class="imagen" alt="imagen"style="height:204px; object-fit:cover; width="100%" height="225">
-
-
-                    <div class="card-body">
-                      <p class="card-text text-black">${data['HEADER']}</p>
-                      <p class="text">${data['REPORT_DESCRIPTION']}</p>
-                      <div class="d-flex justify-content-between align-items-center">
-                        <div class="btn-group">
-                          <a href="Pagina_noticia.php?reportId=${data['REPORT_NUMBER']}" class="btn btn-sm btn-outline-secondary">Continuar leyendo</a>
+        var html_content = '';
+        console.log(news);
+        if(news!=0){
+          for(let data of news) {
+                html_content = html_content.concat(`
+                  <div class="col">
+                    <div class="card shadow-sm">
+  
+                      <img src="${data['THUMBNAIL']}" class="imagen" alt="imagen"style="height:204px; object-fit:cover; width="100%" height="225">
+  
+  
+                      <div class="card-body">
+                        <p class="card-text text-black">${data['HEADER']}</p>
+                        <p class="text">${data['REPORT_DESCRIPTION']}</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                          <div class="btn-group">
+                            <a href="Pagina_noticia.php?reportId=${data['REPORT_NUMBER']}" class="btn btn-sm btn-outline-secondary">Continuar leyendo</a>
+                          </div>
+                          <small class="text-muted">${data['bsEVENT_DATE']}</small>
                         </div>
-                        <small class="text-muted">${data['EVENT_DATE']}</small>
                       </div>
                     </div>
                   </div>
-                </div>
-              `)
-          }
-          console.log(html_content)
-          $('#recent_news').append(html_content)
+                `);
+            }
+            console.log(html_content);
+            $('#recent_news').append(html_content);   
+        }
 
       }
 
@@ -193,12 +195,12 @@ session_start();
           success: function(response)  {
             console.log(response);
             if(response !== 0){
-              var data_array = $.parseJSON(response)
-              setNews(data_array)
+              var data_array = $.parseJSON(response);
+              setNews(data_array);
             }
           },
           error: function (jqXHR, status, error) {
-            alert('Error consulting news')
+            alert('Error consulting news');
             console.log(error);
             console.log(status);
           },

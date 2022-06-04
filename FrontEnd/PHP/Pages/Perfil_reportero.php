@@ -235,6 +235,7 @@ session_start();
       })
     }
   </script>
+  
   <script>
     function VentanaBajaNoticia(reportId) {
       Swal.fire({

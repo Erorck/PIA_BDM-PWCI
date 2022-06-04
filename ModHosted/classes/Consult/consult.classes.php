@@ -96,7 +96,7 @@ class Consults extends Dbh
         JOIN USERS UUP
         ON UUP.ID_USER = NR.LAST_UPDATED_BY
         WHERE NR.REPORT_STATUS IN (\'RA\')
-		ORDER BY NR.CREATION_DATE DESC, NR.HEADER ASC;');
+		ORDER BY NR.CREATION_DATE DESC, NR.REPORT_HEADER ASC;');
 
         if (!$stmt->execute(array())) {
             $stmt = null;
@@ -274,17 +274,18 @@ class Consults extends Dbh
     {
         $sections = 'secciones';
 
-        $stmt = $this->connect()->prepare('SELECT `CATEGORY_ID` AS SECTION_ID, `CATEGORY_NAME` AS SECTION_NAME, `COLOR` AS DISPLAY_COLOR, `ORDER` AS DISPLAY_ORDER, CTG.`CREATION_DATE`, CTG.`CREATED_BY` AS CREATED_BY_ID, UCR.`FULL_NAME` AS CREATED_BY_NAME, CTG.`LAST_UPDATE_DATE`, CTG.`LAST_UPDATED_BY` AS UPDATED_BY_ID, UUP.`FULL_NAME` AS UPDATED_BY_NAME, `SECTION_STATUS`
+        $stmt = $this->connect()->prepare('SELECT CTG.`CATEGORY_ID` AS SECTION_ID, CTG.`CATEGORY_NAME` AS SECTION_NAME, CTG.`COLOR` AS DISPLAY_COLOR, CTG.`ORDER` AS DISPLAY_ORDER, CTG.`CREATION_DATE`, CTG.`CREATED_BY` AS CREATED_BY_ID, UCR.`FULL_NAME` AS CREATED_BY_NAME, CTG.`LAST_UPDATE_DATE`, CTG.`LAST_UPDATED_BY` AS UPDATED_BY_ID, UUP.`FULL_NAME` AS UPDATED_BY_NAME, CTG.`SECTION_STATUS`
         FROM CATEGORIES CTG
         JOIN USERS UCR
         ON UCR.ID_USER = CTG.CREATED_BY
         JOIN USERS UUP
         ON UUP.ID_USER = CTG.LAST_UPDATED_BY
-        WHERE `SECTION_STATUS` = \'A\'
+        WHERE CTG.`SECTION_STATUS` = \'A\'
         ORDER BY CTG.`ORDER`, CTG.CATEGORY_NAME ASC;');
 
         if (!$stmt->execute()) {
             $stmt = null;
+            return 'no se ejecuto';
             header("location: ../Pages/Perfil_Editor.php?error=stmtFailed");
             exit();
         }
@@ -303,17 +304,18 @@ class Consults extends Dbh
 
     protected function getAllEliminatedSections()
     {
-        $stmt = $this->connect()->prepare('SELECT `CATEGORY_ID` AS SECTION_ID, `CATEGORY_NAME` AS SECTION_NAME, `COLOR` AS DISPLAY_COLOR, `ORDER` AS DISPLAY_ORDER, CTG.`CREATION_DATE`, CTG.`CREATED_BY` AS CREATED_BY_ID, UCR.`FULL_NAME` AS CREATED_BY_NAME, CTG.`LAST_UPDATE_DATE`, CTG.`LAST_UPDATED_BY` AS UPDATED_BY_ID, UUP.`FULL_NAME` AS UPDATED_BY_NAME, `SECTION_STATUS`
+        $stmt = $this->connect()->prepare('SELECT CTG.`CATEGORY_ID` AS SECTION_ID, CTG.`CATEGORY_NAME` AS SECTION_NAME, CTG.`COLOR` AS DISPLAY_COLOR, CTG.`ORDER` AS DISPLAY_ORDER, CTG.`CREATION_DATE`, CTG.`CREATED_BY` AS CREATED_BY_ID, UCR.`FULL_NAME` AS CREATED_BY_NAME, CTG.`LAST_UPDATE_DATE`, CTG.`LAST_UPDATED_BY` AS UPDATED_BY_ID, UUP.`FULL_NAME` AS UPDATED_BY_NAME, CTG.`SECTION_STATUS`
         FROM CATEGORIES CTG
         JOIN USERS UCR
         ON UCR.ID_USER = CTG.CREATED_BY
         JOIN USERS UUP
         ON UUP.ID_USER = CTG.LAST_UPDATED_BY
-        WHERE `SECTION_STATUS` = \'E\'
+        WHERE CTG.`SECTION_STATUS` = \'E\'
         ORDER BY CTG.CATEGORY_NAME ASC;');
 
         if (!$stmt->execute()) {
             $stmt = null;
+            return 'no se ejecuto';
             header("location: ../Pages/Perfil_Editor.php?error=stmtFailed");
             exit();
         }

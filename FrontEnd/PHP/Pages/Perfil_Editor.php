@@ -770,13 +770,13 @@ session_start();
           confirmButtonText: 'Si, guardar los cambios'
         }).then((result) => {
           if (result.isConfirmed) {
-            if (updateProfile()) {
-              Swal.fire(
-                '¡Listo!',
-                'Tu perfil se ha actualizado',
-                'success'
-              )
-            }
+            updateProfile()
+            Swal.fire(
+              '¡Listo!',
+              'Tu perfil se ha actualizado',
+              'success'
+            )       
+            
           }
         })
       }

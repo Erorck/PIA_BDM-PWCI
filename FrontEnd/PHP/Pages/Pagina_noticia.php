@@ -94,7 +94,7 @@
                 <div class="mr-3" style=" text-decoration: underline; text-decoration-thickness:3px; text-decoration-color: <?php echo $section["COLOR"]?> ; margin-right:15px "> <?php echo $section["CATEGORY_NAME"] ?> </div>
               <?php endforeach?>
             </div>
-            <p class="Fecha de suceso blog-post-meta"><?php echo $newsDetails[0]["EVENT_DATE"] ?></p>
+            <p class="Fecha de suceso blog-post-meta"><?php echo $newsDetails[0]["blEVENT_DATE"] ?></p>
             <p class="Lugar se suceso blog-post-meta"><?php echo 'Colonia ' . $newsDetails[0]['EVENT_NEIGHBOURHOOD'] . ', ' . $newsDetails[0]['EVENT_STREET'] . ', ' . $newsDetails[0]['EVENT_CITY'] . ', ' . $newsDetails[0]['EVENT_COUNTRY'];  ?></p>
 
     
